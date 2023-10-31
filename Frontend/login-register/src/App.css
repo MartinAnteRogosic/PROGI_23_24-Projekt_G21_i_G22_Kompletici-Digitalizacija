@@ -8,6 +8,7 @@
 }
 
 .form-container, .login-form, .register-form{
+  width: 400px;
   display: flex;
   flex-direction: column;
 }

@@ -15,9 +15,9 @@ export const Login = (props) => {
   return (
     <div className="form-container">
 
-      <div className="imgcontainer">
-        <img src={MyImg} alt="MyImg" className="circular-image" /> {/* Apply the CSS class */}
-      </div>
+      {/* <div className="imgcontainer">
+        <img src={MyImg} alt="MyImg" className="circular-image" />
+        </div> */}
 
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">email</label>
