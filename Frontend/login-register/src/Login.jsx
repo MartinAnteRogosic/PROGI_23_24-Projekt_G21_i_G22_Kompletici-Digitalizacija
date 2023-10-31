@@ -7,22 +7,24 @@ export const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
+    const formData = new FormData(e.target);
+    const formJSON = Object.fromEntries(formData.entries());
+    console.log(formJSON);
   }
 
   return (
     <div className="form-container">
 
-    <div className="imgcontainer">
+      <div className="imgcontainer">
         <img src={MyImg} alt="MyImg" className="circular-image" /> {/* Apply the CSS class */}
       </div>
 
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">email</label>
-        <input value={email} type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email" />
 
         <label htmlFor="password">password</label>
-        <input value={pass} type="password" placeholder="*********" id="password" name="password" />
+        <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password" />
 
         <button type="submit">Log In</button>
 
