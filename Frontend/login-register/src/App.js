@@ -1,17 +1,18 @@
 import React,{useState} from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 import { Login } from "./Login";
 import { Register } from "./Register";
 
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('login');
+  const storedForm = localStorage.getItem('currentForm');
+  const [currentForm, setCurrentForm] = useState(storedForm || 'login');
 
-  const toggleForm = (forName) => {
-    setCurrentForm(forName);
-  }
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+    localStorage.setItem('currentForm', formName);
+  };
 
   return (
     <div className="App">
