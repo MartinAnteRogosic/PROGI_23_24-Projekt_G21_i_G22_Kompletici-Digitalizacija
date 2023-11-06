@@ -4,7 +4,6 @@ import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -23,9 +22,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findById(userId);
     }
 
+
+    public EmployeeEntity findByUserEmail(String userEmail) {
+        return employeeRepository.findByUserEmail(userEmail);
+    }
+
+
     @Override
-    public EmployeeEntity saveEmployee(EmployeeEntity employeeEntity) {
-        return employeeRepository.save(employeeEntity);
+    public void saveEmployee(EmployeeEntity employeeEntity) {
+        employeeRepository.save(employeeEntity);
     }
 
     @Override

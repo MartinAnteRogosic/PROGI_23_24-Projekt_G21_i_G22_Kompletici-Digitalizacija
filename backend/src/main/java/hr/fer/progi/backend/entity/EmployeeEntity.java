@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.entity;
+
 import jakarta.persistence.*;
-
-
 
 @Entity
 @Table(name = "Register")
