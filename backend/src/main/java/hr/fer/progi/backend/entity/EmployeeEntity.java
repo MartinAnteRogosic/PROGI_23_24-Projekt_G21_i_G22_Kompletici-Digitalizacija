@@ -9,7 +9,7 @@ public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
-    private String userId;
+    private Long userId;
     @Column(name = "userName")
     private String userName;
     @Column(name = "userPassword")
@@ -28,11 +28,11 @@ public class EmployeeEntity {
         this.userFunction = userFunction;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

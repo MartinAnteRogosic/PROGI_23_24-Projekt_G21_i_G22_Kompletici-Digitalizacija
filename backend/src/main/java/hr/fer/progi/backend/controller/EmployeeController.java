@@ -16,7 +16,7 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    @PostMapping("/save")
+    @PostMapping("/register")
     public EmployeeEntity saveEmployee(@RequestBody EmployeeEntity employeeEntity){
         return employeeService.saveEmployee(employeeEntity);
     }
