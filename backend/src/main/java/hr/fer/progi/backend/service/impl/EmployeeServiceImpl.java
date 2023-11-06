@@ -3,9 +3,11 @@ package hr.fer.progi.backend.service.impl;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository  employeeRepository;

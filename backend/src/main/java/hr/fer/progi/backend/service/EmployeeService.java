@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.service;
 
 import hr.fer.progi.backend.entity.EmployeeEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 

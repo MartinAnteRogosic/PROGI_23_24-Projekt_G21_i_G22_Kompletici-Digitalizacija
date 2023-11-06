@@ -2,11 +2,13 @@ package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
 public class EmployeeController {
+
 
     private final EmployeeService employeeService;
 
