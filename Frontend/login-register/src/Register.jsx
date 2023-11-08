@@ -38,8 +38,16 @@ export const Register = (props) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const formJSON = Object.fromEntries(formData.entries());
-        console.log(formJSON);
-        console.log(role);
+        formJSON.userFunction = role
+        //console.log(formJSON);
+        fetch("http://localhost:8080/register", {
+            method: "POST",
+            mode: "cors",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(formJSON)
+        }).then(() =>{
+            console.log("person added")
+        })
       }
 
     return (
@@ -48,15 +56,15 @@ export const Register = (props) => {
             <RoleSlider images={images} onChangeRole={setRole}/>
 
             <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="name">Full name: </label>
-                <input value={name} onChange={(e) => setName(e.target.value)} name="name" id="name" placeholder="full Name" />
+                <label htmlFor="userName">Full name: </label>
+                <input value={name} onChange={(e) => setName(e.target.value)} name="userName" id="userName" placeholder="full Name" />
 
 
-                <label htmlFor="email">email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email"/>
+                <label htmlFor="userEmail">email</label>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="userEmail" name="userEmail"/>
 
-                <label htmlFor="password">password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password"/>
+                <label htmlFor="userPassword">password</label>
+                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="userPassword" name="userPassword"/>
 
                 <PasswordCheckList rules={["minLength", "specialChar", "number", "capital"]}
                                     minLength={6}
