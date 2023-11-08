@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin
 public class EmployeeController {
 
 
@@ -23,7 +24,7 @@ public class EmployeeController {
         return "Employee registered.";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestBody LoginEntity loginEntity){
         EmployeeEntity employeeEntity = employeeService.findByUserEmail(loginEntity.getEmail());
 
