@@ -3,6 +3,7 @@ package hr.fer.progi.backend.controller;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.LoginEntity;
 import hr.fer.progi.backend.service.EmployeeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
@@ -19,9 +20,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @PostMapping("/register")
-    public String saveEmployee(@RequestBody EmployeeEntity employeeEntity){
+    public ResponseEntity<String> saveEmployee(@RequestBody EmployeeEntity employeeEntity){
         employeeService.saveEmployee(employeeEntity);
-        return "Employee registered.";
+        return ResponseEntity.ok("Employee registered.");
     }
 
     @PostMapping("/login")
