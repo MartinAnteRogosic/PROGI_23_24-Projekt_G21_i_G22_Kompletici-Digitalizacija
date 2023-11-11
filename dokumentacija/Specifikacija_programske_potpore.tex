@@ -13,6 +13,7 @@
 			
 			\begin{packed_enum}
 				
+				\item Neregistrirani korisnici
 				\item Zaposlenici
 				\item Revizori	
 				\item Računovođe
@@ -25,6 +26,14 @@
 			
 			
 			\begin{packed_enum}
+				
+				\item  \underbar{Neregistrirani korisnik (inicijator/sudionik) može:}
+				\begin{packed_enum}
+					
+					\item Registrirati se u sustav
+					
+				\end{packed_enum}
+			
 				\item  \underbar{Zaposlenik (inicijator/sudionik) može:}
 				
 				\begin{packed_enum}
@@ -86,40 +95,127 @@
 					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
 
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					\noindent \underbar{\textbf{UC1 - Registracija}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik:} Neregistrirani korisnik
+						\item  \textbf{Cilj:} Registracija korisnika u sustav
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						\item[] \begin{packed_enum}
+	
+							\item Neregistrirani korisnik odabire opciju za registraciju
+							\item Neregistrirani korisnik unosi podatke za registraciju
+							\item Korisnik prima obavijest o uspješnoj registraciji
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Korisnik je odabrao već zauzetu ili neispravnu e-mail adresu, ili je dao ne dovoljno sigurnu lozinku
+							\item[] \begin{packed_enum}
+								
+								\item Neregistriranog korisnika se vraća na stranicu za registraciju te ga se obavještava o neuspješnoj registraciji
+								\item Korisnik mijenja nepravilne podatke ili odustaje od registracije	
+							\end{packed_enum}
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC2 - Prijava u sustav}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Korisnik sustava
+						\item  \textbf{Cilj:} Prijava u sustav te pristup korisničkom sučelju
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:}Registracija
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							
+							\item Korisnik odabire opciju za prijavu
+							\item Korisnik unosi potrebne korisničke podatke
+							\item Korisnik dobiva pristup korisničkom sučelju
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
-	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[] \begin{packed_enum}
-								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
-								
-							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
 							
+							\item[2.a] Korisnik je upisao nepostojeće ili pogrešne korisničke podatke
+							\item[] \begin{packed_enum}
+								\item Korisnika se vraća na stranicu za prijavu te ga se obavještava o neuspjeloj prijavi
+							\end{packed_enum}	
 						\end{packed_item}
 					\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC3 -Promjena lozinke}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Korisnik
+					\item  \textbf{Cilj:} Promjena lozinke koja se koristi pri prijavi u sustav
+					\item  \textbf{Sudionici:} Baza podataka
+					\item  \textbf{Preduvjet:} Registracija
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Korisnik bira opciju za promjenu lozinke
+						\item Unosi staru lozinku kao potvrdu svog identiteta
+						\item Bira novu lozinku te je upisuje dva puta
+						\item Korisnik je obaviješten o uspješnoj promjeni lozink
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Korisnik je unio pogrešnu staru lozinku
+						\item[] \begin{packed_enum}
+							
+							\item Korisnika se obavještava o pogrešnom unosu lozinke te ga se vraća na stranicu za promjenu lozinke
+							\item Korisnik ponovno unosi staru lozinku ili odustaje od promjene lozinke
+							
+						\end{packed_enum}
+					\end{packed_item}
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: }$<$sudionik$>$
+					\item  \textbf{Cilj:} $<$cilj$>$
+					\item  \textbf{Sudionici:} $<$sudionici$>$
+					\item  \textbf{Preduvjet:} $<$preduvjet$>$
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item $<$opis korak jedan$>$
+						\item $<$opis korak dva$>$
+						\item $<$opis korak tri$>$
+						\item $<$opis korak četiri$>$
+						\item $<$opis korak pet$>$
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+						\item[] \begin{packed_enum}
+							
+							\item $<$opis rješenja mogućeg scenarija korak 1$>$
+							\item $<$opis rješenja mogućeg scenarija korak 2$>$
+							
+						\end{packed_enum}
+						\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+						\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
+						
+					\end{packed_item}
+				\end{packed_item}
 				
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
