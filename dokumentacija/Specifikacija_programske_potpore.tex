@@ -182,6 +182,104 @@
 					\end{packed_item}
 				\end{packed_item}
 				
+				
+				\noindent \underbar{\textbf{UC4 - Skeniranje jedne fotografije}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: }Korisnik
+					\item  \textbf{Cilj:} Unijeti fotografiju u sustav te izvršiti njenu konverziju u dokument
+					\item  \textbf{Sudionici:} Baza podataka
+					\item  \textbf{Preduvjet:} Prijava u sustav
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Korisnik odabire opciju za učitavanje jedne fotografije
+						\item Korisnik odabire fotografiju iz datotečnog sustava svog računala
+						\item Korisnik dobiva obavijest o provedenoj konverziji
+						
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Korisnik je odabrao datoteku koja ne postoji na njegovom računalu
+						\item[] \begin{packed_enum}
+							
+							\item Sustav obavještava korisnika o nastaloj pogrešci te ga preusmjerava na korisničko sučelje
+							
+						\end{packed_enum}
+					\end{packed_item}
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC5 -Skeniranje više fotografija}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: }Korisnik
+					\item  \textbf{Cilj:} Unijeti više fotografija u sustav te izvršiti njihovu konverziju u dokumente
+					\item  \textbf{Sudionici:} Baza podataka
+					\item  \textbf{Preduvjet:} Prijava u sustav
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Korisnik odabire opciju za učitavanje više dokumenata
+						\item Korisnik odabire više datoteka iz svog datotečnog sustava
+						\item Korisnik dobiva obavijest o provedenim konverzijama
+					
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Jedna od fotografija koje je korisnik unio ne postoji u datotečnom sustavu
+						\item[] \begin{packed_enum}
+							
+							\item Sustav provodi konverziju pronađenih dokumenata
+							\item Sustav šalje korisniku obavijest o ne pronađenim dokumentima
+							
+						\end{packed_enum}
+					\end{packed_item}
+				\end{packed_item}
+			
+			
+				\noindent \underbar{\textbf{UC6 -Potvrda ispravnosti konverzije}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: }
+					\item  \textbf{Cilj:} Potvrditi točnost konverzije dokumenta unesenih u sustav
+					\item  \textbf{Sudionici:} Baza podataka
+					\item  \textbf{Preduvjet:} Korisnik je prijavljen te je učitao jednu ili više fotografija u sustav
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Korisnik odabire opciju za potvrdu ispravnosti konverzije
+						\item Korisniku se prikazuju fotografija i dokument generiran iz slike paralelno na ekranu, te mu se nudi opcija za prihvaćanje ili odbijanje točnosti konverzije
+						 
+						
+					\end{packed_enum}
+				\end{packed_item}
+			
+				\noindent \underbar{\textbf{UC7 -Prosljeđivanje dokumenata}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: }Korisnik
+					\item \textbf{Cilj:} Proslijediti dokument potvrđene točnosti drugom korisniku s prikladnom razinom ovlasti za daljnju obradu dokumenta
+					\item \textbf{Sudionici:} Baza podataka i drugi korisnici s višom razinom ovlasti
+					\item \textbf{Preduvjet:} Korisnik je unio u sustav fotografiju, izvršio konverziju i potvrdio njenu točnost
+					\item \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Korisnik odabire opciju za slanje dokumenta
+						\item Sustav prosljeđuje dokument odgovarajućem korisniku
+						\item Korisnik dobiva obavijest to proslijeđenosti dokumenta
+					\end{packed_enum}
+				\end{packed_item}
+			
 				\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
 				\begin{packed_item}
 					
