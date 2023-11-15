@@ -40,7 +40,7 @@ export const Register = (props) => {
         const formJSON = Object.fromEntries(formData.entries());
         formJSON.userFunction = role
         //console.log(formJSON);
-        fetch("http://localhost:8080/register", {
+        fetch("/api/register", {
             method: "POST",
             mode: "cors",
             headers: {"Content-Type":"application/json"},

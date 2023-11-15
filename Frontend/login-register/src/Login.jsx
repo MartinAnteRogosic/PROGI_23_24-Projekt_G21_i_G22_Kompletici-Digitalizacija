@@ -10,7 +10,7 @@ export const Login = (props) => {
     const formData = new FormData(e.target);
     const formJSON = Object.fromEntries(formData.entries());
     //console.log(formJSON);
-    fetch("http://localhost:8080/login", {
+    fetch("/api/login", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(formJSON)
