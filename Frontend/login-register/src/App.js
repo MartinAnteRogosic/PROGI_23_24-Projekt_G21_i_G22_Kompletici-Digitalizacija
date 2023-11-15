@@ -1,9 +1,8 @@
-import React,{useState} from 'react';
-
+import React, { useState } from 'react';
 import './App.css';
-import { Login } from "./Login";
-import { Register } from "./Register";
-
+import { Login } from './Login';
+import { Register } from './Register';
+import HomePage from './components/HomePage'; // Adjust the path to your HomePage component
 
 function App() {
   const storedForm = localStorage.getItem('currentForm');
@@ -16,10 +15,13 @@ function App() {
 
   return (
     <div className="App">
-      {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Register onFormSwitch={toggleForm}/>
-      }
-      
+      {currentForm === 'login' ? (
+        <Login onFormSwitch={toggleForm} />
+      ) : currentForm === 'register' ? (
+        <Register onFormSwitch={toggleForm} />
+      ) : (
+        <HomePage />
+      )}
     </div>
   );
 }
