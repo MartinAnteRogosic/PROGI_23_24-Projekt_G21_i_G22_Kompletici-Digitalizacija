@@ -41,7 +41,7 @@ export const Register = (props) => {
         formJSON.userFunction = role
         //console.log(formJSON);
         try {
-            await fetch("/api/login", {
+            await fetch("/api/register", {
                 method: "POST",
                 mode: "cors",
                 headers: {"Content-Type":"application/json"},
