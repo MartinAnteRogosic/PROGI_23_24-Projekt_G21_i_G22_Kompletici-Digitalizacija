@@ -2,10 +2,10 @@ import React,{useState} from "react";
 import RoleSlider from "./RoleSlider";
 import PasswordCheckList from "react-password-checklist";
 
-import img1 from './img/ante.png';
-import img2 from './img/ante_zoom.png';
-import img3 from './img/ante_obrnut.png';
-import img4 from './img/ante_inverzni.png';
+import img1 from '../img/ante.png';
+import img2 from '../img/ante_zoom.png';
+import img3 from '../img/ante_obrnut.png';
+import img4 from '../img/ante_inverzni.png';
 
 
 export const Register = (props) => {
@@ -34,20 +34,24 @@ export const Register = (props) => {
     const [name, setName] = useState('');
     const [role, setRole] = useState('zaposlenik')
 
-    const handleSubmit = (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const formJSON = Object.fromEntries(formData.entries());
         formJSON.userFunction = role
         //console.log(formJSON);
-        fetch("/api/register", {
-            method: "POST",
-            mode: "cors",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify(formJSON)
-        }).then(() =>{
-            console.log("person added")
-        })
+        try {
+            await fetch("http://localhost:8080/register", {
+                method: "POST",
+                mode: "cors",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify(formJSON)
+            });
+            alert("Registracija uspješna");
+        }
+        catch (err) {
+            alert(err);
+        }
       }
 
     return (
