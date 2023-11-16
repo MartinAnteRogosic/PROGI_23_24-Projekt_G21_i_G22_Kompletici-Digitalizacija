@@ -15,7 +15,7 @@ export const Login = (props) => {
     const formJSON = Object.fromEntries(formData.entries());
     //console.log(formJSON);
     try {
-      const res = await fetch("http://localhost:8080/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify(formJSON)
