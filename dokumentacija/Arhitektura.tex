@@ -1,32 +1,39 @@
 \chapter{Arhitektura i dizajn sustava}
 		
-		\textbf{\textit{dio 1. revizije}}\\
 
-		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
-	\begin{itemize}
-		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
-		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
-		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
-	\end{itemize}
+
+	
+	Arhitektura aplikacije može se podijeliti na 3 djela. 
+	
+	\begin{packed_item}
+		\item web poslužitelj
+		
+		\item web preglednik
+		
+		\item baza podataka
+	
+	\end{packed_item}
+	
+	\underbar{Web preglednik} je program koji korisniku omogućuje pristup web stranicama te multimedijskom sadržaju na njima. Web preglednik omogućuje korisniku pristup web poslužitelju putem HTTPS (eng. \textit{Hypertext Transfer Protokol Secure}) protokola te interpretira sadržaj kojeg je poslao Web poslužitelj u ljudski razumljiv oblik.
+	
+	\underbar{Web poslužitelj} je program koji prima i odgovara na korisnikove HTTPS zahtjeve. Web poslužitelj pokreće aplikaciju te korisniku šalje potrebne podatke kako bi korisnikov web preglednik mogao generirati frotnend aplikacije. Frontend predstavlja korisničko sučelje te je pisan u HTML-u, CSS-u i JavaScriptu uz pomoć React framework-a. Web poslužitelj je pisan u programskom jeziku Java i Spring Boot frameworku. Web poslužitelj komunicira sa bazom podataka te šalje podatke iz nje korisniku u prikladnom obliku.
+	
+	\underbar{Baza podataka} implementirana je putem PostgresSQL-a. Sadrži podatke potrebne za funkcioniranje aplikacije te njihove međusobne odnose. 
 
 	
 		
 
-		
-
+	
 				
 		\section{Baza podataka}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-		\textit{Baza podataka za web aplikaciju koristi relacijski model podataka. Kao RDBMS (Relational Database Management System) koristi se PostgreSQL verzija 15.0. Koristeći ERDPlus, stvaramo ER dijagram baze podataka u kojem navodimo sve entitete, njihove atribute te međusobne veze. Daljnje tipove podataka, primarne, strane i alternativne ključeve navodimo u relacijskoj shemi baze podataka.}
 		
-			\subsection{Opis tablica}
 			
-
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
-				
-				
+		Baza podataka za web aplikaciju koristi relacijski model podataka. Kao RDBMS (Relational Database Management System) koristi se PostgreSQL verzija 15.0. Koristeći ERDPlus, stvaramo ER dijagram baze podataka u kojem navodimo sve entitete, njihove atribute te međusobne veze. Daljnje tipove podataka, primarne, strane i alternativne ključeve navodimo u relacijskoj shemi baze podataka.
+		
+			
+			\subsection{Opis tablica}
+		
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -37,8 +44,8 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{RegisteredUser}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}userId & VARCHAR(10)	&  	Jedinstveni identifikator svakog zaposlenika  	\\ \hline
-					userName	& CHAR &   Ime i prezime korisnika	\\ \hline 
-					userFunction & CHAR(10) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
+					userName	& VARCHAR(30) &   Ime i prezime korisnika	\\ \hline 
+					userFunction & VARCHAR(10) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
 					userPassword & VARCHAR(30)	&  	Korisnikova lozinka	\\ \hline 
 					userEmail & VARCHAR(50)   &   E-mail korisnika \\ \hline
 				\end{longtblr}
@@ -53,31 +60,51 @@
 					}
 					\hline \SetCell[c=3]{c}{\textbf{LoginRecord}}	 \\ \hline[3pt]
 					\SetCell{LightBlue} userId	& VARCHAR(10)   &   Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline 
-					loginDateTime & TIMESTAMP &   Datum i vrijeme prijave korisnika
+					loginDateTime & TIMESTAMP &   Datum i vrijeme prijave korisnika \\ \hline
 				\end{longtblr}
 			
 			\subsection{Dijagram baze podataka}
-				\textit{ U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati. Podsjetite se kolegija "Baze podataka".}
+				
+				\begin{figure}[H]
+					\includegraphics[scale=0.6]{slike/kompleticiER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\centering
+					\caption{ER dijagram baze podataka}
+					\label{fig:promjene}
+				\end{figure}
+				
+					\begin{figure}[H]
+					\includegraphics[scale=0.5]{slike/kompleticiREL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\centering
+					\caption{REL dijagram baze podataka}
+					\label{fig:promjene}
+				\end{figure}
+				
+				
 			
 			\eject
 			
 			
 		\section{Dijagram razreda}
 		
-			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_razred1.jpeg} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram razreda 1}
+				\label{fig:promjene}
+			\end{figure}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
-			
-			\textbf{\textit{dio 2. revizije}}\\			
-			
-			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_razred2.jpeg} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram razreda 2}
+				\label{fig:promjene}
+			\end{figure}
 			
 			
 			
 			\eject
 		
+		\iffalse
 		\section{Dijagram stanja}
 			
 			
@@ -100,3 +127,4 @@
 			\textbf{\textit{dio 2. revizije}}\\
 		
 			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+		\fi
