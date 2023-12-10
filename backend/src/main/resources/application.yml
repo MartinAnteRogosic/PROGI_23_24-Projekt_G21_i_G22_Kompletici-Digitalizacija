@@ -1,0 +1,21 @@
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        username: postgres
+        password: baze
+        url: jdbc:postgresql://localhost:5432/Kompletici
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        show-sql: true
+
+
+application:
+    security:
+        jwt:
+            secret-key: 7iAGHtY6YttfJhHwAm6M5ZWidInVYZ+Una6I392a+sZdXfRNTiLebEFmagTx3u0b
+            expiration: 86400000 # one day

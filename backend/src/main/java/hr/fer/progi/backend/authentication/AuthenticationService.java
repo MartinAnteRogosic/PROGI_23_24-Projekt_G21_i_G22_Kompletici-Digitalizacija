@@ -61,7 +61,7 @@ public class AuthenticationService {
         claims.put("employeeSurname", employee.getEmployeeSurname());
         claims.put("employeeRole", employee.getEmployeeRole());
 
-        String token = jwtService.generateToken(employee);
+        String token = jwtService.generateToken(claims, employee);
 
         revokeAllEmployeeTokens(employee);
         saveEmployeeToken(employee, token);
