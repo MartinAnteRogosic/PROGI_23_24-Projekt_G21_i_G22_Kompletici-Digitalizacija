@@ -1,12 +1,10 @@
 package hr.fer.progi.backend.employee;
 
-import hr.fer.progi.backend.employee.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    Optional<Employee> findByEmployeeEmail(String userEmail);
+    Optional<Employee> findByEmployeeEmail(String employeeEmail);
 }

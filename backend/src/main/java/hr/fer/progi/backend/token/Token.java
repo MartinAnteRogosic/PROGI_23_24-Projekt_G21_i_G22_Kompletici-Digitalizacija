@@ -3,12 +3,10 @@ package hr.fer.progi.backend.token;
 
 import hr.fer.progi.backend.employee.Employee;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +18,10 @@ public class Token {
     @GeneratedValue
     private Long tokenId;
     private String token;
+
+    @Enumerated(EnumType.STRING)
     private TokenType tokenType;
+
     private boolean expired;
     private boolean revoked;
 

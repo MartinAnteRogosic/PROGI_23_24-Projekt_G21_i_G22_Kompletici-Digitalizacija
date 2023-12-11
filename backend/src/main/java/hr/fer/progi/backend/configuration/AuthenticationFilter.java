@@ -36,21 +36,30 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(header == null || !header.startsWith("Bearer ")){
+            System.out.println("header was null :(");
             filterChain.doFilter(request, response);
             return;
         }
 
         final String token = header.split(" ")[1].trim();
         final String employeeEmail = jwtService.extractEmployeeEmail(token);
+        System.out.println("employee email " + employeeEmail);
+        System.out.println("token prvo "+ token);
 
         if(employeeEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails employeeDetails = this.employeeDetailsService.loadUserByUsername(employeeEmail);
+            System.out.println("tuuuu sasaammm");
 
+            var tok = tokenRepository.findByToken(token);
+            System.out.println("token "+ tok);
             boolean isTokenValid = tokenRepository.findByToken(token)
                     .map(t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
+            System.out.println("is token valid " + isTokenValid);
 
             if(jwtService.isTokenValid(token, employeeDetails) && isTokenValid){
+
+                System.out.println("u zadanjem ifu");
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         employeeDetails,
                         null,

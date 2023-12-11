@@ -1,0 +1,29 @@
+### Register employee
+POST http://localhost:8080/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "employeeName": "Ivo",
+  "employeeSurname": "Ivic",
+  "employeeEmail": "ivo@gmail.com",
+  "employeePassword": "1234",
+  "employeeRole": "EMPLOYEE"
+}
+
+
+
+### Employee login
+POST http://localhost:8080/api/v1/authenticate/login
+Content-Type: application/json
+
+{
+  "employeeEmail": "ivo@gmail.com",
+  "employeePassword": "1234"
+}
+
+> {% client.global.set("auth-token", response.body.access_token) %}
+
+### Test employee landing endpoint
+GET http://localhost:8080/api/v1/employees/landing
+Authorization: Bearer {{auth-token}}
+

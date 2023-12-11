@@ -54,7 +54,7 @@ public class AuthenticationService {
                 )
         );
 
-        Employee employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail()).orElseThrow();
+        var employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail()).orElseThrow();
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("employeeName", employee.getEmployeeName());
@@ -75,6 +75,7 @@ public class AuthenticationService {
     private void saveEmployeeToken(Employee employee, String token) {
         Token tokenToSave = Token.builder()
                 .employee(employee)
+                .token(token)
                 .tokenType(BEARER)
                 .expired(false)
                 .revoked(false)
@@ -85,18 +86,18 @@ public class AuthenticationService {
 
     private void revokeAllEmployeeTokens(Employee employee) {
 
-        List<Token> validEmloyeeTokens = tokenRepository.findAllValidTokensByEmployee(employee.getEmployeeId());
+        List<Token> validEmployeeTokens = tokenRepository.findAllValidTokensByEmployee(employee.getEmployeeId());
 
-        if(validEmloyeeTokens.isEmpty()){
+        if(validEmployeeTokens.isEmpty()){
             return;
         }
 
-        validEmloyeeTokens.forEach(token -> {
+        validEmployeeTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
 
-        tokenRepository.saveAll(validEmloyeeTokens);
+        tokenRepository.saveAll(validEmployeeTokens);
 
     }
 
