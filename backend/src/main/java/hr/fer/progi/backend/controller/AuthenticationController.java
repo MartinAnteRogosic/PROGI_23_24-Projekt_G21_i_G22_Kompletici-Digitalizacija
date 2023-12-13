@@ -1,5 +1,9 @@
-package hr.fer.progi.backend.authentication;
+package hr.fer.progi.backend.controller;
 
+import hr.fer.progi.backend.authentication.AuthenticationResponse;
+import hr.fer.progi.backend.authentication.AuthenticationService;
+import hr.fer.progi.backend.authentication.LoginRequest;
+import hr.fer.progi.backend.authentication.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

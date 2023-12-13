@@ -1,13 +1,13 @@
 package hr.fer.progi.backend.employee;
 
-import hr.fer.progi.backend.token.Token;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @Setter
 @Getter
@@ -19,36 +19,32 @@ import java.util.List;
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
+    private Long id;
 
-    private String employeeName;
+    private String firstName;
 
-    private String employeeSurname;
+    private String lastName;
 
-    private String employeePassword;
+    private String password;
 
-    private String employeeEmail;
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role employeeRole;
-
-    @OneToMany(mappedBy = "employee")
-    private List<Token> employeeTokens;
-
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return employeeRole.getAuthorities();
+        return role.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return employeePassword;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return employeeEmail;
+        return email;
     }
 
     @Override
