@@ -1,9 +1,9 @@
 package hr.fer.progi.backend.exception;
 
-public class EmployeeNotFound extends RuntimeException {
+public class EmployeeNotFoundException extends RuntimeException {
 
     private static final long serialVersionId = 1;
-    public EmployeeNotFound(String message) {
+    public EmployeeNotFoundException(String message) {
         super(message);
     }
 }

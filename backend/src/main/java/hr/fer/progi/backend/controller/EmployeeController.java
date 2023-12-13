@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EmployeeController {
 
-    private final EmployeeServiceImpl employeeServiceImpl;
 
     @GetMapping("/landing")
     public ResponseEntity<String> landing(){

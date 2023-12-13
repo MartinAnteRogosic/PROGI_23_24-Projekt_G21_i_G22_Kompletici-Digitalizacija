@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.security;
 
 
-import hr.fer.progi.backend.service.EmployeeDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final EmployeeDetailsService employeeDetailsService;
+    private final UserDetailsService employeeDetailsService;
 
 
     @Override
@@ -45,7 +45,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if(employeeEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails employeeDetails = this.employeeDetailsService.loadUserByUsername(employeeEmail);
 
-
+            System.out.println("user detail authentication filter");
+            System.out.println(employeeDetails.toString());
 
             if(jwtService.isTokenValid(token, employeeDetails)){
 
