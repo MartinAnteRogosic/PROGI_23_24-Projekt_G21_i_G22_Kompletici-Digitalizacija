@@ -45,9 +45,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if(employeeEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails employeeDetails = this.employeeDetailsService.loadUserByUsername(employeeEmail);
 
-            System.out.println("user detail authentication filter");
-            System.out.println(employeeDetails.toString());
-
             if(jwtService.isTokenValid(token, employeeDetails)){
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
