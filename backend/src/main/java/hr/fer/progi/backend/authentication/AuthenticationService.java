@@ -1,9 +1,12 @@
 package hr.fer.progi.backend.authentication;
 
 
+import hr.fer.progi.backend.dto.LoginRequestDto;
+import hr.fer.progi.backend.dto.LoginResponseDto;
 import hr.fer.progi.backend.dto.RegistrationDto;
 import hr.fer.progi.backend.dto.RegistrationResponseDto;
 import hr.fer.progi.backend.employee.Employee;
+import hr.fer.progi.backend.exception.EmployeeNotFound;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -51,15 +54,16 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse login(LoginRequest request){
+    public LoginResponseDto login(LoginRequestDto request){
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmployeeEmail(),
-                        request.getEmployeePassword()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
 
-        var employee = employeeRepository.findByEmail(request.getEmployeeEmail()).orElseThrow();
+        Employee employee = employeeRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EmployeeNotFound("Employee could not be found"));
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("employeeName", employee.getFirstName());
@@ -69,7 +73,7 @@ public class AuthenticationService {
         String token = jwtService.generateToken(claims, employee);
 
 
-        return AuthenticationResponse.builder()
+        return LoginResponseDto.builder()
                 .accessToken(token)
                 .build();
 

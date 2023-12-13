@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.employee;
+package hr.fer.progi.backend.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ChangePasswordRequest {
+public class ChangePasswordRequestDto {
 
     private String oldPassword;
     private String newPassword;

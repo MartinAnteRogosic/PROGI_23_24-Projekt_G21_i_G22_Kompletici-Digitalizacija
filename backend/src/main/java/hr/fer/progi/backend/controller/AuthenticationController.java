@@ -4,6 +4,8 @@ import hr.fer.progi.backend.authentication.AuthenticationResponse;
 import hr.fer.progi.backend.authentication.AuthenticationService;
 import hr.fer.progi.backend.authentication.LoginRequest;
 import hr.fer.progi.backend.authentication.RegistrationRequest;
+import hr.fer.progi.backend.dto.LoginRequestDto;
+import hr.fer.progi.backend.dto.LoginResponseDto;
 import hr.fer.progi.backend.dto.RegistrationDto;
 import hr.fer.progi.backend.dto.RegistrationResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request){
+
         return ResponseEntity.ok(authenticationService.login(request));
     }
 }
