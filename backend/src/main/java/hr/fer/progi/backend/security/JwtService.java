@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.configuration;
+package hr.fer.progi.backend.security;
 
 import hr.fer.progi.backend.employee.Employee;
 import io.jsonwebtoken.Claims;

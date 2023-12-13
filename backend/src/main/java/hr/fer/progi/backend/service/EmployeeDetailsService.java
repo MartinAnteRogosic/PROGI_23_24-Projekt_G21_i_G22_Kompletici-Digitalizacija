@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.configuration;
+package hr.fer.progi.backend.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

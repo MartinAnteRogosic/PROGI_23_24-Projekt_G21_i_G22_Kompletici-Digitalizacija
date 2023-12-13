@@ -3,14 +3,14 @@ package hr.fer.progi.backend.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class LoginRequestDto {
+public class RegistrationResponseDto {
 
-    private String email;
-    private String password;
-
+    private String message;
+    private HttpStatus status;
 
 }

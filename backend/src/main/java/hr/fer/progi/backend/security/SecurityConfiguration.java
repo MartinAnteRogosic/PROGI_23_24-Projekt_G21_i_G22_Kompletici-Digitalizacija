@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.configuration;
+package hr.fer.progi.backend.security;
 
 
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,14 @@ public class SecurityConfiguration {
     private final AuthenticationFilter authenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(authenticationEntryPoint))
                 .authorizeHttpRequests(request ->
                         request
                                 .requestMatchers("/api/v1/authenticate/**")

@@ -1,7 +1,8 @@
-package hr.fer.progi.backend.configuration;
+package hr.fer.progi.backend.security;
 
 
-import hr.fer.progi.backend.employee.EmployeeRepository;
+import hr.fer.progi.backend.repositroy.EmployeeRepository;
+import hr.fer.progi.backend.service.EmployeeDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ public class ApplicationConfiguration {
     @Bean
     public EmployeeDetailsService employeeDetailsService(){
 
-        return employeeEmail -> employeeRepository.findByEmployeeEmail(employeeEmail)
+        return employeeEmail -> employeeRepository.findByEmail(employeeEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("Employee not found"));
     }
 

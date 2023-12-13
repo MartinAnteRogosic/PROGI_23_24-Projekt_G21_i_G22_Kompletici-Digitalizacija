@@ -1,24 +1,23 @@
-package hr.fer.progi.backend.employee;
+package hr.fer.progi.backend.service.impl;
 
 
+import hr.fer.progi.backend.repositroy.EmployeeRepository;
+import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-
 @Service
 @RequiredArgsConstructor
-public class EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
-    public void changePassword(ChangePasswordRequest request, Principal connectedEmployee) {
+    /*public void changePassword(ChangePasswordRequest request, Principal connectedEmployee) {
 
         Employee employee = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
-        /*checking is the current password is correct*/
+        *//*checking is the current password is correct*//*
         if(!passwordEncoder.matches(request.getOldPassword(), employee.getEmployeePassword())){
             throw new IllegalStateException("Wrong old password");
         }
@@ -35,5 +34,5 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
 
-    }
+    }*/
 }

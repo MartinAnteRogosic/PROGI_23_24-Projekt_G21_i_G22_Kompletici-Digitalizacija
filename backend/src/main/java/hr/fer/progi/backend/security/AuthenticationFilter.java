@@ -1,7 +1,7 @@
-package hr.fer.progi.backend.configuration;
+package hr.fer.progi.backend.security;
 
 
-import hr.fer.progi.backend.token.TokenRepository;
+import hr.fer.progi.backend.service.EmployeeDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final EmployeeDetailsService employeeDetailsService;
-    private final TokenRepository tokenRepository;
 
 
     @Override
@@ -46,12 +45,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if(employeeEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails employeeDetails = this.employeeDetailsService.loadUserByUsername(employeeEmail);
 
-            boolean isTokenValid = tokenRepository.findByToken(token)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
 
 
-            if(jwtService.isTokenValid(token, employeeDetails) && isTokenValid){
+            if(jwtService.isTokenValid(token, employeeDetails)){
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         employeeDetails,
