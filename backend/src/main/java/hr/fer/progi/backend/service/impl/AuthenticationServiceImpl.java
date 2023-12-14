@@ -1,14 +1,15 @@
-package hr.fer.progi.backend.authentication;
+package hr.fer.progi.backend.service.impl;
 
 
 import hr.fer.progi.backend.dto.LoginRequestDto;
 import hr.fer.progi.backend.dto.LoginResponseDto;
-import hr.fer.progi.backend.dto.RegistrationDto;
+import hr.fer.progi.backend.dto.RegistrationRequestDto;
 import hr.fer.progi.backend.dto.RegistrationResponseDto;
 import hr.fer.progi.backend.employee.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
+import hr.fer.progi.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,30 +19,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public RegistrationResponseDto register(RegistrationDto registrationDto) {
+    public RegistrationResponseDto register(RegistrationRequestDto registrationRequestDto) {
 
-        if(employeeRepository.existsByEmail(registrationDto.getEmail())){
+        if (employeeRepository.existsByEmail(registrationRequestDto.getEmail())) {
             return RegistrationResponseDto.builder()
-                    .message("Email '" + registrationDto.getEmail() +"' is already taken.")
+                    .message("Email '" + registrationRequestDto.getEmail() + "' is already taken.")
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }
 
         Employee employee = Employee.builder()
-                .firstName(registrationDto.getFirstName())
-                .lastName(registrationDto.getLastName())
-                .email(registrationDto.getEmail())
-                .password(passwordEncoder.encode(registrationDto.getPassword()))
-                .role(registrationDto.getRole())
+                .firstName(registrationRequestDto.getFirstName())
+                .lastName(registrationRequestDto.getLastName())
+                .email(registrationRequestDto.getEmail())
+                .password(passwordEncoder.encode(registrationRequestDto.getPassword()))
+                .role(registrationRequestDto.getRole())
                 .build();
-
 
         employeeRepository.save(employee);
 
@@ -51,21 +51,22 @@ public class AuthenticationService {
                 .build();
     }
 
-    public LoginResponseDto login(LoginRequestDto request){
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        loginRequestDto.getEmail(),
+                        loginRequestDto.getPassword()
                 )
         );
 
-        Employee employee = employeeRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EmployeeNotFoundException(String.format("Employee with email '%s' not found", request.getEmail())));
-        System.out.println("after authentication manager");
+        Employee employee = employeeRepository.findByEmail(loginRequestDto.getEmail())
+                .orElseThrow(() -> new EmployeeNotFoundException(
+                        String.format("Employee with email '%s' not found", loginRequestDto.getEmail())
+                ));
 
         String token = jwtService.generateToken(employee);
-
 
 
         return LoginResponseDto.builder()
@@ -74,6 +75,7 @@ public class AuthenticationService {
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .role(employee.getRole())
+                .id(employee.getId())
                 .build();
 
     }

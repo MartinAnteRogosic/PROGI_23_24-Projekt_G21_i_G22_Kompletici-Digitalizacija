@@ -1,12 +1,9 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.authentication.AuthenticationResponse;
-import hr.fer.progi.backend.authentication.AuthenticationService;
-import hr.fer.progi.backend.authentication.LoginRequest;
-import hr.fer.progi.backend.authentication.RegistrationRequest;
+import hr.fer.progi.backend.service.impl.AuthenticationServiceImpl;
 import hr.fer.progi.backend.dto.LoginRequestDto;
 import hr.fer.progi.backend.dto.LoginResponseDto;
-import hr.fer.progi.backend.dto.RegistrationDto;
+import hr.fer.progi.backend.dto.RegistrationRequestDto;
 import hr.fer.progi.backend.dto.RegistrationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final AuthenticationServiceImpl authenticationServiceImpl;
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegistrationDto registrationDto){
-        RegistrationResponseDto response = authenticationService.register(registrationDto);
+    public ResponseEntity<String> register(@RequestBody RegistrationRequestDto registrationRequestDto){
+        RegistrationResponseDto response = authenticationServiceImpl.register(registrationRequestDto);
 
         return  new ResponseEntity<>(response.getMessage(), response.getStatus());
     }
@@ -31,6 +28,6 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request){
 
-        return ResponseEntity.ok(authenticationService.login(request));
+        return ResponseEntity.ok(authenticationServiceImpl.login(request));
     }
 }

@@ -4,7 +4,7 @@ import hr.fer.progi.backend.employee.Role;
 import lombok.Data;
 
 @Data
-public class RegistrationDto {
+public class RegistrationRequestDto {
 
     private String firstName;
     private String lastName;
