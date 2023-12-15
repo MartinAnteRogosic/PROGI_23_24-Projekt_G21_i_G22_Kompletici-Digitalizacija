@@ -1,13 +1,11 @@
 package hr.fer.progi.backend.service;
 
-import hr.fer.progi.backend.dto.LoginRequestDto;
-import hr.fer.progi.backend.dto.LoginResponseDto;
-import hr.fer.progi.backend.dto.RegistrationRequestDto;
-import hr.fer.progi.backend.dto.RegistrationResponseDto;
+import hr.fer.progi.backend.dto.*;
+import hr.fer.progi.backend.employee.Employee;
 
 public interface AuthenticationService {
 
-    RegistrationResponseDto register(RegistrationRequestDto registrationRequestDto);
+    RegistrationResponseDto register(EmployeeDto registrationRequestDto);
 
     LoginResponseDto login(LoginRequestDto loginRequestDto);
 }

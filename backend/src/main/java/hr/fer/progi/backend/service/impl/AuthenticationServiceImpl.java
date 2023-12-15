@@ -1,10 +1,7 @@
 package hr.fer.progi.backend.service.impl;
 
 
-import hr.fer.progi.backend.dto.LoginRequestDto;
-import hr.fer.progi.backend.dto.LoginResponseDto;
-import hr.fer.progi.backend.dto.RegistrationRequestDto;
-import hr.fer.progi.backend.dto.RegistrationResponseDto;
+import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.employee.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
@@ -22,26 +19,21 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final EmployeeRepository employeeRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmployeeServiceImpl employeeService;
 
-    public RegistrationResponseDto register(RegistrationRequestDto registrationRequestDto) {
+    public RegistrationResponseDto register(EmployeeDto employeeDto) {
 
-        if (employeeRepository.existsByEmail(registrationRequestDto.getEmail())) {
+        Employee employee = employeeService.mapToEntity(employeeDto);
+
+        if (employeeRepository.existsByEmail(employee.getEmail())) {
             return RegistrationResponseDto.builder()
-                    .message("Email '" + registrationRequestDto.getEmail() + "' is already taken.")
+                    .message("Email '" + employee.getEmail() + "' is already taken.")
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }
 
-        Employee employee = Employee.builder()
-                .firstName(registrationRequestDto.getFirstName())
-                .lastName(registrationRequestDto.getLastName())
-                .email(registrationRequestDto.getEmail())
-                .password(passwordEncoder.encode(registrationRequestDto.getPassword()))
-                .role(registrationRequestDto.getRole())
-                .build();
 
         employeeRepository.save(employee);
 
@@ -50,6 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .status(HttpStatus.OK)
                 .build();
     }
+
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
@@ -79,6 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
     }
+
+
 
 
 }

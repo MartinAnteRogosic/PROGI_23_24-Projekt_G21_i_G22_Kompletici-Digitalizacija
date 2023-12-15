@@ -2,6 +2,7 @@ package hr.fer.progi.backend.service.impl;
 
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
+import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.employee.Employee;
 import hr.fer.progi.backend.exception.ChangePasswordException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,40 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
 
 
+    }
+
+
+
+    @Override
+    public EmployeeDto mapToDto(Employee employee) {
+        return EmployeeDto.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .email(employee.getEmail())
+                .role(employee.getRole())
+                .build();
+    }
+
+    @Override
+    public Employee mapToEntity(EmployeeDto employeeDto) {
+        return Employee.builder()
+                .firstName(employeeDto.getFirstName())
+                .lastName(employeeDto.getLastName())
+                .email(employeeDto.getEmail())
+                .password(passwordEncoder.encode(employeeDto.getPassword()))
+                .role(employeeDto.getRole())
+                .build();
+    }
+
+    @Override
+    public EmployeeDto mapToDtoForGetAll(Employee employee) {
+
+        return EmployeeDto.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .id(employee.getId())
+                .role(employee.getRole())
+                .build();
     }
 
 }

@@ -4,6 +4,7 @@ package hr.fer.progi.backend.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import static hr.fer.progi.backend.employee.Permission.*;
+import static hr.fer.progi.backend.employee.Role.*;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -23,7 +28,6 @@ public class SecurityConfiguration {
     private final AuthenticationFilter authenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
-    private final AuthEntryPoint authEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +41,10 @@ public class SecurityConfiguration {
                         request
                                 .requestMatchers("/api/v1/authenticate/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/employees/**").hasRole("EMPLOYEE")
+                                .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/employee-management/**").hasRole(DIRECTOR.name())
+                                .requestMatchers(GET, "/api/v1/employee-management/statistics/**").hasAnyAuthority(ALL_EMPLOYEE_STATISTICS.name(), EMPLOYEE_STATISTICS.name())
+                                .requestMatchers(DELETE, "/api/v1/employee-management/delete-account").hasAuthority(DELETE_EMPLOYEE_ACCOUNT.name())
                                 .anyRequest()
                                 .authenticated()
                 )

@@ -2,15 +2,17 @@ package hr.fer.progi.backend.employee;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.event.internal.DefaultLoadEventListener;
 
 @Getter
 @RequiredArgsConstructor
 public enum Permission {
 
-    EMPLOYEE_READ("employee:read"),
-    EMPLOYEE_UPDATE("employee:update"),
-    EMPLOYEE_CREATE("employee:create"),
-    EMPLOYEE_DELETE("employee:delete")
+
+    DELETE_EMPLOYEE_ACCOUNT("delete-employee-account"),
+    ALL_EMPLOYEE_STATISTICS("all-employee-statistics"),
+    EMPLOYEE_STATISTICS("employee-statistics")
+
     ;
 
 

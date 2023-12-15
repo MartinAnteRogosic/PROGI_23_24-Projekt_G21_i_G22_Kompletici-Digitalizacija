@@ -15,15 +15,14 @@ import static hr.fer.progi.backend.employee.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
-    EMPLOYEE(Set.of(
-            EMPLOYEE_READ,
-            EMPLOYEE_CREATE,
-            EMPLOYEE_UPDATE,
-            EMPLOYEE_DELETE
-    )),
+    EMPLOYEE(Collections.emptySet()),
     REVISER(Collections.emptySet()),
     ACCOUNTANT(Collections.emptySet()),
-    DIRECTOR(Collections.emptySet());
+    DIRECTOR(Set.of(
+            ALL_EMPLOYEE_STATISTICS,
+            EMPLOYEE_STATISTICS,
+            DELETE_EMPLOYEE_ACCOUNT
+    ));
 
     private final Set<Permission> permissions;
 
