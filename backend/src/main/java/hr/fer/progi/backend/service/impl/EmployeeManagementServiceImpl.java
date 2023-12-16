@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.service.impl;
 
+import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.employee.Employee;
 import hr.fer.progi.backend.employee.Role;
@@ -8,8 +9,12 @@ import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
 import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +26,21 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeServiceImpl employeeService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void deleteEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
+    public void deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
+
+        Employee director = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+
+        if(!passwordEncoder.matches(deleteEmployeeAccountDto.getDirectorPassword(), director.getPassword())){
+            throw new BadCredentialsException("Wrong password");
+        }
+
+
+        Employee employee = employeeRepository.findById(deleteEmployeeAccountDto.getEmployeeId())
                 .orElseThrow(()->new EmployeeNotFoundException(
-                        String.format("Employee with id %d could not be found", employeeId)
+                        String.format("Employee with id %d could not be found", deleteEmployeeAccountDto.getEmployeeId())
                 ));
 
         employeeRepository.delete(employee);

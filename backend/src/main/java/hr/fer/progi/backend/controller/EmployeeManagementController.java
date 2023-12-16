@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.controller;
 
 
+import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.service.impl.EmployeeManagementServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,9 +33,9 @@ public class EmployeeManagementController {
         List<EmployeeDto> listOfEmployees = employeeManagementService.getAllEmployees();
         return new ResponseEntity<>(listOfEmployees, HttpStatus.OK);
     }
-    @DeleteMapping("/delete-account/{employeeId}")
-    public ResponseEntity<?> deleteEmployeeById(@PathVariable(value = "employeeId") Long employeeId){
-        employeeManagementService.deleteEmployee(employeeId);
+    @DeleteMapping("/delete-account")
+    public ResponseEntity<?> deleteEmployeeById(@RequestBody DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee){
+        employeeManagementService.deleteEmployee(deleteEmployeeAccountDto, connectedEmployee);
 
         return new ResponseEntity<>("Successfully deleted employee account", HttpStatus.OK);
     }
