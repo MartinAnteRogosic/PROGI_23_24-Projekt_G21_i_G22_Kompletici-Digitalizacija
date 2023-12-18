@@ -1,15 +1,18 @@
 package hr.fer.progi.backend.service;
 
-import hr.fer.progi.backend.entity.EmployeeEntity;
-import java.util.Optional;
+import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
+import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.entity.Employee;
+
+import java.security.Principal;
 
 public interface EmployeeService {
 
-    Optional<EmployeeEntity> findById(String userId);
+    void changePassword(ChangePasswordRequestDto requestDto, Principal connectedEmployee);
 
-    EmployeeEntity findByUserEmail(String userEmail);
-    void saveEmployee(EmployeeEntity employeeEntity);
-    EmployeeEntity updateEmployee(EmployeeEntity employeeEntity);
-    void deleteEmployee(String userId);
+
+    EmployeeDto mapToDto(Employee employee);
+    EmployeeDto mapToDtoForGetAll(Employee employee);
+    Employee mapToEntity(EmployeeDto employeeDto);
 
 }
