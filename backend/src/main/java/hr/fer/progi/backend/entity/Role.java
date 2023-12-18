@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.employee;
+package hr.fer.progi.backend.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,19 +9,26 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static hr.fer.progi.backend.employee.Permission.*;
+import static hr.fer.progi.backend.entity.Permission.*;
 
 @Getter
 @RequiredArgsConstructor
 public enum Role {
 
     EMPLOYEE(Collections.emptySet()),
-    REVISER(Collections.emptySet()),
-    ACCOUNTANT(Collections.emptySet()),
+    REVISER(Set.of(
+            CHANGE_DOCUMENT_CATEGORY
+    )),
+
+    ACCOUNTANT(Set.of(
+            CHANGE_DOCUMENT_CATEGORY
+    )),
+
     DIRECTOR(Set.of(
             ALL_EMPLOYEE_STATISTICS,
             EMPLOYEE_STATISTICS,
-            DELETE_EMPLOYEE_ACCOUNT
+            DELETE_EMPLOYEE_ACCOUNT,
+            CHANGE_DOCUMENT_CATEGORY
     ));
 
     private final Set<Permission> permissions;

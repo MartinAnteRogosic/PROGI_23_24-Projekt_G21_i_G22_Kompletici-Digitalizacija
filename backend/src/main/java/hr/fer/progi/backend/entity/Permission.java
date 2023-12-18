@@ -1,8 +1,7 @@
-package hr.fer.progi.backend.employee;
+package hr.fer.progi.backend.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.event.internal.DefaultLoadEventListener;
 
 @Getter
 @RequiredArgsConstructor
@@ -11,7 +10,8 @@ public enum Permission {
 
     DELETE_EMPLOYEE_ACCOUNT("delete-employee-account"),
     ALL_EMPLOYEE_STATISTICS("all-employee-statistics"),
-    EMPLOYEE_STATISTICS("employee-statistics")
+    EMPLOYEE_STATISTICS("employee-statistics"),
+    CHANGE_DOCUMENT_CATEGORY("change-document-category")
 
     ;
 

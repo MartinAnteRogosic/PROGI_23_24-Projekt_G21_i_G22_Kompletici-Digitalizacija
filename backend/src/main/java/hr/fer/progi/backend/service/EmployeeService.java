@@ -2,10 +2,9 @@ package hr.fer.progi.backend.service;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.employee.Employee;
+import hr.fer.progi.backend.entity.Employee;
 
 import java.security.Principal;
-import java.util.List;
 
 public interface EmployeeService {
 

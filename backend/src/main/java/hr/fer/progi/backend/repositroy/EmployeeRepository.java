@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.repositroy;
 
-import hr.fer.progi.backend.employee.Employee;
+import hr.fer.progi.backend.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

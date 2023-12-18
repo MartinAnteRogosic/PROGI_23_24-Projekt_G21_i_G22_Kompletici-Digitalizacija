@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.repository;
 
-import hr.fer.progi.backend.employee.Employee;
-import hr.fer.progi.backend.employee.Role;
+import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static hr.fer.progi.backend.employee.Role.*;
+import static hr.fer.progi.backend.entity.Role.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)

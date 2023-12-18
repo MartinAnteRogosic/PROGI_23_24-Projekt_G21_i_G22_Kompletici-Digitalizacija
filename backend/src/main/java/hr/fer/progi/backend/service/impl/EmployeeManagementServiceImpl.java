@@ -2,12 +2,10 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.employee.Employee;
-import hr.fer.progi.backend.employee.Role;
+import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
-import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +16,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static hr.fer.progi.backend.employee.Role.DIRECTOR;
+import static hr.fer.progi.backend.entity.Role.DIRECTOR;
 
 @Service
 @RequiredArgsConstructor

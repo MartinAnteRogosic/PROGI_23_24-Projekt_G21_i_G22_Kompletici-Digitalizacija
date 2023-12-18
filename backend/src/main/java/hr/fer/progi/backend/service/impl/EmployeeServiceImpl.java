@@ -3,7 +3,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.employee.Employee;
+import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.exception.ChangePasswordException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

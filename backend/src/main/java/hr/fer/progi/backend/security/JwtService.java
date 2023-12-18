@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.security;
 
-import hr.fer.progi.backend.employee.Employee;
+import hr.fer.progi.backend.entity.Employee;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Service

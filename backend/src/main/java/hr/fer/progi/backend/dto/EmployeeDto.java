@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.dto;
 
-import hr.fer.progi.backend.employee.Role;
+import hr.fer.progi.backend.entity.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
