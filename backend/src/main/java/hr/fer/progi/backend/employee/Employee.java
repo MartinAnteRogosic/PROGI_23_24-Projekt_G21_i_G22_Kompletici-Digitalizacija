@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.entity;
+package hr.fer.progi.backend.employee;
 
 
 import jakarta.persistence.*;
@@ -6,10 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 
 @Setter
@@ -34,12 +31,6 @@ public class Employee implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "scanEmployee", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Photo> scannedPhotos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "validationEmployee", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Document> documents = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

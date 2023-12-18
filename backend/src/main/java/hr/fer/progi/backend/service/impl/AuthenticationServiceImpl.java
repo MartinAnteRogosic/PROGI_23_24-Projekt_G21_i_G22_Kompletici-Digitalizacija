@@ -2,7 +2,7 @@ package hr.fer.progi.backend.service.impl;
 
 
 import hr.fer.progi.backend.dto.*;
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.employee.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

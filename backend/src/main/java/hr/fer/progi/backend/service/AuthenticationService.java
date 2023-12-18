@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.service;
 
 import hr.fer.progi.backend.dto.*;
+import hr.fer.progi.backend.employee.Employee;
 
 public interface AuthenticationService {
 
