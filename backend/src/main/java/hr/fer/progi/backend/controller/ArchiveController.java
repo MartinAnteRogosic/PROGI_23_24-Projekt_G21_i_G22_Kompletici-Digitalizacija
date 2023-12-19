@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.service.ArchiveService;
+import hr.fer.progi.backend.service.impl.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,26 +1,22 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.entity.DocumentEntity;
-import hr.fer.progi.backend.service.ConversionConfirmationService;
-import hr.fer.progi.backend.service.DocumentService;
+import hr.fer.progi.backend.service.impl.ConversionConfirmationService;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
-import org.springframework.beans.factory.annotation.Autowired;
+import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/confirmation")
 public class ConversionConfirmationController {
 
-    private final DocumentService documentService;
+    private final DocumentServiceImpl documentService;
     private final ConversionConfirmationService conversionConfirmationService;
 
-    @Autowired
-    public ConversionConfirmationController(DocumentService documentService, ConversionConfirmationService conversionConfirmationService) {
-        this.documentService = documentService;
-        this.conversionConfirmationService = conversionConfirmationService;
-    }
 
     @GetMapping("/documents/{documentType}")
     public List<DocumentEntity> getDocumentsForConfirmation(@PathVariable String documentType) {

@@ -1,16 +1,13 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.scan.ImageProcessingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import hr.fer.progi.backend.service.GoogleDriveService;
+import hr.fer.progi.backend.service.impl.GoogleDriveService;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import static hr.fer.progi.backend.scan.ScanedImage.processImg;
 

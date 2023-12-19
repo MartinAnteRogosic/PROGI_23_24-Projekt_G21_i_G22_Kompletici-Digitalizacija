@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.service;
+package hr.fer.progi.backend.service.impl;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;

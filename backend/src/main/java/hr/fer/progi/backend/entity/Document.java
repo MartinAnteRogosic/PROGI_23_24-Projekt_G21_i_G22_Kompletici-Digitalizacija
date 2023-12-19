@@ -32,6 +32,7 @@ public class Document {
     @JoinColumn(name = "validation_employee_id")
     private Employee validationEmployee;
 
+    private Boolean signed;
 
 
     @OneToOne(cascade = CascadeType.ALL)

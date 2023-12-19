@@ -2,14 +2,16 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
 import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.Photo;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repositroy.DocumentRepository;
 import hr.fer.progi.backend.repositroy.PhotoRepository;
-import hr.fer.progi.backend.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -18,6 +20,15 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final PhotoRepository photoRepository;
+
+
+    public List<DocumentEntity> getDocumentsByType(String documentType) {
+        return documentRepository.findByDocumentType(documentType);
+    }
+
+    public DocumentEntity getDocumentById(String documentId) {
+        return documentRepository.findById(documentId).orElse(null);
+    }
 
     @Override
     public ChangeCategoryDto getPhotoAndDocument(ChangeCategoryDto changeCategoryDto) {

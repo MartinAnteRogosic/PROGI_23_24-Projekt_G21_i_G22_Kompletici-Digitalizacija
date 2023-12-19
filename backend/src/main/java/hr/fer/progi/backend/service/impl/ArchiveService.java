@@ -1,9 +1,6 @@
-package hr.fer.progi.backend.service;
+package hr.fer.progi.backend.service.impl;
 
-import hr.fer.progi.backend.entity.ArchiveInternalDocEntity;
-import hr.fer.progi.backend.entity.ArchiveOfferEntity;
-import hr.fer.progi.backend.entity.ArchiveRecieptEntity;
-import hr.fer.progi.backend.entity.DocumentEntity;
+import hr.fer.progi.backend.entity.*;
 import hr.fer.progi.backend.repository.ArchiveInternalDocRepository;
 import hr.fer.progi.backend.repository.ArchiveOfferRepository;
 import hr.fer.progi.backend.repository.ArchiveRecieptRepository;
@@ -28,7 +25,7 @@ public class ArchiveService {
 
     public void archiveDocument(String documentID) {
         // Retrieve the document from the DocumentEntity
-        DocumentEntity document = documentRepository.findById(documentID)
+        Document document = documentRepository.findById(documentID)
                 .orElseThrow(() -> new RuntimeException("Document not found with ID: " + documentID));
 
         // Create ArchiveRecieptEntity and save

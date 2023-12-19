@@ -1,7 +1,15 @@
 package hr.fer.progi.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ArchiveInternalDoc")
 public class ArchiveInternalDocEntity {
@@ -18,39 +26,7 @@ public class ArchiveInternalDocEntity {
 
     @ManyToOne
     @JoinColumn(name = "documentID", referencedColumnName = "documentID", insertable = false, updatable = false)
-    private DocumentEntity document;
+    private Document document;
 
-    // Getters and setters
 
-    public String getArchIntDocID() {
-        return archIntDocID;
-    }
-
-    public void setArchIntDocID(String archIntDocID) {
-        this.archIntDocID = archIntDocID;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getDocumentID() {
-        return documentID;
-    }
-
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
-    }
-
-    public DocumentEntity getDocument() {
-        return document;
-    }
-
-    public void setDocument(DocumentEntity document) {
-        this.document = document;
-    }
 }

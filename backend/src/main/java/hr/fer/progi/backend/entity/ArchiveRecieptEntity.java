@@ -1,7 +1,15 @@
 package hr.fer.progi.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ArchiveReciept")
 public class ArchiveRecieptEntity {
@@ -21,47 +29,6 @@ public class ArchiveRecieptEntity {
 
     @ManyToOne
     @JoinColumn(name = "documentID", referencedColumnName = "documentID", insertable = false, updatable = false)
-    private DocumentEntity document;
+    private Document document;
 
-    // Getters and setters
-
-    public String getArcRecID() {
-        return arcRecID;
-    }
-
-    public void setArcRecID(String arcRecID) {
-        this.arcRecID = arcRecID;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public Float getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getDocumentID() {
-        return documentID;
-    }
-
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
-    }
-
-    public DocumentEntity getDocument() {
-        return document;
-    }
-
-    public void setDocument(DocumentEntity document) {
-        this.document = document;
-    }
 }

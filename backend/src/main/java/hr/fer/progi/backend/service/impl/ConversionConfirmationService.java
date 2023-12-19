@@ -1,5 +1,6 @@
-package hr.fer.progi.backend.service;
+package hr.fer.progi.backend.service.impl;
 
+import hr.fer.progi.backend.entity.Document;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
@@ -17,7 +18,7 @@ public class ConversionConfirmationService {
     }
 
     public ImageProcessingResult processDocumentForConfirmation(String documentId) {
-        DocumentEntity document = documentRepository.findById(documentId).orElse(null);
+        Document document = documentRepository.findById(documentId).orElse(null);
         String uploadedImagePath = "";
         String processedImagePath = "";
         boolean satisfied = true;

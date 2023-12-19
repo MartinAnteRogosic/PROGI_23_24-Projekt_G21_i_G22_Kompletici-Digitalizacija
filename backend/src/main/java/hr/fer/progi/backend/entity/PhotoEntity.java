@@ -1,8 +1,17 @@
 package hr.fer.progi.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Photos")
 public class PhotoEntity {
@@ -25,55 +34,6 @@ public class PhotoEntity {
 
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private EmployeeEntity user;
+    private Employee user;
 
-    // Getters and setters
-
-    public String getPhotoID() {
-        return photoID;
-    }
-
-    public void setPhotoID(String photoID) {
-        this.photoID = photoID;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public Timestamp getUploadTime() {
-        return uploadTime;
-    }
-
-    public void setUploadTime(Timestamp uploadTime) {
-        this.uploadTime = uploadTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public EmployeeEntity getUser() {
-        return user;
-    }
-
-    public void setUser(EmployeeEntity user) {
-        this.user = user;
-    }
 }

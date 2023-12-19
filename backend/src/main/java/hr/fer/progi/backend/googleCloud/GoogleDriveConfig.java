@@ -1,5 +1,4 @@
 package hr.fer.progi.backend.googleCloud;
-import hr.fer.progi.backend.service.GoogleDriveService;
 import org.springframework.beans.factory.annotation.Value;
 import com.google.api.services.drive.Drive;
 import org.springframework.context.annotation.Bean;
