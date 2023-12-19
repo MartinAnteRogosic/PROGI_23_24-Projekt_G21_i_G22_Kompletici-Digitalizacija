@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -18,9 +20,9 @@ public class ImageController {
 
     private final ImageServiceImpl imageService;
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file")MultipartFile multipartFile){
+    public ResponseEntity<?> uploadImage(@RequestParam("file")MultipartFile multipartFile, Principal connectedEmployee){
 
-        String response = imageService.upload(multipartFile);
+        String response = imageService.upload(multipartFile, connectedEmployee);
         return ResponseEntity.ok(response);
     }
 }

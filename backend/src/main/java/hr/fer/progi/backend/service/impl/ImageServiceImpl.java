@@ -6,7 +6,13 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.Photo;
+import hr.fer.progi.backend.repository.EmployeeRepository;
+import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,10 +23,15 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class ImageServiceImpl implements ImageService {
+
+    private final PhotoRepository photoRepository;
+
     @Override
     public String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("kompletici.appspot.com", fileName);
@@ -63,7 +74,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String upload(MultipartFile multipartFile) {
+    public String upload(MultipartFile multipartFile, Principal connectedEmployee) {
 
         try {
             String fileName = multipartFile.getOriginalFilename();
@@ -72,6 +83,17 @@ public class ImageServiceImpl implements ImageService {
             File file = this.convertToFile(multipartFile, fileName);
             String URL = this.uploadFile(file, fileName);
             file.delete();
+
+
+            Employee employee = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+
+            Photo photo = Photo.builder()
+                    .employee(employee)
+                    .url(URL)
+                    .build();
+
+            photoRepository.save(photo);
+
             return URL;
         } catch (Exception ex){
             ex.printStackTrace();

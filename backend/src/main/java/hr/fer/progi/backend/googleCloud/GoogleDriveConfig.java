@@ -9,8 +9,8 @@ import java.io.IOException;
 @Configuration
 public class GoogleDriveConfig {
 
-    @Value("${google.drive.credentials.location}")
-    private String credentialsLocation;
+    /*@Value("${google.drive.credentials.location}")
+    private String credentialsLocation;*/
 
     @Bean
     public Drive driveService() throws IOException {

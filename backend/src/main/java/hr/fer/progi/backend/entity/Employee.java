@@ -35,7 +35,7 @@ public class Employee implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "scanEmployee", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Photo> scannedPhotos = new ArrayList<>();
 
     @OneToMany(mappedBy = "validationEmployee", cascade = CascadeType.ALL, orphanRemoval = false)

@@ -25,7 +25,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Document> getDocumentsByType(DocumentType documentType) {
-        return documentRepository.findByDocumentType(documentType);
+        return documentRepository.findByType(documentType);
     }
 
     @Override

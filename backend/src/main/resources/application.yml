@@ -1,9 +1,19 @@
+google:
+    drive:
+        auth-provider-cert-url: https://www.googleapis.com/oauth2/v1/certs
+        auth-uri: https://accounts.google.com/o/oauth2/auth
+        client-id: 67624484167-res3plrphg908kjipt4o9qkevm8pbv4e.apps.googleusercontent.com
+        client-secret: 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
+        project-id: kompletici
+        token-uri: https://oauth2.googleapis.com/token
+
+
 spring:
     datasource:
         driver-class-name: org.postgresql.Driver
-        username: postgres
-        password: baze
+        password: bazepodataka
         url: jdbc:postgresql://localhost:5432/Kompletici
+        username: postgres
     jpa:
         hibernate:
             ddl-auto: create-drop
@@ -19,7 +29,9 @@ application:
         jwt:
             secret-key: 7iAGHtY6YttfJhHwAm6M5ZWidInVYZ+Una6I392a+sZdXfRNTiLebEFmagTx3u0b
             expiration: 86400000 # one day
+
+
 logging:
     level:
-      org:
-          springframework: DEBUG
+        org:
+            springframework: DEBUG

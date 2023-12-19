@@ -25,7 +25,7 @@ public class ArchiveOfferEntity {
     private String documentID;
 
     @ManyToOne
-    @JoinColumn(name = "documentID", referencedColumnName = "documentID", insertable = false, updatable = false)
+    @JoinColumn(name = "doucment_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Document document;
 
 }

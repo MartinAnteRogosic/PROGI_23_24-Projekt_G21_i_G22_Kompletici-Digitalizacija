@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 
 public interface ImageService {
 
@@ -13,5 +14,5 @@ public interface ImageService {
 
     String getExtension(String fileName);
 
-    String upload(MultipartFile multipartFile);
+    String upload(MultipartFile multipartFile, Principal connectedEmployee);
 }
