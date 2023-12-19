@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.service.impl.ArchiveService;
+import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/archive")
 public class ArchiveController {
 
-    private final ArchiveService documentService;
+    private final ArchiveServiceImpl documentService;
 
     @Autowired
-    public ArchiveController(ArchiveService documentService) {
+    public ArchiveController(ArchiveServiceImpl documentService) {
         this.documentService = documentService;
     }
 
     @PostMapping("/archiveDocument")
-    public String archiveDocument(@RequestParam String documentId) {
+    public String archiveDocument(@RequestParam Long documentId) {
         try {
             documentService.archiveDocument(documentId);
             return "Document archived successfully";

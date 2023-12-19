@@ -1,12 +1,11 @@
 package hr.fer.progi.backend.repository;
 
-import hr.fer.progi.backend.entity.DocumentEntity;
+import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface DocumentRepository extends JpaRepository<DocumentEntity, String> {
-    List<DocumentEntity> findByDocumentType(String documentType);
+public interface DocumentRepository extends JpaRepository<Document, Long> {
+    List<Document> findByDocumentType(DocumentType documentType);
 }

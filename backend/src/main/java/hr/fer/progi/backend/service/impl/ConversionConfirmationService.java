@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.entity.Document;
-import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class ConversionConfirmationService {
         this.documentRepository = documentRepository;
     }
 
-    public ImageProcessingResult processDocumentForConfirmation(String documentId) {
+    public ImageProcessingResult processDocumentForConfirmation(Long documentId) {
         Document document = documentRepository.findById(documentId).orElse(null);
         String uploadedImagePath = "";
         String processedImagePath = "";
@@ -25,8 +24,8 @@ public class ConversionConfirmationService {
         return new ImageProcessingResult(uploadedImagePath, processedImagePath, satisfied);
     }
 
-    public void confirmConversion(String documentId, boolean superVerified) {
-        DocumentEntity document = documentRepository.findById(documentId).orElse(null);
+    public void confirmConversion(Long documentId, boolean superVerified) {
+        Document document = documentRepository.findById(documentId).orElse(null);
         if (document != null) {
             document.setSuperVerified(superVerified);
             documentRepository.save(document);

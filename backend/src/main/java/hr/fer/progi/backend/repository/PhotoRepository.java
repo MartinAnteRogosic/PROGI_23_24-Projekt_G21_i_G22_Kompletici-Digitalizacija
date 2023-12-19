@@ -1,7 +1,6 @@
-package hr.fer.progi.backend.repositroy;
+package hr.fer.progi.backend.repository;
 
 import hr.fer.progi.backend.entity.Photo;
-import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

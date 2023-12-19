@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.entity.DocumentEntity;
+import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.service.impl.ConversionConfirmationService;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
@@ -19,17 +20,17 @@ public class ConversionConfirmationController {
 
 
     @GetMapping("/documents/{documentType}")
-    public List<DocumentEntity> getDocumentsForConfirmation(@PathVariable String documentType) {
+    public List<Document> getDocumentsForConfirmation(@PathVariable DocumentType documentType) {
         return documentService.getDocumentsByType(documentType);
     }
 
     @GetMapping("/document/{documentId}")
-    public ImageProcessingResult getDocumentForConfirmation(@PathVariable String documentId) {
+    public ImageProcessingResult getDocumentForConfirmation(@PathVariable Long documentId) {
         return conversionConfirmationService.processDocumentForConfirmation(documentId);
     }
 
     @PostMapping("/confirm/{documentId}")
-    public void confirmConversion(@PathVariable String documentId, @RequestBody boolean superVerified) {
+    public void confirmConversion(@PathVariable Long documentId, @RequestBody boolean superVerified) {
         conversionConfirmationService.confirmConversion(documentId, superVerified);
     }
 }

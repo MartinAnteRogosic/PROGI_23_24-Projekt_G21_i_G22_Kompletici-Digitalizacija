@@ -4,7 +4,7 @@ package hr.fer.progi.backend.service.impl;
 import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-import hr.fer.progi.backend.repositroy.EmployeeRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
 import hr.fer.progi.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;

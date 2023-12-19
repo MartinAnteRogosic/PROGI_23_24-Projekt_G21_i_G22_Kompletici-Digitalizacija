@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.repository;
 
 import hr.fer.progi.backend.entity.Employee;
-import hr.fer.progi.backend.repositroy.EmployeeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

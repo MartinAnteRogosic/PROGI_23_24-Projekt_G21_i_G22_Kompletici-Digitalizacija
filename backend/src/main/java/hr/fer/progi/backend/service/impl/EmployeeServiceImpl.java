@@ -5,7 +5,7 @@ import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.exception.ChangePasswordException;
-import hr.fer.progi.backend.repositroy.EmployeeRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

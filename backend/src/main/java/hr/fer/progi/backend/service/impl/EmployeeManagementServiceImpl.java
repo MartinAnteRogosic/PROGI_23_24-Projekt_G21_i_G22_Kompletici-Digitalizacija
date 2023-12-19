@@ -4,7 +4,7 @@ import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-import hr.fer.progi.backend.repositroy.EmployeeRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

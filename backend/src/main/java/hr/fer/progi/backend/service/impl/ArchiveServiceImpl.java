@@ -5,25 +5,28 @@ import hr.fer.progi.backend.repository.ArchiveInternalDocRepository;
 import hr.fer.progi.backend.repository.ArchiveOfferRepository;
 import hr.fer.progi.backend.repository.ArchiveRecieptRepository;
 import hr.fer.progi.backend.repository.DocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import hr.fer.progi.backend.service.ArchiveService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
-public class ArchiveService {
+public class ArchiveServiceImpl implements ArchiveService {
 
-    @Autowired
-    private ArchiveRecieptRepository archiveRecieptRepository;
 
-    @Autowired
-    private ArchiveOfferRepository archiveOfferRepository;
+    private final ArchiveRecieptRepository archiveRecieptRepository;
 
-    @Autowired
-    private ArchiveInternalDocRepository archiveInternalDocRepository;
 
-    @Autowired
-    private DocumentRepository documentRepository;
+    private final ArchiveOfferRepository archiveOfferRepository;
 
-    public void archiveDocument(String documentID) {
+
+    private final ArchiveInternalDocRepository archiveInternalDocRepository;
+
+
+    private final DocumentRepository documentRepository;
+
+    @Override
+    public void archiveDocument(Long documentID) {
         // Retrieve the document from the DocumentEntity
         Document document = documentRepository.findById(documentID)
                 .orElseThrow(() -> new RuntimeException("Document not found with ID: " + documentID));
