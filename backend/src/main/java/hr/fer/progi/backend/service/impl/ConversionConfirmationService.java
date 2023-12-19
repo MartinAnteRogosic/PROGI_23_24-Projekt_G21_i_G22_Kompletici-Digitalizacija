@@ -1,6 +1,8 @@
 package hr.fer.progi.backend.service.impl;
 
+import com.google.api.services.drive.model.File;
 import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,19 @@ public class ConversionConfirmationService {
 
     public ImageProcessingResult processDocumentForConfirmation(Long documentId) {
         Document document = documentRepository.findById(documentId).orElse(null);
-        String uploadedImagePath = "";
-        String processedImagePath = "";
+        File uploadedImagePath = null;
+        File processedImagePath = null;
         boolean satisfied = true;
         return new ImageProcessingResult(uploadedImagePath, processedImagePath, satisfied);
     }
 
-    public void confirmConversion(Long documentId, boolean superVerified) {
-        Document document = documentRepository.findById(documentId).orElse(null);
-        if (document != null) {
-            document.setSuperVerified(superVerified);
-            documentRepository.save(document);
-        }
+    public void confirmConversion(Long documentId, Boolean superVerified) {
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() ->
+                        new DocumentNotFoundException(String.format("Document with id %d could not be found.", documentId)));
+
+        document.setSuperVerified(superVerified);
+        documentRepository.save(document);
+
     }
 }

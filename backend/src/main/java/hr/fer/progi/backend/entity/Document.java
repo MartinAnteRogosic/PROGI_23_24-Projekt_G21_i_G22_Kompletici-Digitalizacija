@@ -32,6 +32,8 @@ public class Document {
     @JoinColumn(name = "validation_employee_id")
     private Employee validationEmployee;
 
+    private Boolean superVerified;
+
     private Boolean signed;
 
 

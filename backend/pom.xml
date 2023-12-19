@@ -111,6 +111,17 @@
 			<artifactId>tess4j</artifactId>
 			<version>4.5.1</version>
 		</dependency>
+
+		<!-- firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.1.1</version>
+		</dependency>
+
+		<!-- firebase end -->
+
+		<!-- google cloud -->
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
@@ -126,7 +137,7 @@
 			<artifactId>google-oauth-client-jetty</artifactId>
 			<version>1.34.1</version>
 		</dependency>
-
+		<!-- google cloud end -->
 	</dependencies>
 
 	<build>
