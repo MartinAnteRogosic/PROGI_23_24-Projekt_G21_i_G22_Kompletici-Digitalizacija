@@ -8,6 +8,7 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import hr.fer.progi.backend.entity.Employee;
 import hr.fer.progi.backend.entity.Photo;
+import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
@@ -89,6 +90,7 @@ public class ImageServiceImpl implements ImageService {
 
             Photo photo = Photo.builder()
                     .employee(employee)
+                    .fileName(fileName)
                     .url(URL)
                     .build();
 
@@ -100,5 +102,30 @@ public class ImageServiceImpl implements ImageService {
             return "Image could not be uploaded, something went wrong :(";
         }
 
+    }
+
+    /*ovo je sam testno, nece ovak radit*/
+    @Override
+    public String delete(Long imageId) throws IOException {
+        Photo photo = photoRepository.findById(imageId)
+                .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
+
+
+        BlobId blobId = BlobId.of("kompletici.appspot.com", photo.getFileName());
+
+
+        InputStream inputStream = ImageService.class
+                .getClassLoader()
+                .getResourceAsStream("kompletici-firebase-adminsdk-4g7dm-326a116887.json");
+
+        Credentials credentials = GoogleCredentials.fromStream(inputStream);
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();
+
+        storage.delete(blobId);
+
+        return "Deleted successfully";
     }
 }

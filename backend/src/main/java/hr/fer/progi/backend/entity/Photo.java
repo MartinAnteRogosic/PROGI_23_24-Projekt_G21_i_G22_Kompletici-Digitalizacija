@@ -20,6 +20,7 @@ public class Photo {
     private Long id;
 
     private String url;
+    private String fileName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")

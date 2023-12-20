@@ -15,4 +15,6 @@ public interface ImageService {
     String getExtension(String fileName);
 
     String upload(MultipartFile multipartFile, Principal connectedEmployee);
+
+    String delete(Long imageId) throws IOException;
 }
