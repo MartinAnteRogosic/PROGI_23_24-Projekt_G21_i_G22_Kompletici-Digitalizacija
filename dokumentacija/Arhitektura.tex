@@ -42,12 +42,13 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{RegisteredUser}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}userId & VARCHAR(10)	&  	Jedinstveni identifikator svakog zaposlenika  	\\ \hline
-					userName	& VARCHAR(30) &   Ime i prezime korisnika	\\ \hline 
-					userFunction & VARCHAR(10) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
-					userPassword & VARCHAR(30)	&  	Korisnikova lozinka	\\ \hline 
-					userEmail & VARCHAR(50)   &   E-mail korisnika \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{User}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}id & VARCHAR(10)	&  	Jedinstveni identifikator svakog zaposlenika  	\\ \hline
+					name	& CHAR(30) &   Ime korisnika	\\ \hline
+                    surname & CHAR(30) &   Prezime korisnika    \\ \hline 
+					function & CHAR(10) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
+					password & VARCHAR(30)	&  	Korisnikova lozinka	\\ \hline 
+					email & VARCHAR(50)   &   E-mail korisnika \\ \hline
 				\end{longtblr}
 				
 				\begin{longtblr}[
@@ -58,22 +59,102 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					}
-					\hline \SetCell[c=3]{c}{\textbf{LoginRecord}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} userId	& VARCHAR(10)   &   Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline 
-					loginDateTime & TIMESTAMP &   Datum i vrijeme prijave korisnika \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{Photos}}	 \\ \hline[3pt]
+					\SetCell{LightBlue} id	& VARCHAR(10)   &   Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline
+                    \SetCell{LightGreen} photoID  & VARCHAR(10)   &   Jedinstveni identifikator fotografije \\ \hline
+                    url   & VARCHAR(255)   &  URL fotografije \\ \hline
+                    imageName   & VARCHAR(10)  &  Ime prenesene fotografije \\ \hline
+                    uploadTime  & TIMESTAMP  &  Datum i vrijeme prijenosa fotografije \\ \hline
 				\end{longtblr}
-			
+
+                \begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} id  &  VARCHAR(10)  &  Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline
+                    \SetCell{LightGreen} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator prenesenog dokumenta \\ \hline
+                    verifierID  &  VARCHAR(10)  &  Jedinstveni identifikator zaposlenika koji je potvrdio dokument \\ \hline
+                    correct  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument ispravno skeniran \\ \hline
+                    documentType  &  VARCHAR(20)  &  Tip dokumenta (limitirano na Račun, Ponuda i Interni dokument) \\ \hline
+                    signed  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane direktora \\ \hline
+                    verified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane računovođe \\ \hline
+                    superVerified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane nadležne osobe \\ \hline
+                \end{longtblr}
+
+                \begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{ArchiveReciept}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
+                    \SetCell{LightGreen} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa \\ \hline
+                    clientName  &  VARCHAR(50)  &  Ime klijenta \\ \hline
+                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+                \end{longtblr}
+
+                \begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{ArchiveOffer}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
+                    \SetCell{LightGreen} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda \\ \hline
+                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+                \end{longtblr}
+
+                \begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{ArchiveInternalDoc}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
+                    \SetCell{LightGreen} archIntDocID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi internih dokumenata \\ \hline
+                    text  &  TEXT  &  Tekst arhiviranog internog dokumenta  \\ \hline
+                \end{longtblr}
+
+                \begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{Articles}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa izveden iz tablice ArchiveReciept \\ \hline
+                    \SetCell{LightBlue} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda izveden iz tablice ArchiveOffer \\ \hline
+                    articleName  &  VARCHAR(50)  &  Ime artikla \\ \hline
+                    price  &  FLOAT  &  Cijena artikla  \\ \hline
+                \end{longtblr}    
+
 			\subsection{Dijagram baze podataka}
 				
 				\begin{figure}[H]
-					\includegraphics[scale=0.6]{slike/kompleticiER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.6]{slike/kompletici_v2_ER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{ER dijagram baze podataka}
 					\label{fig:promjene}
 				\end{figure}
 				
 					\begin{figure}[H]
-					\includegraphics[scale=0.5]{slike/kompleticiREL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.5]{slike/kompletici_v2_REL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{REL dijagram baze podataka}
 					\label{fig:promjene}
