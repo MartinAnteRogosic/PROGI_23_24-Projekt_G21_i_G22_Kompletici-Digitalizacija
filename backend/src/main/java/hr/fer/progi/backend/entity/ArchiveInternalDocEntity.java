@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 public class ArchiveInternalDocEntity {
 
     @Id
-    @Column(name = "archIntDocID", length = 10, nullable = false)
+    @Column(name = "archIntDocID", length = 10, nullable = true)
     private String archIntDocID;
 
-    @Column(name = "text", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "text", columnDefinition = "TEXT", nullable = true)
     private String text;
 
-    @Column(name = "documentID", length = 10, nullable = false)
+    @Column(name = "documentID", length = 10, nullable = true)
     private String documentID;
 
     @ManyToOne

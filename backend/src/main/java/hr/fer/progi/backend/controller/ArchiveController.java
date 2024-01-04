@@ -1,22 +1,19 @@
 package hr.fer.progi.backend.controller;
 
+import hr.fer.progi.backend.dto.AllArchiveDocumentsDto;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/archive")
+@RequestMapping("/api/v1/archive")
 public class ArchiveController {
 
     private final ArchiveServiceImpl documentService;
-
-    @Autowired
-    public ArchiveController(ArchiveServiceImpl documentService) {
-        this.documentService = documentService;
-    }
 
     @PostMapping("/archiveDocument")
     public String archiveDocument(@RequestParam Long documentId) {
@@ -26,5 +23,11 @@ public class ArchiveController {
         } catch (Exception e) {
             return "Error archiving document: " + e.getMessage();
         }
+    }
+
+    @GetMapping("/all-archive-documents")
+    public ResponseEntity<?> getAllArchivedDocuments() {
+        AllArchiveDocumentsDto allArchiveDocumentsDto = documentService.getAllArchivedDocuments();
+        return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
     }
 }

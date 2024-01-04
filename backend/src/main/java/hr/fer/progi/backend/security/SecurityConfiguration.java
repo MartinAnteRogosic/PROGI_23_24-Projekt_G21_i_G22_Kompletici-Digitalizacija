@@ -50,6 +50,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(GET, "/api/v1/document/change-category").hasAuthority(CHANGE_DOCUMENT_CATEGORY.name())
 
                                 .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+
+                                .requestMatchers("/api/v1/archive/**").hasAnyRole(REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
                                 .anyRequest()
                                 .authenticated()
                 )

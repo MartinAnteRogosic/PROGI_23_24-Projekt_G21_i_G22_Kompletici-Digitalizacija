@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 public class ArchiveOfferEntity {
 
     @Id
-    @Column(name = "arcOfferID", length = 10, nullable = false)
+    @Column(name = "arcOfferID", length = 10, nullable = true)
     private String arcOfferID;
 
-    @Column(name = "totalPrice", nullable = false)
+    @Column(name = "totalPrice", nullable = true)
     private Float totalPrice;
 
-    @Column(name = "documentID", length = 10, nullable = false)
+    @Column(name = "documentID", length = 10, nullable = true)
     private String documentID;
 
     @ManyToOne

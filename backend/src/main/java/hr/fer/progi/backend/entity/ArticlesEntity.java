@@ -32,7 +32,7 @@ public class ArticlesEntity {
 
     @ManyToOne
     @JoinColumn(name = "arcRecID", referencedColumnName = "arcRecID", insertable = false, updatable = false)
-    private ArchiveRecieptEntity archiveReciept;
+    private ArchiveReceiptEntity archiveReciept;
 
     @ManyToOne
     @JoinColumn(name = "arcOfferID", referencedColumnName = "arcOfferID", insertable = false, updatable = false)
@@ -80,11 +80,11 @@ public class ArticlesEntity {
         this.arcOfferID = arcOfferID;
     }
 
-    public ArchiveRecieptEntity getArchiveReciept() {
+    public ArchiveReceiptEntity getArchiveReciept() {
         return archiveReciept;
     }
 
-    public void setArchiveReciept(ArchiveRecieptEntity archiveReciept) {
+    public void setArchiveReciept(ArchiveReceiptEntity archiveReciept) {
         this.archiveReciept = archiveReciept;
     }
 

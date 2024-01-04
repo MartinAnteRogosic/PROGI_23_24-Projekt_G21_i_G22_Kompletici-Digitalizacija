@@ -12,19 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "ArchiveReciept")
-public class ArchiveRecieptEntity {
+public class ArchiveReceiptEntity {
 
     @Id
-    @Column(name = "arcRecID", length = 10, nullable = false)
+    @Column(name = "arcRecID", length = 10, nullable = true)
     private String arcRecID;
 
-    @Column(name = "clientName", length = 50, nullable = false)
+    @Column(name = "clientName", length = 50, nullable = true)
     private String clientName;
 
-    @Column(name = "totalPrice", nullable = false)
+    @Column(name = "totalPrice", nullable = true)
     private Float totalPrice;
 
-    @Column(name = "documentID", length = 10, nullable = false)
+    @Column(name = "documentID", length = 10, nullable = true)
     private String documentID;
 
     @ManyToOne

@@ -1,6 +1,10 @@
 package hr.fer.progi.backend;
 
 import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentType;
+import hr.fer.progi.backend.repository.DocumentRepository;
+import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import hr.fer.progi.backend.service.impl.AuthenticationServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +21,14 @@ public class BackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(AuthenticationServiceImpl authenticationService){
+	public CommandLineRunner commandLineRunner(
+			AuthenticationServiceImpl authenticationService,
+			DocumentRepository documentRepository,
+			ArchiveServiceImpl archiveService
+			) {
 		return args -> {
+
+			/* adding test users */
 			EmployeeDto director = EmployeeDto.builder()
 					.firstName("Ivan")
 					.lastName("Horvat")
@@ -55,6 +65,23 @@ public class BackendApplication {
 			authenticationService.register(accountant);
 			authenticationService.register(reviser);
 			authenticationService.register(employee);
+
+			/* adding test documents */
+			Document racun = Document.builder()
+					.type(DocumentType.RAČUN)
+					.url("url_račun")
+					.build();
+
+			Document ponuda = Document.builder()
+					.type(DocumentType.PONUDA)
+					.url("url_ponuda")
+					.build();
+
+			documentRepository.save(racun);
+			documentRepository.save(ponuda);
+			archiveService.archiveDocument(1L);
+			archiveService.archiveDocument(2L);
+
 		};
 	}
 }
