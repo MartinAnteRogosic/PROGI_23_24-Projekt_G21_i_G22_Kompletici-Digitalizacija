@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import RoleSlider from "./RoleSlider";
 import PasswordCheckList from "react-password-checklist";
+import axios from "axios";
 
 import img1 from '../img/ante.png';
 import img2 from '../img/ante_zoom.png';
@@ -13,46 +14,44 @@ export const Register = (props) => {
     const images = [
         {
             image: img1,
-            role: 'zaposlenik'
+            role: 'EMPLOYEE'
         },
         {
             image: img2,
-            role: 'revizor'
+            role: 'REVISER'
         },
         {
             image: img3,
-            role: 'računovođa'
+            role: 'ACCOUNTANT'
         },
         {
             image: img4,
-            role: 'direktor'
+            role: 'DIRECTOR'
         }
     ];
 
     const [email,  setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [name, setName] = useState('');
-    const [role, setRole] = useState('zaposlenik')
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
+    const [role, setRole] = useState('EMPLOYEE')
 
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const formJSON = Object.fromEntries(formData.entries());
-        formJSON.userFunction = role
+        formJSON.role = role
         //console.log(formJSON);
         try {
-            await fetch("http://localhost:8080/register", {
-                method: "POST",
-                mode: "cors",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify(formJSON)
+            await axios.post("http://localhost:8080/api/v1/authenticate/register", formJSON, {
+                headers: { "Content-Type": "application/json" },
             });
             alert("Registracija uspješna");
         }
         catch (err) {
-            alert(err);
+            alert(err.message || "Error during registration");
         }
-      }
+    }
 
     return (
         <div className="form-container">
@@ -60,15 +59,17 @@ export const Register = (props) => {
             <RoleSlider images={images} onChangeRole={setRole}/>
 
             <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="userName">Full name: </label>
-                <input value={name} onChange={(e) => setName(e.target.value)} name="userName" id="userName" placeholder="full Name" />
+                <label htmlFor="firstName">First name: </label>
+                <input value={firstname} onChange={(e) => setFirstName(e.target.value)} name="firstName" id="firstName" placeholder="first name" />
 
+                <label htmlFor="lastName">Last name: </label>
+                <input value={lastname} onChange={(e) => setLastName(e.target.value)} name="lastName" id="lastName" placeholder="last Name" />
 
-                <label htmlFor="userEmail">email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="userEmail" name="userEmail"/>
+                <label htmlFor="email">Email</label>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email"/>
 
-                <label htmlFor="userPassword">password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="userPassword" name="userPassword"/>
+                <label htmlFor="password">Password</label>
+                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password"/>
 
                 <PasswordCheckList rules={["minLength", "specialChar", "number", "capital"]}
                                     minLength={6}

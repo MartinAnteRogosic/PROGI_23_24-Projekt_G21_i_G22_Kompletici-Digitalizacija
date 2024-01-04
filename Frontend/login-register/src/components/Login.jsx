@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { userContext } from "../userContext";
 import { useContext } from "react";
+import axios from "axios";
+import { API } from "../api";
 
 export const Login = (props) => {
   const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [password, setPass] = useState('');
   const navigate = useNavigate();
   const { user, setUser } = useContext(userContext);
 
@@ -13,40 +15,34 @@ export const Login = (props) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formJSON = Object.fromEntries(formData.entries());
-    //console.log(formJSON);
+    console.log(formJSON);
     try {
-      const res = await fetch("http://localhost:8080/login", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(formJSON)
-      })
-      if (res.status == 200){
-        const user = await res.json();
+      const res = await API.post("/api/v1/authenticate/login", formJSON);
+      console.log(res);
+      if (res.data.accessToken) {
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        const user = {
+          "firstName": res.data.firstName,
+          "lastName": res.data.lastName,
+          "role": res.data.role
+        };
         setUser(user);
         navigate('/home');
-        console.log(user);
       }
-      else if (res.status == 404){
-        alert("E-mail ne postoji, molimo registrirajte se");
-      }
-      else {
-        alert("Kriva lozinka");
-      }
-    } catch(err) {
+    } catch (err) {
       alert(err);
     }
   }
-
 
   return (
     <div className="form-container">
 
       <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="userEmail">email</label>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="userEmail" name="userEmail" />
+        <label htmlFor="email">email</label>
+        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email" />
 
-        <label htmlFor="userPassword">password</label>
-        <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="userPassword" name="userPassword" />
+        <label htmlFor="password">password</label>
+        <input value={password} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password" />
 
         <button type="submit">Log In</button>
 
