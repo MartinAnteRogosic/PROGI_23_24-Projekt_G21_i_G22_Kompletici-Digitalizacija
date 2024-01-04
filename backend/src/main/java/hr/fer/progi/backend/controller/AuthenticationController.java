@@ -7,12 +7,10 @@ import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.dto.RegistrationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/authenticate")
 @RequiredArgsConstructor
 public class AuthenticationController {

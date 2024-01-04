@@ -4,15 +4,13 @@ import hr.fer.progi.backend.entity.Document;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping("/documents")
 public class DocumentController {
 
