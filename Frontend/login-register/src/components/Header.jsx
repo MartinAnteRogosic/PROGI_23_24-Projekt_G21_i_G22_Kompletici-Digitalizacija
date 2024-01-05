@@ -21,8 +21,7 @@ const Header = () => {
         <div className="header">
           <div className="user-info">
           <img src={img1} alt="User" className="user-image" />
-          <span className="username">NAME: { user.firstName }</span>
-          <br></br>
+          <span className="username">NAME: { user.firstName + ' ' + user.lastName }</span>
           <span className="username">ROLE: { user.role }</span>
           <button onClick={handleLogout}>Log out</button>
         </div>

@@ -3,12 +3,8 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 20px;
-}
-.user-info {
-    position: absolute;
-    top: 1.5rem;
-    left: 2.5rem;
+    position: sticky;
+    top: 0;
 }
 
 .user-image {
@@ -20,6 +16,8 @@
 
 .username {
     font-weight: bold;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .center-links {
