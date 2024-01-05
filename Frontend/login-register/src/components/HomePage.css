@@ -7,41 +7,6 @@
   padding-top: 20px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 20px;
-}
-
-.user-info {
-  position: absolute;
-  top: 1.5rem;
-  left: 2.5rem;
-}
-
-.user-image {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.username {
-  font-weight: bold;
-}
-
-.center-links {
-  text-align: center;
-}
-
-.center-links a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: black;
-}
-
 .menu-bar {
   background-color: #eee;
   width: 100%;

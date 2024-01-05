@@ -6,6 +6,7 @@ import img3 from '../img/ante_obrnut.png';
 import img4 from '../img/ante_inverzni.png';
 import { userContext } from '../userContext';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 
 
 const HomePage = () => {
@@ -18,23 +19,7 @@ const HomePage = () => {
   };
   return (
     <div className="home-page">
-      <div className="header">
-        { user === null ? (<span>Niste prijavljeni</span>) : (
-          <div className="user-info">
-          <img src={img1} alt="User" className="user-image" />
-          <span className="username">NAME: { user.firstName }</span>
-          <br></br>
-          <span className="username">ROLE: { user.role }</span>
-        </div>
-        )}
-        
-
-        <div className="center-links">
-          <a href="/statistic">Statistic</a>
-          <Link to={`/requests`}>Requests</Link>
-        </div>
-
-      </div>
+      <Header />
       
       <div className="menu-bar">
         <ul>
