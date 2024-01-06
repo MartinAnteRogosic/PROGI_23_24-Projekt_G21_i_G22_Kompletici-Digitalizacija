@@ -6,8 +6,6 @@ const ArchiveItem = ({ id }) => {
     return (
         <div className="archive-item">
             <span>{id}</span>
-            <button>Delete</button>
-            <button>Share</button>
         </div>
     );
 }

@@ -60,16 +60,16 @@ export const Register = (props) => {
 
             <form className="register-form" onSubmit={handleSubmit}>
                 <label htmlFor="firstName">First name: </label>
-                <input value={firstname} onChange={(e) => setFirstName(e.target.value)} name="firstName" id="firstName" placeholder="first name" />
+                <input value={firstname} onChange={(e) => setFirstName(e.target.value)} name="firstName" id="firstName" placeholder="first name" required/>
 
                 <label htmlFor="lastName">Last name: </label>
-                <input value={lastname} onChange={(e) => setLastName(e.target.value)} name="lastName" id="lastName" placeholder="last Name" />
+                <input value={lastname} onChange={(e) => setLastName(e.target.value)} name="lastName" id="lastName" placeholder="last Name" required/>
 
                 <label htmlFor="email">Email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email"/>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name="email" required/>
 
                 <label htmlFor="password">Password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password"/>
+                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password" required/>
 
                 <PasswordCheckList rules={["minLength", "specialChar", "number", "capital"]}
                                     minLength={6}

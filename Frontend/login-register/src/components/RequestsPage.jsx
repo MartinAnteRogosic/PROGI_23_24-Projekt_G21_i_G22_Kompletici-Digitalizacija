@@ -1,28 +1,43 @@
-import React, { useContext, useEffect } from "react";
-import { userContext } from "../userContext";
-
-const showRequests = () => {
-
-};
+import React from "react";
+import { API } from "../api";
+import RequestItem from "./RequestItem";
+import Header from "./Header";
+import './RequestsPage.css';
 
 const RequestsPage = () => {
-    useEffect(() => {
-        const handleRequestRoute = () => {
-            showRequests();
+    const userinfo = JSON.parse(sessionStorage.getItem("user"));
+
+    const user = {
+        firstName: userinfo.firstName,
+        lastName: userinfo.lastName,
+        role: userinfo.role,
+    };
+
+    const config = {
+    headers: {
+        Authorization: "Bearer " + userinfo.accessToken,
+        "Access-Control-Allow-Origin": "*",
+        },
+    };
+
+    async function getRequests() {
+        try {
+            //if logged-in user is revisor, send request for all documents and photos where verifierID == revisor's ID
+            //if logged-in user is accountant, send request for all documents and photos where verified == true, archived == false and documentType == accountant's type
+            //if logged-in user is director, send request for all documents and photos where signatureFromID == director's ID and signed == false
+          const res = await API.get("", config);
+        } catch (err) {
+          console.log(err);
         }
-    })
-    const { user } = useContext(userContext);
+      }
 
     return (
-        <div>
-            <button onClick={showRequests}>Osvježi</button>
-            <ul>
-                <li>item 1
-                    <button>Odobri</button>
-                    <button>Share</button>
-                    <button>Arhiviraj</button>
-                    <button>Pošalji direktoru</button>
-                    <button>Proslijedi računovođi</button>
+        <div className="requests-container">
+            <Header />
+            <button onClick={getRequests}>Refresh</button>
+            <ul className="request-items">
+                <li>
+                    <RequestItem />
                 </li>
             </ul>
         </div>
