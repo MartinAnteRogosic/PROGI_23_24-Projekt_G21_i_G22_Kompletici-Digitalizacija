@@ -62,5 +62,16 @@ public class DocumentServiceImpl implements DocumentService {
         return "Successfully changed document type";
     }
 
+   @Override
+   public List<Document> getAllDocumentsForUser(Long userId) {
+       return documentRepository.findAllById(userId);
+   }
+
+    @Override
+    public Photo getPhotoById(Long photoId) {
+        return photoRepository.findById(photoId).orElse(null);
+
+    }
+
 
 }

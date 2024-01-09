@@ -31,4 +31,6 @@ public class ArchiveController {
         AllArchiveDocumentsDto allArchiveDocumentsDto = documentService.getAllArchivedDocuments();
         return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
     }
+
+
 }

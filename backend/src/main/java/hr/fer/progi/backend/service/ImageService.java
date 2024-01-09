@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.service;
 
+import hr.fer.progi.backend.entity.Photo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,4 +18,5 @@ public interface ImageService {
     String upload(MultipartFile multipartFile, Principal connectedEmployee);
 
     String delete(Long imageId) throws IOException;
+
 }
