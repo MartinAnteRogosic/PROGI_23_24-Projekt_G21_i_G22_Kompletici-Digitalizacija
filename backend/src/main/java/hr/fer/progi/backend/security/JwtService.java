@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.security;
 
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -49,9 +49,9 @@ public class JwtService {
     }
 
 
-    public String generateToken(Employee employee){
+    public String generateToken(EmployeeEntity employeeEntity){
         return Jwts.builder()
-                .setSubject(employee.getUsername())
+                .setSubject(employeeEntity.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)

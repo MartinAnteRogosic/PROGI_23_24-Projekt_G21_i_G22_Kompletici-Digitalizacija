@@ -3,7 +3,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.exception.ChangePasswordException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
@@ -22,10 +22,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     public void changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
 
-        Employee employee = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
         /*checking is the current password is correct*/
-        if(!passwordEncoder.matches(request.getOldPassword(), employee.getPassword())){
+        if(!passwordEncoder.matches(request.getOldPassword(), employeeEntity.getPassword())){
             throw new ChangePasswordException("Wrong old password");
         }
 
@@ -36,15 +36,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ChangePasswordException("Password and password confirmation are not the same");
         }
 
-        if(passwordEncoder.matches(request.getNewPassword(), employee.getPassword())){
+        if(passwordEncoder.matches(request.getNewPassword(), employeeEntity.getPassword())){
             throw new ChangePasswordException("New password can't be the same as the old one.");
         }
 
 
-        employee.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        employeeEntity.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
         //save employee with new password
-        employeeRepository.save(employee);
+        employeeRepository.save(employeeEntity);
 
 
     }
@@ -52,18 +52,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public EmployeeDto mapToDto(Employee employee) {
+    public EmployeeDto mapToDto(EmployeeEntity employeeEntity) {
         return EmployeeDto.builder()
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .email(employee.getEmail())
-                .role(employee.getRole())
+                .firstName(employeeEntity.getFirstName())
+                .lastName(employeeEntity.getLastName())
+                .email(employeeEntity.getEmail())
+                .role(employeeEntity.getRole())
                 .build();
     }
 
     @Override
-    public Employee mapToEntity(EmployeeDto employeeDto) {
-        return Employee.builder()
+    public EmployeeEntity mapToEntity(EmployeeDto employeeDto) {
+        return EmployeeEntity.builder()
                 .firstName(employeeDto.getFirstName())
                 .lastName(employeeDto.getLastName())
                 .email(employeeDto.getEmail())
@@ -73,13 +73,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto mapToDtoForGetAll(Employee employee) {
+    public EmployeeDto mapToDtoForGetAll(EmployeeEntity employeeEntity) {
 
         return EmployeeDto.builder()
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .id(employee.getId())
-                .role(employee.getRole())
+                .firstName(employeeEntity.getFirstName())
+                .lastName(employeeEntity.getLastName())
+                .id(employeeEntity.getId())
+                .role(employeeEntity.getRole())
                 .build();
     }
 

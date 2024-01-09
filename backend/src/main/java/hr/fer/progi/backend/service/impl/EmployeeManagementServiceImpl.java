@@ -2,7 +2,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
@@ -29,29 +29,29 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
     @Override
     public void deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
 
-        Employee director = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        EmployeeEntity director = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
         if(!passwordEncoder.matches(deleteEmployeeAccountDto.getDirectorPassword(), director.getPassword())){
             throw new BadCredentialsException("Wrong password");
         }
 
 
-        Employee employee = employeeRepository.findById(deleteEmployeeAccountDto.getEmployeeId())
+        EmployeeEntity employeeEntity = employeeRepository.findById(deleteEmployeeAccountDto.getEmployeeId())
                 .orElseThrow(()->new EmployeeNotFoundException(
                         String.format("Employee with id %d could not be found", deleteEmployeeAccountDto.getEmployeeId())
                 ));
 
-        employeeRepository.delete(employee);
+        employeeRepository.delete(employeeEntity);
 
     }
 
     @Override
     public List<EmployeeDto> getAllEmployees() {
 
-        List<Employee> listOfEmployees = employeeRepository.findAll();
-        listOfEmployees.removeIf(employee -> employee.getRole().equals(DIRECTOR));
+        List<EmployeeEntity> listOfEmployeeEntities = employeeRepository.findAll();
+        listOfEmployeeEntities.removeIf(employee -> employee.getRole().equals(DIRECTOR));
 
-        return listOfEmployees.stream()
+        return listOfEmployeeEntities.stream()
                 .map(employeeService::mapToDtoForGetAll)
                 .collect(Collectors.toList());
     }

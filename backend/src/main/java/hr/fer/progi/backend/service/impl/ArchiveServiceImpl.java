@@ -25,32 +25,32 @@ public class ArchiveServiceImpl implements ArchiveService {
     @Override
     public void archiveDocument(Long documentID) {
         // Retrieve the document from the DocumentEntity
-        Document document = documentRepository.findById(documentID)
+        DocumentEntity documentEntity = documentRepository.findById(documentID)
                 .orElseThrow(() -> new RuntimeException("Document not found with ID: " + documentID));
 
         // Create ArchiveRecieptEntity and save
         ArchiveReceiptEntity archiveReciept = new ArchiveReceiptEntity();
-        archiveReciept.setArcRecID("RecID"); // Set a generated ID
+        archiveReciept.setArcRecID(1L); // Set a generated ID
         archiveReciept.setClientName("ClientName"); // Set client name
         archiveReciept.setTotalPrice(100.0f); // Set total price
-        archiveReciept.setDocument(document); // Set the document
+        archiveReciept.setDocument(documentEntity); // Set the document
         archiveRecieptRepository.save(archiveReciept);
 
         // Create ArchiveOfferEntity and save
         ArchiveOfferEntity archiveOffer = new ArchiveOfferEntity();
-        archiveOffer.setArcOfferID("OfferID"); // Set a generated ID
+        archiveOffer.setArcOfferID(1L); // Set a generated ID
         archiveOffer.setTotalPrice(150.0f); // Set total price
-        archiveOffer.setDocument(document); // Set the document
+        archiveOffer.setDocument(documentEntity); // Set the document
         archiveOfferRepository.save(archiveOffer);
 
         // Create ArchiveInternalDocEntity and save
         ArchiveInternalDocEntity archiveInternalDoc = new ArchiveInternalDocEntity();
-        archiveInternalDoc.setArchIntDocID("IntDocID"); // Set a generated ID
+        archiveInternalDoc.setArchIntDocID(1L); // Set a generated ID
         archiveInternalDoc.setText("Internal Document Text"); // Set internal document text
-        archiveInternalDoc.setDocument(document); // Set the document
+        archiveInternalDoc.setDocument(documentEntity); // Set the document
         archiveInternalDocRepository.save(archiveInternalDoc);
 
-        documentRepository.save(document);
+        documentRepository.save(documentEntity);
     }
 
     @Override

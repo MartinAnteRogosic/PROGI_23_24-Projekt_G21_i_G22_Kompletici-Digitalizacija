@@ -6,10 +6,9 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import hr.fer.progi.backend.entity.Employee;
-import hr.fer.progi.backend.entity.Photo;
+import hr.fer.progi.backend.entity.EmployeeEntity;
+import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
-import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -86,11 +85,11 @@ public class ImageServiceImpl implements ImageService {
             file.delete();
 
 
-            Employee employee = (Employee) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+            EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
-            Photo photo = Photo.builder()
-                    .employee(employee)
-                    .fileName(fileName)
+            PhotoEntity photo = PhotoEntity.builder()
+                    .uploadEmployee(employeeEntity)
+                    .imageName(fileName)
                     .url(URL)
                     .build();
 
@@ -107,11 +106,11 @@ public class ImageServiceImpl implements ImageService {
     /*ovo je sam testno, nece ovak radit*/
     @Override
     public String delete(Long imageId) throws IOException {
-        Photo photo = photoRepository.findById(imageId)
+        PhotoEntity photo = photoRepository.findById(imageId)
                 .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
 
 
-        BlobId blobId = BlobId.of("kompletici.appspot.com", photo.getFileName());
+        BlobId blobId = BlobId.of("kompletici.appspot.com", photo.getImageName());
 
 
         InputStream inputStream = ImageService.class

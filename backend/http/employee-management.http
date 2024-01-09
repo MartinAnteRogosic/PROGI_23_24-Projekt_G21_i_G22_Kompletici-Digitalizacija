@@ -21,14 +21,14 @@ Content-Type: application/json
 
 > {% client.global.set("auth-token", response.body.accessToken) %}
 
-### Get all employee statistics
-GET http://localhost:8080/api/v1/employee-management/statistics
+### Get all employeeEntity statistics
+GET http://localhost:8080/api/v1/employeeEntity-management/statistics
 Authorization: Bearer {{auth-token}}
 
-### Get employee statistics by id
-GET http://localhost:8080/api/v1/employee-management/statistics/1
+### Get employeeEntity statistics by id
+GET http://localhost:8080/api/v1/employeeEntity-management/statistics/1
 Authorization: Bearer {{auth-token}}
 
-### Delete employee account by id
-DELETE http://localhost:8080/api/v1/employee-management/delete-account/1
+### Delete employeeEntity account by id
+DELETE http://localhost:8080/api/v1/employeeEntity-management/delete-account/1
 Authorization: Bearer {{auth-token}}

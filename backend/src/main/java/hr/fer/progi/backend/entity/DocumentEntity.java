@@ -6,44 +6,50 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DocumentEntity")
+@Table(name = "Document")
 public class DocumentEntity {
 
     @Id
-    @Column(name = "documentID", length = 10, nullable = false)
-    private String documentID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "verifierID", length = 10, nullable = false, unique = true)
-    private String verifierID;
+    @Enumerated(EnumType.STRING)
+    private DocumentType type;
 
-    @Column(name = "correct", nullable = false)
-    private boolean correct;
+    private String url;
 
-    @Column(name = "documentType", length = 20, nullable = false)
-    private String documentType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scan_employee_id")
+    private EmployeeEntity scanEmployee;
 
-    @Column(name = "signed", nullable = false)
-    private boolean signed;
+    private Boolean correct;
 
-    @Column(name = "verified", nullable = false)
-    private boolean verified;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "validation_employee_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private EmployeeEntity validationEmployee;
 
-    @Column(name = "superVerified", nullable = false)
-    private boolean superVerified;
+    private Boolean superVerified;
 
-    @Column(name = "id", length = 10, nullable = false)
-    private String id;
+    private Boolean signed;
 
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Employee user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id", referencedColumnName = "photoID")
+    private PhotoEntity photo;
+
+    @OneToOne(mappedBy = "document")
+    private ArchiveInternalDocEntity archiveInternalDocEntity;
+
+    @OneToOne(mappedBy = "document")
+    private ArchiveOfferEntity archiveOfferEntity;
+
+    @OneToOne(mappedBy = "document")
+    private ArchiveReceiptEntity archiveReceiptEntity;
+
 
 }
-

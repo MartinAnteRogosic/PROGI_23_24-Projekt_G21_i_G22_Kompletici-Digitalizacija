@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.repository;
 
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static hr.fer.progi.backend.entity.Role.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class EmployeeRepositoryTest {
+public class EmployeeEntityRepositoryTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -24,7 +24,7 @@ public class EmployeeRepositoryTest {
     public void EmployeeRepository_SaveAll_ReturnSavedEmployee(){
 
         //Arrange
-        Employee employee = Employee.builder()
+        EmployeeEntity employeeEntity = EmployeeEntity.builder()
                 .firstName("Ivan")
                 .lastName("Horvat")
                 .email("ivan.horvat@gmail.com")
@@ -33,16 +33,16 @@ public class EmployeeRepositoryTest {
                 .build();
 
         //Act
-        Employee savedEmployee = employeeRepository.save(employee);
+        EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);
 
         //Assert
-        Assertions.assertThat(savedEmployee).isNotNull();
-        Assertions.assertThat(savedEmployee.getId()).isGreaterThan(0);
+        Assertions.assertThat(savedEmployeeEntity).isNotNull();
+        Assertions.assertThat(savedEmployeeEntity.getId()).isGreaterThan(0);
     }
 
     @Test
     public void EmployeeRepository_GetAll_ReturnsMoreThanOne(){
-        Employee employee1 = Employee.builder()
+        EmployeeEntity employeeEntity1 = EmployeeEntity.builder()
                 .firstName("Ivan")
                 .lastName("Horvat")
                 .email("ivan.horvat@gmail.com")
@@ -50,7 +50,7 @@ public class EmployeeRepositoryTest {
                 .role(DIRECTOR)
                 .build();
 
-        Employee employee2 = Employee.builder()
+        EmployeeEntity employeeEntity2 = EmployeeEntity.builder()
                 .firstName("Pero")
                 .lastName("Peric")
                 .email("pero.peric@gmail.com")
@@ -58,7 +58,7 @@ public class EmployeeRepositoryTest {
                 .role(EMPLOYEE)
                 .build();
 
-        Employee employee3 = Employee.builder()
+        EmployeeEntity employeeEntity3 = EmployeeEntity.builder()
                 .firstName("Ivo")
                 .lastName("Ivic")
                 .email("ivo.ivic@gmail.com")
@@ -66,19 +66,19 @@ public class EmployeeRepositoryTest {
                 .role(REVISER)
                 .build();
 
-        Employee savedEmployee1 = employeeRepository.save(employee1);
-        Employee savedEmployee2 = employeeRepository.save(employee2);
-        Employee savedEmployee3 = employeeRepository.save(employee3);
+        EmployeeEntity savedEmployee1Entity = employeeRepository.save(employeeEntity1);
+        EmployeeEntity savedEmployee2Entity = employeeRepository.save(employeeEntity2);
+        EmployeeEntity savedEmployee3Entity = employeeRepository.save(employeeEntity3);
 
-        List<Employee> employeeList = employeeRepository.findAll();
+        List<EmployeeEntity> employeeEntityList = employeeRepository.findAll();
 
-        Assertions.assertThat(employeeList).isNotNull();
-        Assertions.assertThat(employeeList.size()).isEqualTo(3);
+        Assertions.assertThat(employeeEntityList).isNotNull();
+        Assertions.assertThat(employeeEntityList.size()).isEqualTo(3);
     }
 
     @Test
     public void EmployeeRepository_FindById_ReturnsEmployee(){
-        Employee employee = Employee.builder()
+        EmployeeEntity employeeEntity = EmployeeEntity.builder()
                 .firstName("Ivan")
                 .lastName("Horvat")
                 .email("ivan.horvat@gmail.com")
@@ -86,10 +86,10 @@ public class EmployeeRepositoryTest {
                 .role(DIRECTOR)
                 .build();
 
-        employeeRepository.save(employee);
+        employeeRepository.save(employeeEntity);
 
-        Employee employeeList = employeeRepository.findById(employee.getId()).get();
+        EmployeeEntity employeeEntityList = employeeRepository.findById(employeeEntity.getId()).get();
 
-        Assertions.assertThat(employeeList).isNotNull();
+        Assertions.assertThat(employeeEntityList).isNotNull();
     }
 }

@@ -20,11 +20,11 @@ public class DocumentsForProcessing {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    private EmployeeEntity employeeEntity;
 
     @ManyToOne
     @JoinColumn(name = "document_id", nullable = false)
-    private DocumentEntity document;
+    private DocumentEntity documentEntity;
 
 
 

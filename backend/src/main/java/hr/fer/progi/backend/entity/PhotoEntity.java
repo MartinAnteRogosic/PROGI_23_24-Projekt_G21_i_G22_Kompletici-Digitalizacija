@@ -17,23 +17,20 @@ import java.sql.Timestamp;
 public class PhotoEntity {
 
     @Id
-    @Column(name = "photoID", length = 10, nullable = false)
-    private String photoID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long photoID;
 
-    @Column(name = "url", length = 255, nullable = false, unique = true)
     private String url;
 
-    @Column(name = "imageName", length = 100, nullable = false)
     private String imageName;
 
-    @Column(name = "uploadTime", nullable = false)
     private Timestamp uploadTime;
 
-    @Column(name = "id", length = 10, nullable = false)
-    private String id;
+    @OneToOne(mappedBy = "photo")
+    private DocumentEntity document;
 
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Employee user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "upload_employee_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private EmployeeEntity uploadEmployee;
 
 }

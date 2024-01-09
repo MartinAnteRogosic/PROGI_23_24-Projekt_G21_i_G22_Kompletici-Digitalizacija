@@ -6,11 +6,9 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 
 @Setter
 @Getter
@@ -19,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "Employee")
-public class Employee implements UserDetails {
+public class EmployeeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,12 +33,14 @@ public class Employee implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Photo> scannedPhotos = new ArrayList<>();
+    @OneToMany(mappedBy = "uploadEmployee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PhotoEntity> scannedPhotos;
 
-    @OneToMany(mappedBy = "validationEmployee", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Document> documents = new ArrayList<>();
+    @OneToMany(mappedBy = "validationEmployee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DocumentEntity> validatedDocuments;
 
+    @OneToMany(mappedBy = "scanEmployee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DocumentEntity> scannedDocuments;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

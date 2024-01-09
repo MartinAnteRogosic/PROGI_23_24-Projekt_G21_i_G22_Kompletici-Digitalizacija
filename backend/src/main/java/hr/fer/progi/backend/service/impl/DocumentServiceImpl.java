@@ -1,9 +1,9 @@
 package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
-import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
-import hr.fer.progi.backend.entity.Photo;
+import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
@@ -24,51 +24,51 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public List<Document> getDocumentsByType(DocumentType documentType) {
+    public List<DocumentEntity> getDocumentsByType(DocumentType documentType) {
         return documentRepository.findByType(documentType);
     }
 
     @Override
-    public Document getDocumentById(Long documentId) {
+    public DocumentEntity getDocumentById(Long documentId) {
         return documentRepository.findById(documentId).orElse(null);
     }
 
     @Override
     public ChangeCategoryDto getPhotoAndDocument(ChangeCategoryDto changeCategoryDto) {
-        Photo photo = photoRepository.findPhotoByDocumentId(changeCategoryDto.getDocumentId())
+        PhotoEntity photo = photoRepository.findPhotoByDocumentId(changeCategoryDto.getDocumentId())
                 .orElseThrow(() ->
                         new PhotoNotFoundException("Could not find a photo related to this document")
                 );
 
-        Document document = documentRepository.findById(changeCategoryDto.getDocumentId())
+        DocumentEntity documentEntity = documentRepository.findById(changeCategoryDto.getDocumentId())
                 .orElseThrow(() ->
                         new DocumentNotFoundException("Document could not be found"));
 
         return ChangeCategoryDto.builder()
-                .documentUrl(document.getUrl())
+                .documentUrl(documentEntity.getUrl())
                 .photoUrl(photo.getUrl())
                 .build();
     }
 
     @Override
     public String changeCategory(ChangeCategoryDto changeCategoryDto) {
-        Document document = documentRepository.findById(changeCategoryDto.getDocumentId())
+        DocumentEntity documentEntity = documentRepository.findById(changeCategoryDto.getDocumentId())
                 .orElseThrow(()-> new DocumentNotFoundException("Document could not be found"));
 
-        document.setType(changeCategoryDto.getNewDocumentType());
+        documentEntity.setType(changeCategoryDto.getNewDocumentType());
 
-        documentRepository.save(document);
+        documentRepository.save(documentEntity);
 
         return "Successfully changed document type";
     }
 
    @Override
-   public List<Document> getAllDocumentsForUser(Long userId) {
+   public List<DocumentEntity> getAllDocumentsForUser(Long userId) {
        return documentRepository.findAllById(userId);
    }
 
     @Override
-    public Photo getPhotoById(Long photoId) {
+    public PhotoEntity getPhotoById(Long photoId) {
         return photoRepository.findById(photoId).orElse(null);
 
     }

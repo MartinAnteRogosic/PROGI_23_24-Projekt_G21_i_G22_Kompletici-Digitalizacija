@@ -15,18 +15,15 @@ import lombok.NoArgsConstructor;
 public class ArchiveOfferEntity {
 
     @Id
-    @Column(name = "arcOfferID", length = 10, nullable = true)
-    private String arcOfferID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long arcOfferID;
 
     @Column(name = "totalPrice", nullable = true)
     private Float totalPrice;
 
-    @Column(name = "documentID", length = 10, nullable = true)
-    private String documentID;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "doucment_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Document document;
+    private DocumentEntity document;
 
 }
 

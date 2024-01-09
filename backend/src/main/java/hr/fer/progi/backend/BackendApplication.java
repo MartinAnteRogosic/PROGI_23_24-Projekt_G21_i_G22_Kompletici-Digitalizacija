@@ -1,7 +1,7 @@
 package hr.fer.progi.backend;
 
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
@@ -67,12 +67,12 @@ public class BackendApplication {
 			authenticationService.register(employee);
 
 			/* adding test documents */
-			Document racun = Document.builder()
+			DocumentEntity racun = DocumentEntity.builder()
 					.type(DocumentType.RAČUN)
 					.url("url_račun")
 					.build();
 
-			Document ponuda = Document.builder()
+			DocumentEntity ponuda = DocumentEntity.builder()
 					.type(DocumentType.PONUDA)
 					.url("url_ponuda")
 					.build();

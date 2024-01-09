@@ -2,7 +2,7 @@ package hr.fer.progi.backend.service.impl;
 
 
 import hr.fer.progi.backend.dto.*;
-import hr.fer.progi.backend.entity.Employee;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
@@ -24,17 +24,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public RegistrationResponseDto register(EmployeeDto employeeDto) {
 
-        Employee employee = employeeService.mapToEntity(employeeDto);
+        EmployeeEntity employeeEntity = employeeService.mapToEntity(employeeDto);
 
-        if (employeeRepository.existsByEmail(employee.getEmail())) {
+        if (employeeRepository.existsByEmail(employeeEntity.getEmail())) {
             return RegistrationResponseDto.builder()
-                    .message("Email '" + employee.getEmail() + "' is already taken.")
+                    .message("Email '" + employeeEntity.getEmail() + "' is already taken.")
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }
 
 
-        employeeRepository.save(employee);
+        employeeRepository.save(employeeEntity);
 
         return RegistrationResponseDto.builder()
                 .message("Registration successful")
@@ -52,21 +52,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
 
-        Employee employee = employeeRepository.findByEmail(loginRequestDto.getEmail())
+        EmployeeEntity employeeEntity = employeeRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new EmployeeNotFoundException(
                         String.format("Employee with email '%s' not found", loginRequestDto.getEmail())
                 ));
 
-        String token = jwtService.generateToken(employee);
+        String token = jwtService.generateToken(employeeEntity);
 
 
         return LoginResponseDto.builder()
                 .tokenType("Bearer ")
                 .accessToken(token)
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .role(employee.getRole())
-                .id(employee.getId())
+                .firstName(employeeEntity.getFirstName())
+                .lastName(employeeEntity.getLastName())
+                .role(employeeEntity.getRole())
+                .id(employeeEntity.getId())
                 .build();
 
     }

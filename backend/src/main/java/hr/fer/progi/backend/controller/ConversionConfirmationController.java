@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.entity.Document;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.service.impl.ConversionConfirmationService;
 import hr.fer.progi.backend.scan.ImageProcessingResult;
@@ -20,7 +20,7 @@ public class ConversionConfirmationController {
 
 
     @GetMapping("/documents/{documentType}")
-    public List<Document> getDocumentsForConfirmation(@PathVariable DocumentType documentType) {
+    public List<DocumentEntity> getDocumentsForConfirmation(@PathVariable DocumentType documentType) {
         return documentService.getDocumentsByType(documentType);
     }
 

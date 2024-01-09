@@ -1,4 +1,4 @@
-### Register employee
+### Register employeeEntity
 POST http://localhost:8080/api/v1/authenticate/register
 Content-Type: application/json
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 > {% client.global.set("auth-token", response.body.accessToken) %}
 
-### Test employee landing endpoint
+### Test employeeEntity landing endpoint
 GET http://localhost:8080/api/v1/employees/home
 Authorization: Bearer {{auth-token}}
 
