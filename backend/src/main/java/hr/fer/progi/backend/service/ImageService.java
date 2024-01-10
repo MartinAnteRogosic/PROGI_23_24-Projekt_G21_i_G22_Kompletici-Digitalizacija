@@ -1,5 +1,7 @@
 package hr.fer.progi.backend.service;
 
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
+import hr.fer.progi.backend.dto.UploadResponseDto;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,19 +13,13 @@ import java.util.List;
 
 public interface ImageService {
 
-    String uploadFile(File file, String fileName) throws IOException;
-
-    File convertToFile(MultipartFile multipartFile, String fileName) throws IOException;
-
-    String getExtension(String fileName);
-
-    String uploadImage(MultipartFile multipartFile, EmployeeEntity employee);
+    PhotoEntity uploadImage(MultipartFile multipartFile, EmployeeEntity employee);
 
     //String uploadDocument();
 
-    String delete(Long imageId) throws IOException;
+    String deleteImage(Long imageId) throws IOException;
 
-    String processImage(MultipartFile multipartFile, Principal connectedEmployee) throws IOException;
+    List<UploadResponseDto> processImages(List<MultipartFile> multipartFile, Principal connectedEmployee) throws IOException;
 
     List<PhotoEntity> getAllPhotos();
 }

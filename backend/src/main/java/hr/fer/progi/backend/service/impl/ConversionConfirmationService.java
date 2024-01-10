@@ -26,12 +26,12 @@ public class ConversionConfirmationService {
         return new ImageProcessingResult(uploadedImagePath, processedImagePath, satisfied);
     }
 
-    public void confirmConversion(Long documentId, Boolean superVerified) {
+    public void confirmConversion(Long documentId, Boolean verified) {
         DocumentEntity documentEntity = documentRepository.findById(documentId)
                 .orElseThrow(() ->
                         new DocumentNotFoundException(String.format("Document with id %d could not be found.", documentId)));
 
-        documentEntity.setSuperVerified(superVerified);
+        documentEntity.setVerified(verified);
         documentRepository.save(documentEntity);
 
     }

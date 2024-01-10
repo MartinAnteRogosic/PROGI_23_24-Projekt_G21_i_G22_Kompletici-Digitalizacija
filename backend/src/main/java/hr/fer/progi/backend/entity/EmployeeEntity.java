@@ -33,13 +33,13 @@ public class EmployeeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "uploadEmployee", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "uploadEmployee", fetch = FetchType.EAGER)
     private List<PhotoEntity> scannedPhotos;
 
-    @OneToMany(mappedBy = "validationEmployee", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "validationEmployee", fetch = FetchType.EAGER)
     private List<DocumentEntity> validatedDocuments;
 
-    @OneToMany(mappedBy = "scanEmployee", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "scanEmployee", fetch = FetchType.EAGER)
     private List<DocumentEntity> scannedDocuments;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

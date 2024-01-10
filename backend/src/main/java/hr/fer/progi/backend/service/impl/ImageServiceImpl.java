@@ -6,6 +6,8 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
+import hr.fer.progi.backend.dto.UploadResponseDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
@@ -25,8 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -35,56 +39,19 @@ public class ImageServiceImpl implements ImageService {
     private final PhotoRepository photoRepository;
     private final DocumentRepository documentRepository;
     private final TesseractOCRServiceImpl tesseractOCRServiceImpl;
+    private final CloudStorageServiceImpl cloudStorageServiceImpl;
+
+
 
     @Override
-    public String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("kompletici.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                .setContentType("media")
-                .build();
-
-        InputStream inputStream = ImageService.class
-                .getClassLoader()
-                .getResourceAsStream("kompletici-firebase-adminsdk-4g7dm-326a116887.json");
-
-        Credentials credentials = GoogleCredentials.fromStream(inputStream);
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(credentials)
-                .build()
-                .getService();
-
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-
-        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/kompletici.appspot.com/o/%s?alt=media";
-
-        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
-
-        File tempFile = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)){
-            fos.write(multipartFile.getBytes());
-
-        }
-        return tempFile;
-    }
-
-    @Override
-    public String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }
-
-    @Override
-    public String uploadImage(MultipartFile multipartFile, EmployeeEntity employee) {
+    public PhotoEntity uploadImage(MultipartFile multipartFile, EmployeeEntity employee) {
 
         try {
             String fileName = multipartFile.getOriginalFilename();
-            String fileName_new = UUID.randomUUID().toString().concat(this.getExtension(fileName));
+            String fileName_new = UUID.randomUUID().toString().concat(cloudStorageServiceImpl.getExtension(fileName));
 
-            File file = this.convertToFile(multipartFile, fileName_new);
-            String URL = this.uploadFile(file, fileName_new);
+            File file = cloudStorageServiceImpl.convertToFile(multipartFile, fileName_new);
+            String URL = cloudStorageServiceImpl.uploadFile(file, fileName_new);
             file.delete();
 
 
@@ -92,21 +59,22 @@ public class ImageServiceImpl implements ImageService {
                     .uploadEmployee(employee)
                     .imageName(fileName_new)
                     .url(URL)
+                    .uploadTime(new Date())
                     .build();
 
-            photoRepository.save(photo);
+            PhotoEntity savedPhoto = photoRepository.save(photo);
 
-            return URL;
+            return savedPhoto;
         } catch (Exception ex){
             ex.printStackTrace();
-            return "Image could not be uploaded, something went wrong :(";
+            throw new RuntimeException(ex);
         }
 
     }
 
     /*ovo je sam testno, nece ovak radit*/
     @Override
-    public String delete(Long imageId) throws IOException {
+    public String deleteImage(Long imageId) throws IOException {
         PhotoEntity photo = photoRepository.findById(imageId)
                 .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
 
@@ -130,30 +98,44 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String processImage(MultipartFile multipartFile, Principal connectedEmployee) throws IOException {
+    public List<UploadResponseDto> processImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
 
         EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
-        String response = this.uploadImage(multipartFile, employee);
-        String text = tesseractOCRServiceImpl.recognizeText(multipartFile.getInputStream());
 
-        String documentName = UUID.randomUUID().toString();
-        Path tempFile = Files.createTempFile(documentName, ".txt");
-        Files.write(tempFile, text.getBytes(), StandardOpenOption.WRITE);
+        List<UploadResponseDto> listOfPhotoDocumentDto = multipartFiles.stream()
+                .map(file ->{
+                    try {
+                        PhotoEntity photo = uploadImage(file, employee);
 
-        File file = tempFile.toFile();
+                        File textFile = generateTextFile(file);
+                        String documentURL = cloudStorageServiceImpl.uploadFile(textFile, textFile.getName());
 
-        String document_URL = this.uploadFile(file, documentName.concat(".txt"));
+                        DocumentEntity document = DocumentEntity.builder()
+                                .fileName(textFile.getName())
+                                .url(documentURL)
+                                .scanEmployee(employee)
+                                .photo(photo)
+                                .build();
 
-        DocumentEntity document = DocumentEntity.builder()
-                .name(documentName)
-                .url(document_URL)
-                .scanEmployee(employee)
-                .build();
-
-        documentRepository.save(document);
+                        DocumentEntity savedDocument = documentRepository.save(document);
 
 
-        return "image processed successfully";
+
+                        return UploadResponseDto.builder()
+                                .photoId(photo.getPhotoID())
+                                .photoUrl(photo.getUrl())
+                                .documentId(savedDocument.getId())
+                                .documentUrl(savedDocument.getUrl())
+                                .build();
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                }).collect(Collectors.toList());
+
+        return listOfPhotoDocumentDto;
     }
 
     @Override
@@ -168,8 +150,14 @@ public class ImageServiceImpl implements ImageService {
         return "multiple images processed successfully";
     }
 
-    public DocumentEntity generateDocument(MultipartFile multipartFiles, EmployeeEntity employee){
-        return null;
+    public File generateTextFile(MultipartFile multipartFile) throws IOException {
+
+        String text = tesseractOCRServiceImpl.recognizeText(multipartFile.getInputStream());
+        String documentName = UUID.randomUUID().toString();
+        Path tempFile = Files.createTempFile(documentName, ".txt");
+        Files.write(tempFile, text.getBytes(), StandardOpenOption.WRITE);
+        File  textFile = tempFile.toFile();
+        return textFile;
 
     }
 

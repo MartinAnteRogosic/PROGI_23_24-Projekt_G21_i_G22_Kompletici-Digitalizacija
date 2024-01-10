@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @Builder
@@ -24,7 +25,7 @@ public class PhotoEntity {
 
     private String imageName;
 
-    private Timestamp uploadTime;
+    private Date uploadTime;
 
     @OneToOne(mappedBy = "photo")
     private DocumentEntity document;
