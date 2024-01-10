@@ -49,14 +49,18 @@ public class DocumentController {
     }
 
     @GetMapping("/historyDocument/{userId}/{documentId}")
-    public ResponseEntity<DocumentEntity> getDocumentAndPhotoById(@PathVariable Long documentId, @PathVariable String userId) {
+    public ResponseEntity<PhotoDocumentDto> getDocumentAndPhotoById(@PathVariable Long documentId, @PathVariable String userId) {
         DocumentEntity document = documentService.getDocumentById(documentId);
         PhotoEntity photo = documentService.getPhotoById(documentId);
+        PhotoDocumentDto dto = PhotoDocumentDto.builder()
+                .document(document)
+                .photo(photo)
+                .build();
 
-        if (document != null && photo != null) {
-            return new ResponseEntity<>(document, HttpStatus.OK);
+        if (dto != null) {
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(document, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
