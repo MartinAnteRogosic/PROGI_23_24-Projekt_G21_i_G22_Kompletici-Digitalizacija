@@ -25,6 +25,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -153,6 +156,18 @@ public class ImageServiceImpl implements ImageService {
 
 
         return "image processed successfully";
+    }
+
+    public String processMultipleImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
+
+        EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+
+        return "multiple images processed successfully";
+    }
+
+    public DocumentEntity generateDocument(MultipartFile multipartFiles, EmployeeEntity employee){
+        return null;
+
     }
 
 

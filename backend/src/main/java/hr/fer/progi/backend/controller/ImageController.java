@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -26,6 +27,11 @@ public class ImageController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/uploadMultiple")
+    public ResponseEntity<?> uploadMultipleImages(@RequestParam("files") List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
+        String response = imageService.processMultipleImages(multipartFiles, connectedEmployee);
+        return ResponseEntity.ok(response);
+    }
 
     /*ovo je sam testno, nece ovak radit*/
     @DeleteMapping("/delete/{imageId}")
