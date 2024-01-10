@@ -34,9 +34,11 @@ public class DocumentEntity {
     @JoinColumn(name = "validation_employee_id", referencedColumnName = "id", insertable = false, updatable = false)
     private EmployeeEntity validationEmployee;
 
-    private Boolean superVerified;
+    private Boolean verified;
 
     private Boolean signed;
+
+    private Boolean toBeSigned;
 
 
     @OneToOne(cascade = CascadeType.ALL)

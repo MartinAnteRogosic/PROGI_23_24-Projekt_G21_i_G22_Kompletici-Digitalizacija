@@ -10,6 +10,8 @@ import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.DocumentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<DocumentEntity> getDocumentsByType(DocumentType documentType) {
         return documentRepository.findByType(documentType);
+
     }
 
     @Override
@@ -73,5 +76,50 @@ public class DocumentServiceImpl implements DocumentService {
 
     }
 
+    @Override
+    public List<DocumentEntity> getAllVerifedDocuments() {
+        return documentRepository.findAllVerifiedDocuments();
+    }
 
-}
+    @Override
+    public ResponseEntity<String> setDocumentToBeSinged(Long documentId) {
+            try {
+                documentRepository.setDocumentTOBeSingedOnTrue(documentId);
+                return ResponseEntity.ok("The document has been successfully marked for signing.");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("the document was not successfully marked for signing.");
+            }
+        }
+
+    @Override
+    public List<DocumentEntity> getAllDocumentsForSign() {
+        return documentRepository.findDocumentsToBeSigned();
+
+    }
+
+    @Override
+    public ResponseEntity<String> signDocument(Long documentId) {
+        try {
+            documentRepository.setDocumentSignOnTrue(documentId);
+            return ResponseEntity.ok("The document has been successfully signed");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("The document was not successfully signed");
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> refuseSign(Long documentId) {
+        try {
+            documentRepository.setDocumentTOBeSingedOnFalse(documentId);
+            return ResponseEntity.ok("The document has been successfully signed");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("The document was not successfully signed");
+        }
+    }
+    }
+
+
+
