@@ -1,0 +1,8 @@
+.upload-container {
+    border: 2px black solid;
+    border-radius: 10px;
+    width: 80%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+}

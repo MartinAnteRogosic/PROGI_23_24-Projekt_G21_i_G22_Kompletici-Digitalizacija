@@ -7,6 +7,7 @@ import img4 from '../img/ante_inverzni.png';
 import { userContext } from '../userContext';
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import UploadFiles from './UploadFiles';
 
 
 const HomePage = () => {
@@ -20,7 +21,7 @@ const HomePage = () => {
   return (
     <div className="home-page">
       <Header />
-      
+      <UploadFiles />
       <div className="menu-bar">
         <ul>
           <li>Home</li>
