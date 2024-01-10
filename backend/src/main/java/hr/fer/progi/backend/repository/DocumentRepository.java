@@ -1,4 +1,5 @@
 package hr.fer.progi.backend.repository;
+import hr.fer.progi.backend.entity.PhotoEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 import hr.fer.progi.backend.entity.DocumentEntity;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> {
     List<DocumentEntity> findByType(DocumentType documentType);
@@ -21,21 +23,11 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
 
 
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE DocumentEntity d SET d.toBeSigned = true WHERE d.id = :documentId")
-    void setDocumentTOBeSingedOnTrue(Long documentId);
-
     @Query("SELECT d FROM DocumentEntity d WHERE d.verified = true AND d.toBeSigned = true")
     List<DocumentEntity> findDocumentsToBeSigned();
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE DocumentEntity d SET d.signed = true, d.toBeSigned = false WHERE d.id = :documentId")
-    void setDocumentSignOnTrue(Long documentId);
+    Optional<DocumentEntity> findByPhoto(PhotoEntity photo);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE DocumentEntity d SET d.toBeSigned = false WHERE d.id = :documentId")
-    void setDocumentTOBeSingedOnFalse(Long documentId);
+
+
 }

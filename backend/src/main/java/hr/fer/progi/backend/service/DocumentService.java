@@ -22,11 +22,14 @@ public interface DocumentService {
 
     List<DocumentEntity> getAllVerifedDocuments();
 
-    ResponseEntity<String> setDocumentToBeSinged(Long documentId);
+    void setDocumentToBeSinged(Long documentId);
 
     List<DocumentEntity> getAllDocumentsForSign();
 
-    ResponseEntity<String> signDocument(Long documentId);
+    void signDocument(Long documentId);
 
-    ResponseEntity<String> refuseSign(Long documentId);
+    void refuseSign(Long documentId);
+
+    List<DocumentEntity> getAllDocuments();
+
 }

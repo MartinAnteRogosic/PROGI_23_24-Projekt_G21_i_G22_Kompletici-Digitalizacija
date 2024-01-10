@@ -25,8 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -156,6 +154,11 @@ public class ImageServiceImpl implements ImageService {
 
 
         return "image processed successfully";
+    }
+
+    @Override
+    public List<PhotoEntity> getAllPhotos() {
+        return photoRepository.findAll();
     }
 
     public String processMultipleImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {

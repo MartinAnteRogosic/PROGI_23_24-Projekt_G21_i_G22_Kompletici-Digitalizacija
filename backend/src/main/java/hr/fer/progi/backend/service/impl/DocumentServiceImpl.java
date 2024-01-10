@@ -82,15 +82,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ResponseEntity<String> setDocumentToBeSinged(Long documentId) {
-            try {
-                documentRepository.setDocumentTOBeSingedOnTrue(documentId);
-                return ResponseEntity.ok("The document has been successfully marked for signing.");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("the document was not successfully marked for signing.");
-            }
-        }
+   public void setDocumentToBeSinged(Long documentId) {
+        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
+            document.setToBeSigned(true);
+            documentRepository.save(document);
+    }
 
     @Override
     public List<DocumentEntity> getAllDocumentsForSign() {
@@ -99,27 +95,26 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ResponseEntity<String> signDocument(Long documentId) {
-        try {
-            documentRepository.setDocumentSignOnTrue(documentId);
-            return ResponseEntity.ok("The document has been successfully signed");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("The document was not successfully signed");
-        }
+    public void signDocument(Long documentId) {
+        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
+        document.setSigned(true);
+        document.setToBeSigned(false);
+        documentRepository.save(document);
     }
 
     @Override
-    public ResponseEntity<String> refuseSign(Long documentId) {
-        try {
-            documentRepository.setDocumentTOBeSingedOnFalse(documentId);
-            return ResponseEntity.ok("The document has been successfully signed");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("The document was not successfully signed");
-        }
+    public void refuseSign(Long documentId) {
+        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
+        document.setToBeSigned(false);
+        documentRepository.save(document);
     }
+
+    @Override
+    public List<DocumentEntity> getAllDocuments() {
+        return documentRepository.findAll();
     }
+
+}
 
 
 

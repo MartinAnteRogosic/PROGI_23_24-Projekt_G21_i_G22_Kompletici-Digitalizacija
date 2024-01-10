@@ -1,15 +1,21 @@
 package hr.fer.progi.backend.controller;
 import hr.fer.progi.backend.dto.ChooseRevisorDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
+import hr.fer.progi.backend.exception.DocumentNotFoundException;
+import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +24,8 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentServiceImpl documentService;
-
+    private final ImageServiceImpl imageService;
+    private final DocumentRepository documentRepository;
 
     @GetMapping("/type/{documentType}")
     public List<DocumentEntity> getDocumentsByType(@PathVariable DocumentType documentType) {
@@ -46,17 +53,13 @@ public class DocumentController {
         DocumentEntity document = documentService.getDocumentById(documentId);
         PhotoEntity photo = documentService.getPhotoById(documentId);
 
-//OVdje je potrebno vratiti i sliku - poslje
         if (document != null && photo != null) {
             return new ResponseEntity<>(document, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(document, HttpStatus.NOT_FOUND);
         }
     }
-//u servisu ovo prebacitu entitet
 
-    //UC11
-    //Svi dokumenti koji će se prikazivati računovođi (uvjet: verifed = TRUE)
     @GetMapping("/all-verified-documents")
     public ResponseEntity<List<DocumentEntity>> getAllVerifedDocuments() {
 
@@ -66,7 +69,9 @@ public class DocumentController {
 
     @GetMapping("/send-on-sign")
     public ResponseEntity<String> setDocumentsToBeSinged(Long documentId) {
-        return documentService.setDocumentToBeSinged(documentId);
+        documentService.setDocumentToBeSinged(documentId);
+         return ResponseEntity.ok("Document successfully marked to be signed.");
+
     }
 
     @GetMapping("/documents-for-sign")
@@ -79,10 +84,30 @@ public class DocumentController {
     public ResponseEntity<String> signDocuments(@RequestParam Boolean confirm,Long documentId) {
 
         if(confirm == Boolean.TRUE){
-            return documentService.signDocument(documentId);
+             documentService.signDocument(documentId);
+            return ResponseEntity.ok("Document successfully marked to be signed.");
         }else{
-            return documentService.refuseSign(documentId);
+            return ResponseEntity.ok("The document was rejected for signing.");
         }
+    }
+
+
+    @GetMapping("/all-documents")
+    public ResponseEntity<List<PhotoDocumentDto>> getAllDocuments(){
+
+        List<PhotoEntity> allPhotos = imageService.getAllPhotos();
+
+        List<PhotoDocumentDto> dtoList = allPhotos.stream().map(photo ->{
+            DocumentEntity document = documentRepository.findByPhoto(photo).orElseThrow(()-> new DocumentNotFoundException("not found"));
+
+            PhotoDocumentDto dto = PhotoDocumentDto.builder()
+                    .document(document)
+                    .photo(photo)
+                    .build();
+            return dto;
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(dtoList,HttpStatus.OK);
     }
 
 }
