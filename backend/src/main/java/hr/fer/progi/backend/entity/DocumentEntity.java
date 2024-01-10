@@ -24,8 +24,8 @@ public class DocumentEntity {
     private String url;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scan_employee_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "scan_employee_id", nullable = true)
     private EmployeeEntity scanEmployee;
 
     private Boolean correct;

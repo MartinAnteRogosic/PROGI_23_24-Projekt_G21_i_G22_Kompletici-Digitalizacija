@@ -12,4 +12,6 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
 
     @Query("SELECT d FROM DocumentEntity d WHERE d.id = :userId")
     List<DocumentEntity> findAllById(Long userId);
+
+    List<DocumentEntity> findByScanEmployeeId(Long employeeId);
 }

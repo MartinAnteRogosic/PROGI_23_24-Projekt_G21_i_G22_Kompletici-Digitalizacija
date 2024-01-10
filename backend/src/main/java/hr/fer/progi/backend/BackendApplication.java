@@ -3,7 +3,10 @@ package hr.fer.progi.backend;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
+import hr.fer.progi.backend.entity.EmployeeEntity;
+import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import hr.fer.progi.backend.service.impl.AuthenticationServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +27,8 @@ public class BackendApplication {
 	public CommandLineRunner commandLineRunner(
 			AuthenticationServiceImpl authenticationService,
 			DocumentRepository documentRepository,
-			ArchiveServiceImpl archiveService
+			ArchiveServiceImpl archiveService,
+			EmployeeRepository employeeRepository
 			) {
 		return args -> {
 
@@ -66,14 +70,18 @@ public class BackendApplication {
 			authenticationService.register(reviser);
 			authenticationService.register(employee);
 
+
+			EmployeeEntity accountant_entity = employeeRepository.findById(2L).orElseThrow(()->new EmployeeNotFoundException("not found"));
 			/* adding test documents */
 			DocumentEntity racun = DocumentEntity.builder()
 					.type(DocumentType.RAČUN)
 					.url("url_račun")
+					.scanEmployee(accountant_entity)
 					.build();
 
 			DocumentEntity ponuda = DocumentEntity.builder()
 					.type(DocumentType.PONUDA)
+					.scanEmployee(accountant_entity)
 					.url("url_ponuda")
 					.build();
 

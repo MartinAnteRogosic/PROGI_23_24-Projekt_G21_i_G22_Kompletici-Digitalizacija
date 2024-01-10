@@ -2,8 +2,10 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
+import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
     private final EmployeeRepository employeeRepository;
     private final EmployeeServiceImpl employeeService;
     private final PasswordEncoder passwordEncoder;
+    private final DocumentRepository documentRepository;
 
     @Override
     public void deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
@@ -40,6 +43,14 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
                 .orElseThrow(()->new EmployeeNotFoundException(
                         String.format("Employee with id %d could not be found", deleteEmployeeAccountDto.getEmployeeId())
                 ));
+
+        List<DocumentEntity> listOfDocuments = employeeEntity.getScannedDocuments();
+        listOfDocuments.stream().map(document -> {
+            document.setScanEmployee(null);
+            return document;
+        }).collect(Collectors.toList());
+
+        documentRepository.saveAll(listOfDocuments);
 
         employeeRepository.delete(employeeEntity);
 
