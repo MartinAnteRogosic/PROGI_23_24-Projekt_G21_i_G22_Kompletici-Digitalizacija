@@ -20,9 +20,9 @@ public class ImageController {
 
     /*ovo je sam testno, nece ovak radit*/
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file")MultipartFile multipartFile, Principal connectedEmployee){
+    public ResponseEntity<?> uploadImage(@RequestParam("file")MultipartFile multipartFile, Principal connectedEmployee) throws IOException {
 
-        String response = imageService.upload(multipartFile, connectedEmployee);
+        String response = imageService.processImage(multipartFile, connectedEmployee);
         return ResponseEntity.ok(response);
     }
 

@@ -6,9 +6,11 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
+import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +18,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -31,6 +32,8 @@ import java.util.UUID;
 public class ImageServiceImpl implements ImageService {
 
     private final PhotoRepository photoRepository;
+    private final DocumentRepository documentRepository;
+    private final TesseractOCRServiceImpl tesseractOCRServiceImpl;
 
     @Override
     public String uploadFile(File file, String fileName) throws IOException {
@@ -62,7 +65,6 @@ public class ImageServiceImpl implements ImageService {
         File tempFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(tempFile)){
             fos.write(multipartFile.getBytes());
-            fos.close();
 
         }
         return tempFile;
@@ -74,22 +76,20 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String upload(MultipartFile multipartFile, Principal connectedEmployee) {
+    public String uploadImage(MultipartFile multipartFile, EmployeeEntity employee) {
 
         try {
             String fileName = multipartFile.getOriginalFilename();
-            fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
+            String fileName_new = UUID.randomUUID().toString().concat(this.getExtension(fileName));
 
-            File file = this.convertToFile(multipartFile, fileName);
-            String URL = this.uploadFile(file, fileName);
+            File file = this.convertToFile(multipartFile, fileName_new);
+            String URL = this.uploadFile(file, fileName_new);
             file.delete();
 
 
-            EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
-
             PhotoEntity photo = PhotoEntity.builder()
-                    .uploadEmployee(employeeEntity)
-                    .imageName(fileName)
+                    .uploadEmployee(employee)
+                    .imageName(fileName_new)
                     .url(URL)
                     .build();
 
@@ -128,6 +128,32 @@ public class ImageServiceImpl implements ImageService {
         return "Deleted successfully";
     }
 
+    @Override
+    public String processImage(MultipartFile multipartFile, Principal connectedEmployee) throws IOException {
+
+        EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        String response = this.uploadImage(multipartFile, employee);
+        String text = tesseractOCRServiceImpl.recognizeText(multipartFile.getInputStream());
+
+        String documentName = UUID.randomUUID().toString();
+        Path tempFile = Files.createTempFile(documentName, ".txt");
+        Files.write(tempFile, text.getBytes(), StandardOpenOption.WRITE);
+
+        File file = tempFile.toFile();
+
+        String document_URL = this.uploadFile(file, documentName.concat(".txt"));
+
+        DocumentEntity document = DocumentEntity.builder()
+                .name(documentName)
+                .url(document_URL)
+                .scanEmployee(employee)
+                .build();
+
+        documentRepository.save(document);
+
+
+        return "image processed successfully";
+    }
 
 
 }
