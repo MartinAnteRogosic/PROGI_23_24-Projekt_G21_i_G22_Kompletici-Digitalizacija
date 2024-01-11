@@ -4,7 +4,6 @@ import hr.fer.progi.backend.dto.AllArchiveDocumentsDto;
 import hr.fer.progi.backend.dto.ArchiveDeleteDto;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +16,14 @@ public class ArchiveController {
 
     private final ArchiveServiceImpl archiveService;
 
-    @PostMapping("/archiveDocument")
-    public String archiveDocument(@RequestParam Long documentId) {
-        try {
-            archiveService.archiveDocument(documentId);
-            return "Document archived successfully";
-        } catch (Exception e) {
-            return "Error archiving document: " + e.getMessage();
-        }
+    @PostMapping("/archive-document/{documentId}")
+    public ResponseEntity<String> archiveDocument(@PathVariable(name = "documentId") Long documentId) {
+        String response = archiveService.archiveDocument(documentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/all-archive-documents")
-    public ResponseEntity<?> getAllArchivedDocuments() {
+    public ResponseEntity<AllArchiveDocumentsDto> getAllArchivedDocuments() {
         AllArchiveDocumentsDto allArchiveDocumentsDto = archiveService.getAllArchivedDocuments();
         return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
     }
