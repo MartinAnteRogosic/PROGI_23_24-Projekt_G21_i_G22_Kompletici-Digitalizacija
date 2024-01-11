@@ -28,7 +28,8 @@ public enum Role {
             ALL_EMPLOYEE_STATISTICS,
             EMPLOYEE_STATISTICS,
             DELETE_EMPLOYEE_ACCOUNT,
-            CHANGE_DOCUMENT_CATEGORY
+            CHANGE_DOCUMENT_CATEGORY,
+            DELETE_ARCHIVE_DOCUMENT
     ));
 
     private final Set<Permission> permissions;

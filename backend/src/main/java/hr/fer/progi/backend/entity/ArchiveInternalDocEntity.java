@@ -18,6 +18,8 @@ public class ArchiveInternalDocEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long archIntDocID;
 
+    private DocumentType documentType;
+
     private String text;
 
     @OneToOne

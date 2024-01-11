@@ -76,7 +76,7 @@ public class BackendApplication {
 
 			/* adding test documents */
 			DocumentEntity racun = DocumentEntity.builder()
-					.type(DocumentType.RAČUN)
+					.type(DocumentType.RECEIPT)
 					.url("url_račun")
 					.validationEmployee(reviser_entity)
 					.scanEmployee(accountant_entity)
@@ -84,7 +84,7 @@ public class BackendApplication {
 					.build();
 
 			DocumentEntity ponuda = DocumentEntity.builder()
-					.type(DocumentType.PONUDA)
+					.type(DocumentType.OFFER)
 					.scanEmployee(accountant_entity)
 					.validationEmployee(reviser_entity)
 					.verified(false)

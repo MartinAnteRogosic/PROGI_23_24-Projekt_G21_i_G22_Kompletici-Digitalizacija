@@ -16,8 +16,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import static hr.fer.progi.backend.entity.Permission.*;
 import static hr.fer.progi.backend.entity.Role.*;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -53,7 +52,10 @@ public class SecurityConfiguration {
 
                                 .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
 
-                                .requestMatchers("/api/v1/archive/**").hasAnyRole(REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers(POST, "/api/v1/archive/archiveDocument").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers(GET, "/api/v1/archive/all-archive-documents").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers(DELETE,"/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
+
                                 .anyRequest()
                                 .authenticated()
                 )

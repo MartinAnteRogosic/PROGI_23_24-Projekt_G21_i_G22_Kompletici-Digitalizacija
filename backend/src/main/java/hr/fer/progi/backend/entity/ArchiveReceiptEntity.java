@@ -18,11 +18,14 @@ public class ArchiveReceiptEntity {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long arcRecID;
 
+    private DocumentType documentType;
+
     @Column(name = "clientName")
     private String clientName;
 
     @Column(name = "totalPrice")
     private Float totalPrice;
+
 
 
     @OneToOne

@@ -9,6 +9,7 @@ public enum Permission {
 
 
     DELETE_EMPLOYEE_ACCOUNT("delete-employee-account"),
+    DELETE_ARCHIVE_DOCUMENT("delete-archive-document"),
     ALL_EMPLOYEE_STATISTICS("all-employee-statistics"),
     EMPLOYEE_STATISTICS("employee-statistics"),
     CHANGE_DOCUMENT_CATEGORY("change-document-category")

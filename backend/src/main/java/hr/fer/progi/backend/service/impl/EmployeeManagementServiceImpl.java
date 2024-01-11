@@ -45,13 +45,21 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
                         String.format("Employee with id %d could not be found", deleteEmployeeAccountDto.getEmployeeId())
                 ));
 
-        List<DocumentEntity> listOfDocuments = employeeEntity.getScannedDocuments();
-        listOfDocuments.stream().map(document -> {
+        List<DocumentEntity> listOfScannedDocuments = employeeEntity.getScannedDocuments();
+        listOfScannedDocuments.stream().map(document -> {
             document.setScanEmployee(null);
             return document;
         }).collect(Collectors.toList());
 
-        documentRepository.saveAll(listOfDocuments);
+        List<DocumentEntity> listOfValidatedDocuments = employeeEntity.getValidatedDocuments();
+        listOfValidatedDocuments.stream().map(document -> {
+            document.setValidationEmployee(null);
+            return document;
+        }).collect(Collectors.toList());
+
+        documentRepository.saveAll(listOfScannedDocuments);
+        documentRepository.saveAll(listOfValidatedDocuments);
+
 
         employeeRepository.delete(employeeEntity);
 
