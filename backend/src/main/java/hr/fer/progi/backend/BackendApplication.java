@@ -72,16 +72,22 @@ public class BackendApplication {
 
 
 			EmployeeEntity accountant_entity = employeeRepository.findById(2L).orElseThrow(()->new EmployeeNotFoundException("not found"));
+			EmployeeEntity reviser_entity = employeeRepository.findById(3L).orElseThrow(()->new EmployeeNotFoundException("not found"));
+
 			/* adding test documents */
 			DocumentEntity racun = DocumentEntity.builder()
 					.type(DocumentType.RAČUN)
 					.url("url_račun")
+					.validationEmployee(reviser_entity)
 					.scanEmployee(accountant_entity)
+					.verified(false)
 					.build();
 
 			DocumentEntity ponuda = DocumentEntity.builder()
 					.type(DocumentType.PONUDA)
 					.scanEmployee(accountant_entity)
+					.validationEmployee(reviser_entity)
+					.verified(false)
 					.url("url_ponuda")
 					.build();
 

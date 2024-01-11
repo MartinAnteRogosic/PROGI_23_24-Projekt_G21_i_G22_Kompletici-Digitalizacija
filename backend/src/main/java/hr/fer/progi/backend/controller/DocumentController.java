@@ -1,11 +1,14 @@
 package hr.fer.progi.backend.controller;
 import hr.fer.progi.backend.dto.ChooseRevisorDto;
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin
-@RequestMapping("/documents")
+@RequestMapping("/api/v1/document")
 public class DocumentController {
 
     private final DocumentServiceImpl documentService;
@@ -35,6 +38,14 @@ public class DocumentController {
     @GetMapping("/{documentId}")
     public DocumentEntity getDocumentById(@PathVariable Long documentId) {
         return documentService.getDocumentById(documentId);
+    }
+
+    @GetMapping("/get-documents-by-reviser-id/{reviserId}")
+    public ResponseEntity<List<DocumentDto>>getDocumentsByReviserId(@PathVariable Long reviserId) {
+
+        List<DocumentDto> documents = documentService.getDocumentsByVerificationEmployeeId(reviserId);
+
+        return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
     @PostMapping("/choose-reviser")

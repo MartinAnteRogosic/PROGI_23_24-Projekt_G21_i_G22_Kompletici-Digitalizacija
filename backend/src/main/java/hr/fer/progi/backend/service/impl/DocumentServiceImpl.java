@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -71,6 +73,15 @@ public class DocumentServiceImpl implements DocumentService {
    }
 
     @Override
+    public List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId) {
+        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeId);
+
+        return documents.stream().map(
+                this::mapDocumentEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PhotoEntity getPhotoById(Long photoId) {
         return photoRepository.findById(photoId).orElse(null);
 
@@ -114,6 +125,14 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.findAll();
     }
 
+
+    public DocumentDto mapDocumentEntityToDto(DocumentEntity documentEntity) {
+        return DocumentDto.builder()
+                .id(documentEntity.getId())
+                .type(documentEntity.getType())
+                .url(documentEntity.getUrl())
+                .build();
+    }
 }
 
 
