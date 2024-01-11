@@ -27,37 +27,42 @@ public class ArchiveServiceImpl implements ArchiveService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void archiveDocument(Long documentID) {
+    public String archiveDocument(Long documentID) {
         // Retrieve the document from the DocumentEntity
         DocumentEntity documentEntity = documentRepository.findById(documentID)
-                .orElseThrow(() -> new RuntimeException("Document not found with ID: " + documentID));
+                .orElseThrow(() -> new DocumentNotFoundException(String.format("Document with ID %d could not be found", documentID)));
 
-        // Create ArchiveRecieptEntity and save
-        ArchiveReceiptEntity archiveReciept = new ArchiveReceiptEntity();
-        archiveReciept.setArcRecID(1L); // Set a generated ID
-        archiveReciept.setClientName("ClientName"); // Set client name
-        archiveReciept.setTotalPrice(100.0f); // Set total price
-        archiveReciept.setDocument(documentEntity);
-        archiveReciept.setDocumentType(DocumentType.RECEIPT);
-        archiveReceiptRepository.save(archiveReciept);
+        if(documentEntity.getType().equals(DocumentType.RECEIPT)){
+            ArchiveReceiptEntity archiveReceipt = ArchiveReceiptEntity.builder()
+                    .documentType(documentEntity.getType())
+                    .document(documentEntity)
+                    .build();
+            archiveReceiptRepository.save(archiveReceipt);
 
-        // Create ArchiveOfferEntity and save
-        ArchiveOfferEntity archiveOffer = new ArchiveOfferEntity();
-        archiveOffer.setArcOfferID(1L); // Set a generated ID
-        archiveOffer.setTotalPrice(150.0f); // Set total price
-        archiveOffer.setDocument(documentEntity); // Set the document
-        archiveOffer.setDocumentType(DocumentType.OFFER);
-        archiveOfferRepository.save(archiveOffer);
+            System.out.println(archiveReceipt);
 
-        // Create ArchiveInternalDocEntity and save
-        ArchiveInternalDocEntity archiveInternalDoc = new ArchiveInternalDocEntity();
-        archiveInternalDoc.setArchIntDocID(1L); // Set a generated ID
-        archiveInternalDoc.setText("Internal Document Text"); // Set internal document text
-        archiveInternalDoc.setDocument(documentEntity); // Set the document
-        archiveInternalDoc.setDocumentType(DocumentType.INTERNAL_DOCUMENT);
-        archiveInternalDocRepository.save(archiveInternalDoc);
 
-        documentRepository.save(documentEntity);
+        }
+        else if(documentEntity.getType().equals(DocumentType.OFFER)){
+            ArchiveOfferEntity archiveOffer = ArchiveOfferEntity.builder()
+                    .documentType(documentEntity.getType())
+                    .document(documentEntity)
+                    .build();
+
+            archiveOfferRepository.save(archiveOffer);
+            System.out.println(archiveOffer);
+        }
+        else if(documentEntity.getType().equals(DocumentType.INTERNAL_DOCUMENT)){
+            ArchiveInternalDocEntity archiveInternalDoc = ArchiveInternalDocEntity.builder()
+                    .documentType(documentEntity.getType())
+                    .document(documentEntity)
+                    .build();
+
+            archiveInternalDocRepository.save(archiveInternalDoc);
+            System.out.println(archiveInternalDoc);
+        }
+
+        return "Document successfully archived";
     }
 
     @Override
@@ -84,17 +89,17 @@ public class ArchiveServiceImpl implements ArchiveService {
         }
 
         if(archiveDeleteDto.getDocumentType().equals(DocumentType.INTERNAL_DOCUMENT)){
-            ArchiveInternalDocEntity archiveInternalDoc = archiveInternalDocRepository.findById(archiveDeleteDto.getDocumentId())
+            ArchiveInternalDocEntity archiveInternalDoc = archiveInternalDocRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Internal document could not be found in the archive"));
             archiveInternalDocRepository.delete(archiveInternalDoc);
         }
         else if(archiveDeleteDto.getDocumentType().equals(DocumentType.OFFER)){
-            ArchiveOfferEntity archiveOffer = archiveOfferRepository.findById(archiveDeleteDto.getDocumentId())
+            ArchiveOfferEntity archiveOffer = archiveOfferRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Offer document could not be found in the archive"));
             archiveOfferRepository.delete(archiveOffer);
         }
         else if(archiveDeleteDto.getDocumentType().equals(DocumentType.RECEIPT)){
-            ArchiveReceiptEntity archiveReceipt = archiveReceiptRepository.findById(archiveDeleteDto.getDocumentId())
+            ArchiveReceiptEntity archiveReceipt = archiveReceiptRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Receipt document could not be found in the archive"));
             archiveReceiptRepository.delete(archiveReceipt);
         }

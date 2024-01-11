@@ -7,6 +7,6 @@ import lombok.Data;
 public class ArchiveDeleteDto {
 
     private String directorPassword;
-    private Long documentId;
+    private Long archiveId;
     private DocumentType documentType;
 }

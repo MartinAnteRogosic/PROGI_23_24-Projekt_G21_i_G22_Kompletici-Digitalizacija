@@ -93,8 +93,6 @@ public class BackendApplication {
 
 			documentRepository.save(racun);
 			documentRepository.save(ponuda);
-			archiveService.archiveDocument(1L);
-			archiveService.archiveDocument(2L);
 
 		};
 	}

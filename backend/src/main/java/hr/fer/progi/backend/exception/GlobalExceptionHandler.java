@@ -28,6 +28,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleDocumentNotFoundException(DocumentNotFoundException ex, WebRequest request){
+        ErrorObject errorObject = ErrorObject.builder()
+                .statusCode(HttpStatus.NOT_FOUND)
+                .message(ex.getMessage())
+                .timestamp(new Date())
+                .build();
+
+        return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorObject> handleAuthenticationException(AuthenticationException ex, WebRequest request){
         ErrorObject errorObject = ErrorObject.builder()

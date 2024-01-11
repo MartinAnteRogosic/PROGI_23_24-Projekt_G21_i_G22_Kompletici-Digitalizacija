@@ -18,12 +18,13 @@ public class ArchiveInternalDocEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long archIntDocID;
 
+    @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
     private String text;
 
     @OneToOne
-    @JoinColumn(name = "document_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
     private DocumentEntity document;
 
 

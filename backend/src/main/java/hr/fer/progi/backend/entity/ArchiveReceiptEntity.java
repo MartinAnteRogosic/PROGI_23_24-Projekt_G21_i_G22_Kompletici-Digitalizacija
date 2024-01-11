@@ -15,9 +15,10 @@ import lombok.NoArgsConstructor;
 public class ArchiveReceiptEntity {
 
     @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long arcRecID;
 
+    @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
     @Column(name = "clientName")
@@ -29,7 +30,7 @@ public class ArchiveReceiptEntity {
 
 
     @OneToOne
-    @JoinColumn(name = "document_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
     private DocumentEntity document;
 
 }

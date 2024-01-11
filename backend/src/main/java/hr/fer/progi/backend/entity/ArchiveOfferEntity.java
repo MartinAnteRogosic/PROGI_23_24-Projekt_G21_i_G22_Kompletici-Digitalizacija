@@ -18,14 +18,15 @@ public class ArchiveOfferEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long arcOfferID;
 
+    @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
-    @Column(name = "totalPrice", nullable = true)
+    @Column(name = "totalPrice")
     private Float totalPrice;
 
 
     @OneToOne
-    @JoinColumn(name = "doucment_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "doucment_id", referencedColumnName = "id")
     private DocumentEntity document;
 
 }

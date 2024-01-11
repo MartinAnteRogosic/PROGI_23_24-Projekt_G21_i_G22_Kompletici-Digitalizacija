@@ -52,12 +52,13 @@ public class SecurityConfiguration {
 
                                 .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
 
-                                .requestMatchers(POST, "/api/v1/archive/archiveDocument").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
-                                .requestMatchers(GET, "/api/v1/archive/all-archive-documents").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
-                                .requestMatchers(DELETE,"/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/archive/archive-document/{documentId}").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/archive/all-archive-documents").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
 
                                 .anyRequest()
-                                .authenticated()
+                                .denyAll()
+
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
