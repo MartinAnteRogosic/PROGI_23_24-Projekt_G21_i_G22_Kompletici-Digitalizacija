@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class ArchiveInternalDocEntity {
     private DocumentType documentType;
 
     private String text;
+
 
     @OneToOne
     @JoinColumn(name = "document_id", referencedColumnName = "id")

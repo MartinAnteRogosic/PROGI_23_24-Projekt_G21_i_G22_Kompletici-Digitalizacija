@@ -32,7 +32,7 @@ public class ArticlesEntity {
 
     @ManyToOne
     @JoinColumn(name = "arcRecID", referencedColumnName = "arcRecID", insertable = false, updatable = false)
-    private ArchiveReceiptEntity archiveReciept;
+    private ArchiveReceiptEntity archiveReceipt;
 
     @ManyToOne
     @JoinColumn(name = "arcOfferID", referencedColumnName = "arcOfferID", insertable = false, updatable = false)

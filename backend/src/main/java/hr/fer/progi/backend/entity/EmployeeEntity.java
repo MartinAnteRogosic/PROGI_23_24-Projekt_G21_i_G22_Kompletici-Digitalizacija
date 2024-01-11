@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,12 +35,15 @@ public class EmployeeEntity implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "uploadEmployee", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<PhotoEntity> scannedPhotos;
 
     @OneToMany(mappedBy = "validationEmployee", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<DocumentEntity> validatedDocuments;
 
     @OneToMany(mappedBy = "scanEmployee", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<DocumentEntity> scannedDocuments;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AllArchiveDocumentsDto {
 
-    List<ArchiveInternalDocDto> archiveInternalDocs;
-    List<ArchiveOfferDto> archiveOffers;
-    List<ArchiveReceiptDto> archiveReceipts;
+    List<ArchiveInternalDocEntity> archiveInternalDocs;
+    List<ArchiveOfferEntity> archiveOffers;
+    List<ArchiveReceiptEntity> archiveReceipts;
 }

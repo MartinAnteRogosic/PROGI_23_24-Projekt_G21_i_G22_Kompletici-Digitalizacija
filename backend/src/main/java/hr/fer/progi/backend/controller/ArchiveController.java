@@ -25,7 +25,8 @@ public class ArchiveController {
     @GetMapping("/all-archive-documents")
     public ResponseEntity<AllArchiveDocumentsDto> getAllArchivedDocuments() {
         AllArchiveDocumentsDto allArchiveDocumentsDto = archiveService.getAllArchivedDocuments();
-        return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
+        ResponseEntity<AllArchiveDocumentsDto> responseEntity = new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
+        return responseEntity;
     }
 
     @DeleteMapping("/delete-document")

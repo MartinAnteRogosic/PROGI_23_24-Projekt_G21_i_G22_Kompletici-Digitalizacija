@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,8 @@ public class PhotoEntity {
     private DocumentEntity document;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "upload_employee_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "upload_employee_id", referencedColumnName = "id")
+    @JsonBackReference
     private EmployeeEntity uploadEmployee;
 
 }

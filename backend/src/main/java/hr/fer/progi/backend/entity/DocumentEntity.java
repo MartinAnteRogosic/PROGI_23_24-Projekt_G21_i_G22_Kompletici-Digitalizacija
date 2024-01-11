@@ -1,12 +1,12 @@
 package hr.fer.progi.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,12 +27,14 @@ public class DocumentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scan_employee_id")
+    @JsonBackReference
     private EmployeeEntity scanEmployee;
 
     private Boolean correct;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "validation_employee_id")
+    @JsonBackReference
     private EmployeeEntity validationEmployee;
 
     private Boolean verified;
@@ -46,12 +48,13 @@ public class DocumentEntity {
     @JoinColumn(name = "photo_id", referencedColumnName = "photoID")
     private PhotoEntity photo;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "document")
     private ArchiveInternalDocEntity archiveInternalDocEntity;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "document")
     private ArchiveOfferEntity archiveOfferEntity;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "document")
     private ArchiveReceiptEntity archiveReceiptEntity;
 

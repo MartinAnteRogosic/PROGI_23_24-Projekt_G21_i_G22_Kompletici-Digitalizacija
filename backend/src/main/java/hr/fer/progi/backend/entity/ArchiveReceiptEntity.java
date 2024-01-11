@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class ArchiveReceiptEntity {
 
     @Column(name = "totalPrice")
     private Float totalPrice;
+
 
 
 

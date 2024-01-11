@@ -67,43 +67,13 @@ public class ArchiveServiceImpl implements ArchiveService {
 
     @Override
     public AllArchiveDocumentsDto getAllArchivedDocuments() {
-        List<ArchiveInternalDocEntity> archiveInternalDocEntities = archiveInternalDocRepository.findAll();
-        List<ArchiveOfferEntity> archiveOfferEntities = archiveOfferRepository.findAll();
-        List<ArchiveReceiptEntity> archiveReceiptEntities = archiveReceiptRepository.findAll();
-
-        List<ArchiveInternalDocDto> archiveInternalDocDtos = archiveInternalDocEntities.stream()
-                .map(entity ->{
-                    return ArchiveInternalDocDto.builder()
-                            .archiveInternalDocId(entity.getArchIntDocID())
-                            .documentType(entity.getDocumentType())
-                            .documentUrl(entity.getDocument().getUrl())
-                            .build();
-                }).collect(Collectors.toList());
-
-
-        List<ArchiveOfferDto> archiveOfferDtos = archiveOfferEntities.stream()
-                .map(entity ->{
-                    return ArchiveOfferDto.builder()
-                            .archiveOfferId(entity.getArcOfferID())
-                            .documentType(entity.getDocumentType())
-                            .documentUrl(entity.getDocument().getUrl())
-                            .build();
-                }).collect(Collectors.toList());
-
-        List<ArchiveReceiptDto> archiveReceiptDtos = archiveReceiptEntities.stream()
-                .map(entity ->{
-                    return ArchiveReceiptDto.builder()
-                            .archiveReceiptId(entity.getArcRecID())
-                            .documentType(entity.getDocumentType())
-                            .documentUrl(entity.getDocument().getUrl())
-                            .build();
-                }).collect(Collectors.toList());
 
         return AllArchiveDocumentsDto.builder()
-                .archiveInternalDocs(archiveInternalDocDtos)
-                .archiveOffers(archiveOfferDtos)
-                .archiveReceipts(archiveReceiptDtos)
+                .archiveInternalDocs(archiveInternalDocRepository.findAll())
+                .archiveOffers(archiveOfferRepository.findAll())
+                .archiveReceipts(archiveReceiptRepository.findAll())
                 .build();
+
     }
 
     @Override
