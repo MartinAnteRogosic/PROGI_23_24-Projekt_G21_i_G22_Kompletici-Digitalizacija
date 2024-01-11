@@ -28,8 +28,12 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public List<DocumentEntity> getDocumentsByType(DocumentType documentType) {
-        return documentRepository.findByType(documentType);
+    public List<DocumentDto> getDocumentsByType(DocumentType documentType) {
+        List<DocumentEntity> documents = documentRepository.findByType(documentType);
+
+        return documents.stream().map(
+                this::mapDocumentEntityToDto)
+                .collect(Collectors.toList());
 
     }
 
@@ -88,7 +92,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<DocumentEntity> getAllVerifedDocuments() {
+    public List<DocumentEntity> getAllVerifiedDocuments() {
         return documentRepository.findAllVerifiedDocuments();
     }
 
@@ -100,8 +104,12 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<DocumentEntity> getAllDocumentsForSign() {
-        return documentRepository.findDocumentsToBeSigned();
+    public List<DocumentDto> getAllDocumentsForSign() {
+        List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrue();
+
+        return documents.stream().map(
+                this::mapDocumentEntityToDto)
+                .collect(Collectors.toList());
 
     }
 
@@ -129,7 +137,6 @@ public class DocumentServiceImpl implements DocumentService {
     public DocumentDto mapDocumentEntityToDto(DocumentEntity documentEntity) {
         return DocumentDto.builder()
                 .id(documentEntity.getId())
-                .type(documentEntity.getType())
                 .url(documentEntity.getUrl())
                 .build();
     }

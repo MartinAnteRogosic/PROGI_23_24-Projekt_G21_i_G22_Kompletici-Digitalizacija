@@ -31,7 +31,7 @@ public class DocumentController {
     private final DocumentRepository documentRepository;
 
     @GetMapping("/type/{documentType}")
-    public List<DocumentEntity> getDocumentsByType(@PathVariable DocumentType documentType) {
+    public List<DocumentDto> getDocumentsByType(@PathVariable DocumentType documentType) {
         return documentService.getDocumentsByType(documentType);
     }
 
@@ -40,7 +40,7 @@ public class DocumentController {
         return documentService.getDocumentById(documentId);
     }
 
-    @GetMapping("/get-documents-by-reviser-id/{reviserId}")
+    @GetMapping("/get-by-reviser-id/{reviserId}")
     public ResponseEntity<List<DocumentDto>>getDocumentsByReviserId(@PathVariable Long reviserId) {
 
         List<DocumentDto> documents = documentService.getDocumentsByVerificationEmployeeId(reviserId);
@@ -78,8 +78,8 @@ public class DocumentController {
     @GetMapping("/all-verified-documents")
     public ResponseEntity<List<DocumentEntity>> getAllVerifedDocuments() {
 
-        List<DocumentEntity> listOfVerifedDocuments = documentService.getAllVerifedDocuments();
-        return new ResponseEntity<>(listOfVerifedDocuments, HttpStatus.OK);
+        List<DocumentEntity> listOfVerifiedDocuments = documentService.getAllVerifiedDocuments();
+        return new ResponseEntity<>(listOfVerifiedDocuments, HttpStatus.OK);
     }
 
     @GetMapping("/send-on-sign")
@@ -90,8 +90,8 @@ public class DocumentController {
     }
 
     @GetMapping("/documents-for-sign")
-    public ResponseEntity<List<DocumentEntity>> getAllDocumentsForSinged() {
-        List<DocumentEntity> listOfDocumentsForSign = documentService.getAllDocumentsForSign();
+    public ResponseEntity<List<DocumentDto>> getAllDocumentsForSinged() {
+        List<DocumentDto> listOfDocumentsForSign = documentService.getAllDocumentsForSign();
         return new ResponseEntity<>(listOfDocumentsForSign, HttpStatus.OK);
     }
 

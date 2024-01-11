@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.controller;
 
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.service.impl.ConversionConfirmationService;
@@ -20,7 +21,7 @@ public class ConversionConfirmationController {
 
 
     @GetMapping("/documents/{documentType}")
-    public List<DocumentEntity> getDocumentsForConfirmation(@PathVariable DocumentType documentType) {
+    public List<DocumentDto> getDocumentsForConfirmation(@PathVariable DocumentType documentType) {
         return documentService.getDocumentsByType(documentType);
     }
 

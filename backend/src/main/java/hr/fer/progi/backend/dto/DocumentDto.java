@@ -11,7 +11,7 @@ import lombok.Data;
 public class DocumentDto {
 
     private Long id;
-    private DocumentType type;
     private String url;
+    private Boolean correct;
 
 }

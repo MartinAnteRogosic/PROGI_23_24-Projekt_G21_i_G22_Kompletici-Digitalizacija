@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DocumentService {
 
-    List<DocumentEntity> getDocumentsByType(DocumentType documentType);
+    List<DocumentDto> getDocumentsByType(DocumentType documentType);
 
     DocumentEntity getDocumentById(Long documentId);
 
@@ -25,11 +25,11 @@ public interface DocumentService {
 
 
 
-    List<DocumentEntity> getAllVerifedDocuments();
+    List<DocumentEntity> getAllVerifiedDocuments();
 
     void setDocumentToBeSinged(Long documentId);
 
-    List<DocumentEntity> getAllDocumentsForSign();
+    List<DocumentDto> getAllDocumentsForSign();
 
     void signDocument(Long documentId);
 
