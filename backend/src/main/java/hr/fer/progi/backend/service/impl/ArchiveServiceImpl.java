@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.service.impl;
 
-import hr.fer.progi.backend.dto.AllArchiveDocumentsDto;
-import hr.fer.progi.backend.dto.ArchiveDeleteDto;
+import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.*;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,10 +71,38 @@ public class ArchiveServiceImpl implements ArchiveService {
         List<ArchiveOfferEntity> archiveOfferEntities = archiveOfferRepository.findAll();
         List<ArchiveReceiptEntity> archiveReceiptEntities = archiveReceiptRepository.findAll();
 
+        List<ArchiveInternalDocDto> archiveInternalDocDtos = archiveInternalDocEntities.stream()
+                .map(entity ->{
+                    return ArchiveInternalDocDto.builder()
+                            .archiveInternalDocId(entity.getArchIntDocID())
+                            .documentType(entity.getDocumentType())
+                            .documentUrl(entity.getDocument().getUrl())
+                            .build();
+                }).collect(Collectors.toList());
+
+
+        List<ArchiveOfferDto> archiveOfferDtos = archiveOfferEntities.stream()
+                .map(entity ->{
+                    return ArchiveOfferDto.builder()
+                            .archiveOfferId(entity.getArcOfferID())
+                            .documentType(entity.getDocumentType())
+                            .documentUrl(entity.getDocument().getUrl())
+                            .build();
+                }).collect(Collectors.toList());
+
+        List<ArchiveReceiptDto> archiveReceiptDtos = archiveReceiptEntities.stream()
+                .map(entity ->{
+                    return ArchiveReceiptDto.builder()
+                            .archiveReceiptId(entity.getArcRecID())
+                            .documentType(entity.getDocumentType())
+                            .documentUrl(entity.getDocument().getUrl())
+                            .build();
+                }).collect(Collectors.toList());
+
         return AllArchiveDocumentsDto.builder()
-                .archiveInternalDocEntities(archiveInternalDocEntities)
-                .archiveOfferEntities(archiveOfferEntities)
-                .archiveReceiptEntities(archiveReceiptEntities)
+                .archiveInternalDocs(archiveInternalDocDtos)
+                .archiveOffers(archiveOfferDtos)
+                .archiveReceipts(archiveReceiptDtos)
                 .build();
     }
 
