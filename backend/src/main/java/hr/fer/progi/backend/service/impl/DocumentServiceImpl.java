@@ -100,15 +100,19 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-   public void setDocumentToBeSinged(Long documentId) {
-        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
-            document.setToBeSigned(true);
+   public String setDocumentToBeSinged(DocumentDto documentDto) {
+        DocumentEntity document = documentRepository.findById(documentDto.getId())
+                .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+
+            document.setToBeSigned(documentDto.getToBeSigned());
             documentRepository.save(document);
+
+            return String.format("Document %s has been sent to director for signing", document.getId());
     }
 
     @Override
-    public List<DocumentDto> getAllDocumentsForSign() {
-        List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrue();
+    public List<DocumentDto> getAllDocumentsForSigning() {
+        List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrueAndVerifiedIsTrue();
 
         return documents.stream().map(
                 this::mapDocumentEntityToDto)
@@ -157,6 +161,16 @@ public class DocumentServiceImpl implements DocumentService {
         documentRepository.save(document);
 
         return String.format("Document %s is set to be %s", document.getId(), document.getCorrect() ? "correct" : "incorrect");
+    }
+
+    @Override
+    public String setVerified(DocumentDto documentDto) {
+        DocumentEntity document = documentRepository.findById(documentDto.getId())
+                .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+
+        document.setVerified(documentDto.getVerified());
+        documentRepository.save(document);
+        return String.format("Document %s has been verified", document.getId());
     }
 
 

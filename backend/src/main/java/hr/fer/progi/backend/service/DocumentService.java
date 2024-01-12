@@ -27,9 +27,9 @@ public interface DocumentService {
 
     List<DocumentEntity> getAllVerifiedDocuments();
 
-    void setDocumentToBeSinged(Long documentId);
+    String setDocumentToBeSinged(DocumentDto documentDto);
 
-    List<DocumentDto> getAllDocumentsForSign();
+    List<DocumentDto> getAllDocumentsForSigning();
 
     void signDocument(Long documentId);
 
@@ -40,4 +40,6 @@ public interface DocumentService {
     void sendToReviser(ChooseReviserDto choosereviserdto);
 
     String setCorrect(DocumentDto documentDto);
+
+    String setVerified(DocumentDto documentDto);
 }

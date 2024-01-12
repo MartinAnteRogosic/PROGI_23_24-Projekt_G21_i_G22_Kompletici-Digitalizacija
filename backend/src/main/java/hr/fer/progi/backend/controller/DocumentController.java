@@ -1,15 +1,12 @@
 package hr.fer.progi.backend.controller;
 import hr.fer.progi.backend.dto.ChooseReviserDto;
-import hr.fer.progi.backend.dto.ChooseRevisorDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
-import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
-import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +61,14 @@ public class DocumentController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<String> setValidate(@RequestBody DocumentDto documentDto) {
+
+        String response = documentService.setVerified(documentDto);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/historyDocument/{userId}")
     public ResponseEntity<List<DocumentEntity>> getAllDocumentById(@PathVariable Long userId) {
         List<DocumentEntity> documents = documentService.getAllDocumentsForUser(userId);
@@ -94,17 +98,17 @@ public class DocumentController {
         return new ResponseEntity<>(listOfVerifiedDocuments, HttpStatus.OK);
     }
 
-    @GetMapping("/send-on-sign")
-    public ResponseEntity<String> setDocumentsToBeSinged(Long documentId) {
-        documentService.setDocumentToBeSinged(documentId);
-         return ResponseEntity.ok("Document successfully marked to be signed.");
+    @PostMapping("/send-to-sign")
+    public ResponseEntity<String> setDocumentsToBeSinged(@RequestBody DocumentDto documentDto) {
 
+        String response = documentService.setDocumentToBeSinged(documentDto);
+         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/documents-for-sign")
-    public ResponseEntity<List<DocumentDto>> getAllDocumentsForSinged() {
-        List<DocumentDto> listOfDocumentsForSign = documentService.getAllDocumentsForSign();
-        return new ResponseEntity<>(listOfDocumentsForSign, HttpStatus.OK);
+    public ResponseEntity<List<DocumentDto>> getAllDocumentsForSigning(){
+        List<DocumentDto> listOfDocumentsForSigning = documentService.getAllDocumentsForSigning();
+        return new ResponseEntity<>(listOfDocumentsForSigning, HttpStatus.OK);
     }
 
     @GetMapping("/sign-document")

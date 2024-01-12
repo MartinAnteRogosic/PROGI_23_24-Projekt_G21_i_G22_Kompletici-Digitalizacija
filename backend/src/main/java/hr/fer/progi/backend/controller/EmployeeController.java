@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,12 @@ public class EmployeeController {
         List<EmployeeDto> listOfRevisers = employeeService.getAllRevisers();
 
         return new ResponseEntity<>(listOfRevisers, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-revision-documents")
+    public ResponseEntity<?> getRevisionDocuments(Principal connectedEmployee){
+        List<DocumentDto> listOfRevisionDocuments = employeeService.getRevisionDocuments(connectedEmployee);
+
+        return new ResponseEntity<>(listOfRevisionDocuments, HttpStatus.OK);
     }
 }

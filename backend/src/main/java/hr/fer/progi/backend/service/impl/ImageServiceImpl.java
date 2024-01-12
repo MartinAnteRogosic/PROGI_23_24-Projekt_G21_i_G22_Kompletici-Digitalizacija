@@ -102,6 +102,8 @@ public class ImageServiceImpl implements ImageService {
                                 .fileName(textFile.getName())
                                 .url(documentURL)
                                 .scanEmployee(employee)
+                                .verified(false)
+                                .signed(false)
                                 .photo(photo)
                                 .build();
 

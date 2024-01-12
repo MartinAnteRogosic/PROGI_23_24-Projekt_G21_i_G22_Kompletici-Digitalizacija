@@ -1,6 +1,5 @@
 package hr.fer.progi.backend.dto;
 
-import hr.fer.progi.backend.entity.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +12,8 @@ public class DocumentDto {
     private Long id;
     private String url;
     private Boolean correct;
+    private Boolean verified;
+    private Boolean signed;
+    private Boolean toBeSigned;
 
 }

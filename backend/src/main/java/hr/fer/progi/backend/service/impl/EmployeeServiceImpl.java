@@ -2,11 +2,14 @@ package hr.fer.progi.backend.service.impl;
 
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.ChangePasswordException;
 import hr.fer.progi.backend.exception.NoRevisersFoundException;
+import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
+    private final DocumentServiceImpl documentService;
+    private final DocumentRepository documentRepository;
     public void changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
 
         EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
@@ -86,6 +92,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return revisers.stream()
                 .map(this::mapToDtoForGetAll)
                 .toList();
+    }
+
+    @Override
+    public List<DocumentDto> getRevisionDocuments(Principal connectedEmployee) {
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
+
+        return documents.stream().map(documentService::mapDocumentEntityToDto).collect(Collectors.toList());
     }
 
     @Override
