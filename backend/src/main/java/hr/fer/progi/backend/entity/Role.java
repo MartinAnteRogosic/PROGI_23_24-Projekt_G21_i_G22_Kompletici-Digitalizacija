@@ -16,12 +16,47 @@ import static hr.fer.progi.backend.entity.Permission.*;
 public enum Role {
 
     EMPLOYEE(Collections.emptySet()),
+
     REVISER(Set.of(
             CHANGE_DOCUMENT_CATEGORY
     )),
 
     ACCOUNTANT(Set.of(
-            CHANGE_DOCUMENT_CATEGORY
+            ARCHIVE_DOCUMENT,
+            ARCHIVE_ALL_DOCUMENTS,
+            ARCHIVE_DELETE_DOCUMENT,
+            DOCUMENT_GET_BY_TYPE,
+            DOCUMENT_GET_BY_ID,
+            DOCUMENT_SEND_TO_SIGN,
+            DOCUMENT_CHANGE_CATEGORY
+    )),
+
+    ACCOUNTANT_RECEIPT(Set.of(
+            ARCHIVE_DOCUMENT,
+            ARCHIVE_ALL_DOCUMENTS,
+            ARCHIVE_DELETE_DOCUMENT,
+            DOCUMENT_GET_BY_TYPE,
+            DOCUMENT_GET_BY_ID,
+            DOCUMENT_SEND_TO_SIGN,
+            DOCUMENT_CHANGE_CATEGORY
+    )),
+    ACCOUNTANT_OFFER(Set.of(
+            ARCHIVE_DOCUMENT,
+            ARCHIVE_ALL_DOCUMENTS,
+            ARCHIVE_DELETE_DOCUMENT,
+            DOCUMENT_GET_BY_TYPE,
+            DOCUMENT_GET_BY_ID,
+            DOCUMENT_SEND_TO_SIGN,
+            DOCUMENT_CHANGE_CATEGORY
+    )),
+    ACCOUNTANT_INT_DOC(Set.of(
+            ARCHIVE_DOCUMENT,
+            ARCHIVE_ALL_DOCUMENTS,
+            ARCHIVE_DELETE_DOCUMENT,
+            DOCUMENT_GET_BY_TYPE,
+            DOCUMENT_GET_BY_ID,
+            DOCUMENT_SEND_TO_SIGN,
+            DOCUMENT_CHANGE_CATEGORY
     )),
 
     DIRECTOR(Set.of(

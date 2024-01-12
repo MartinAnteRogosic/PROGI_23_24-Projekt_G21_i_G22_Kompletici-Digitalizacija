@@ -41,6 +41,8 @@ public class SecurityConfiguration {
                         request
                                 .requestMatchers("/api/v1/authenticate/**")
                                 .permitAll()
+
+
                                 .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
 
                                 .requestMatchers("/api/v1/employee-management/**").hasRole(DIRECTOR.name())
@@ -56,6 +58,9 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/archive/all-archive-documents").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
                                 .requestMatchers("/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
 
+                                .requestMatchers("/api/v1/test/reviser").hasRole(REVISER.name())
+                                .requestMatchers("/api/v1/test/director").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/test/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
                                 .anyRequest()
                                 .denyAll()
 

@@ -62,7 +62,7 @@ public class DocumentController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> setValidate(@RequestBody DocumentDto documentDto) {
+    public ResponseEntity<String> setVerified(@RequestBody DocumentDto documentDto) {
 
         String response = documentService.setVerified(documentDto);
 
@@ -92,7 +92,7 @@ public class DocumentController {
     }
 
     @GetMapping("/all-verified-documents")
-    public ResponseEntity<List<DocumentEntity>> getAllVerifedDocuments() {
+    public ResponseEntity<List<DocumentEntity>> getAllVerifiedDocuments() {
 
         List<DocumentEntity> listOfVerifiedDocuments = documentService.getAllVerifiedDocuments();
         return new ResponseEntity<>(listOfVerifiedDocuments, HttpStatus.OK);
