@@ -27,8 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,8 +49,11 @@ public class ImageServiceImpl implements ImageService {
     public PhotoEntity uploadImage(MultipartFile multipartFile, EmployeeEntity employee) {
 
         try {
-            String fileName = multipartFile.getOriginalFilename();
-            String fileName_new = UUID.randomUUID().toString().concat(cloudStorageServiceImpl.getExtension(fileName));
+            String fileName = Objects.requireNonNull(multipartFile.getOriginalFilename()).replaceAll(" ", "_");
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+
+            String fileName_new = fileName.split("\\.")[0].concat("_").concat(formatter.format(new Date())).concat(".").concat(fileName.split("\\.")[1]);
 
             File file = cloudStorageServiceImpl.convertToFile(multipartFile, fileName_new);
             String URL = cloudStorageServiceImpl.uploadFile(file, fileName_new);
@@ -107,7 +112,7 @@ public class ImageServiceImpl implements ImageService {
                     try {
                         PhotoEntity photo = uploadImage(file, employee);
 
-                        File textFile = generateTextFile(file);
+                        File textFile = generateTextFile(file, photo.getImageName());
                         String documentURL = cloudStorageServiceImpl.uploadFile(textFile, textFile.getName());
 
                         DocumentEntity document = DocumentEntity.builder()
@@ -143,17 +148,10 @@ public class ImageServiceImpl implements ImageService {
         return photoRepository.findAll();
     }
 
-    public String processMultipleImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
-
-        EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
-
-        return "multiple images processed successfully";
-    }
-
-    public File generateTextFile(MultipartFile multipartFile) throws IOException {
+    public File generateTextFile(MultipartFile multipartFile, String fileName) throws IOException {
 
         String text = tesseractOCRServiceImpl.recognizeText(multipartFile.getInputStream());
-        String documentName = UUID.randomUUID().toString();
+        String documentName = fileName.split("\\.")[0];
         Path tempFile = Files.createTempFile(documentName, ".txt");
         Files.write(tempFile, text.getBytes(), StandardOpenOption.WRITE);
         File  textFile = tempFile.toFile();
