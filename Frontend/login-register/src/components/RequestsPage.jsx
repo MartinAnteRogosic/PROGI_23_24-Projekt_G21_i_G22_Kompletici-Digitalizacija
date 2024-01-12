@@ -23,6 +23,10 @@ const RequestsPage = () => {
     async function getRequests() {
         try {
             //if logged-in user is revisor, send request for all documents and photos where verifierID == revisor's ID
+            if (user.role === "revisor") {
+                const res = await API.get("/api/v1/employees/get-revision-documents", config);
+                console.log(res.data);
+            }
             //if logged-in user is accountant, send request for all documents and photos where verified == true, archived == false and documentType == accountant's type
             //if logged-in user is director, send request for all documents and photos where signatureFromID == director's ID and signed == false
           const res = await API.get("", config);

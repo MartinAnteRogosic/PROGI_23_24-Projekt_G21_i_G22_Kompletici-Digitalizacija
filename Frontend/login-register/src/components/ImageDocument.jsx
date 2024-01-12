@@ -129,8 +129,7 @@ const ImageDocument = (props) => {
                             ))}
                         </div>
                         )
-                    }
-                    
+                    }            
                 </div>
             </Modal>
         </div>
