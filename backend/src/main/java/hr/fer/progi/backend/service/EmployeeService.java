@@ -5,6 +5,7 @@ import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 
 import java.security.Principal;
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -15,4 +16,5 @@ public interface EmployeeService {
     EmployeeDto mapToDtoForGetAll(EmployeeEntity employeeEntity);
     EmployeeEntity mapToEntity(EmployeeDto employeeDto);
 
+    List<EmployeeDto> getAllRevisers();
 }

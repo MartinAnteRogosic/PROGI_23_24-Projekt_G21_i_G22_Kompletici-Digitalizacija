@@ -18,7 +18,7 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleEmployeeNotFoundException(EmployeeNotFoundException ex){
         ErrorObject errorObject = ErrorObject.builder()
                 .statusCode(HttpStatus.NOT_FOUND)
                 .message(ex.getMessage())
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DocumentNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleDocumentNotFoundException(DocumentNotFoundException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleDocumentNotFoundException(DocumentNotFoundException ex){
         ErrorObject errorObject = ErrorObject.builder()
                 .statusCode(HttpStatus.NOT_FOUND)
                 .message(ex.getMessage())
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorObject> handleAuthenticationException(AuthenticationException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleAuthenticationException(AuthenticationException ex){
         ErrorObject errorObject = ErrorObject.builder()
                 .statusCode(HttpStatus.BAD_REQUEST)
                 .message(ex.getMessage())
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorObject> handleAccessDeniedException(AccessDeniedException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleAccessDeniedException(AccessDeniedException ex){
         ErrorObject errorObject = ErrorObject.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED)
                 .message(ex.getMessage())
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ChangePasswordException.class)
-    public ResponseEntity<ErrorObject> handleChangePasswordException(ChangePasswordException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleChangePasswordException(ChangePasswordException ex){
         ErrorObject errorObject = ErrorObject.builder()
                 .statusCode(HttpStatus.BAD_REQUEST)
                 .message(ex.getMessage())
@@ -70,5 +70,16 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorObject,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoRevisersFoundException.class)
+    public ResponseEntity<ErrorObject> handleNoRevisersFoundException(NoRevisersFoundException ex){
+        ErrorObject errorObject = ErrorObject.builder()
+                .statusCode(HttpStatus.NOT_FOUND)
+                .message(ex.getMessage())
+                .timestamp(new Date())
+                .build();
+
+        return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
     }
 }

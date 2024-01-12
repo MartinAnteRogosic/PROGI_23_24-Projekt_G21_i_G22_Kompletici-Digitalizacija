@@ -1,13 +1,17 @@
 package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
+import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
+import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final PhotoRepository photoRepository;
+    private final EmployeeRepository employeeRepository;
 
 
     @Override
@@ -129,6 +134,29 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<DocumentEntity> getAllDocuments() {
         return documentRepository.findAll();
+    }
+
+    @Override
+    public void sendToReviser(ChooseReviserDto choosereviserdto) {
+        DocumentEntity document = documentRepository.findById(choosereviserdto.getDocumentId())
+                .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+
+        EmployeeEntity reviser = employeeRepository.findById(choosereviserdto.getReviserId())
+                .orElseThrow(() -> new EmployeeNotFoundException("Reviser not found"));
+
+        document.setValidationEmployee(reviser);
+        documentRepository.save(document);
+    }
+
+    @Override
+    public String setCorrect(DocumentDto documentDto) {
+        DocumentEntity document = documentRepository.findById(documentDto.getId())
+                .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+
+        document.setCorrect(documentDto.getCorrect());
+        documentRepository.save(document);
+
+        return String.format("Document %s is set to be %s", document.getId(), document.getCorrect() ? "correct" : "incorrect");
     }
 
 

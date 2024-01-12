@@ -1,4 +1,5 @@
 package hr.fer.progi.backend.controller;
+import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.ChooseRevisorDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
@@ -48,9 +49,20 @@ public class DocumentController {
         return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
-    @PostMapping("/choose-reviser")
-    public ResponseEntity<String> chooseRevisor(@RequestBody ChooseRevisorDto chooserevisordto) {
-        return null;
+    @PostMapping("/send-to-reviser")
+    public ResponseEntity<String> sendToReviser(@RequestBody ChooseReviserDto choosereviserdto) {
+
+        documentService.sendToReviser(choosereviserdto);
+
+        return new ResponseEntity<>("Document sent to reviser", HttpStatus.OK);
+    }
+
+    @PostMapping("/correct")
+    public ResponseEntity<String> setCorrect(@RequestBody DocumentDto documentDto) {
+
+        String response = documentService.setCorrect(documentDto);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/historyDocument/{userId}")

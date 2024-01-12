@@ -77,7 +77,6 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
-    /*ovo je sam testno, nece ovak radit*/
     @Override
     public String deleteImage(Long imageId) throws IOException {
         PhotoEntity photo = photoRepository.findById(imageId)

@@ -1,12 +1,15 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
+import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -32,5 +35,10 @@ public class EmployeeController {
 
 
 
-    //@GetMapping(/getAllRevisors)
+    @GetMapping("/get-all-revisers")
+    public ResponseEntity<?> getAllRevisers(){
+        List<EmployeeDto> listOfRevisers = employeeService.getAllRevisers();
+
+        return new ResponseEntity<>(listOfRevisers, HttpStatus.OK);
+    }
 }

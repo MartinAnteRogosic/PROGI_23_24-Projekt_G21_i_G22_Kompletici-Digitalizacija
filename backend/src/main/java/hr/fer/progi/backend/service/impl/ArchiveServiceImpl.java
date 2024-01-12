@@ -81,8 +81,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 
     @Override
     public String deleteDocument(ArchiveDeleteDto archiveDeleteDto) throws IOException {
-        EmployeeEntity director = employeeRepository.findByRole(Role.DIRECTOR).orElseThrow(
-                ()-> new EmployeeNotFoundException("Director could not be found"));
+        EmployeeEntity director = employeeRepository.findByRole(Role.DIRECTOR).get(0);
 
 
         if(!passwordEncoder.matches(archiveDeleteDto.getDirectorPassword(), director.getPassword())){
