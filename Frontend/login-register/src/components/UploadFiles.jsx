@@ -8,6 +8,10 @@ const UploadFiles = () => {
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
+    const [returned, setReturned] = useState(false);
+    const [data, setData] = useState([]);
+
+    //let data = undefined;
 
     const config = {
         headers: {
@@ -32,7 +36,7 @@ const UploadFiles = () => {
         const formData = new FormData();
         //console.log(selectedFiles);
         for (const file of selectedFiles){
-            formData.append('file', file);
+            formData.append('files', file);
         };
         
         for (const value of formData.values()) {
@@ -40,8 +44,10 @@ const UploadFiles = () => {
         };
 
         try {
-            const res = await API.post('/ocr', formData, config);
-            console.log(res);
+            const res = await API.post('/api/v1/images/upload', formData, config);
+            setData(res.data);
+            setReturned(true);
+            console.log(data);
         } catch(err) {
             console.log(err);
         }
@@ -70,8 +76,9 @@ const UploadFiles = () => {
             )}
 
         <button type="submit">Submit</button>
-        <ImageDocument />
-        
+        {returned && (
+            <ImageDocument imgdoc={data.length > 0 ? data[0] : null} />
+        )}
       </form>
     </div>
   );

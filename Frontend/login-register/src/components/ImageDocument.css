@@ -7,3 +7,7 @@
     width: 400px;
     height: 400px;
 }
+
+.scanned-text {
+    white-space: pre-line;
+}
