@@ -11,5 +11,6 @@ public interface CloudStorageService {
 
     File convertToFile(MultipartFile multipartFile, String fileName) throws IOException;
 
+    String deleteFile(String fileName) throws IOException;
     String getExtension(String fileName);
 }

@@ -83,23 +83,7 @@ public class ImageServiceImpl implements ImageService {
         PhotoEntity photo = photoRepository.findById(imageId)
                 .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
 
-
-        BlobId blobId = BlobId.of("kompletici.appspot.com", photo.getImageName());
-
-
-        InputStream inputStream = ImageService.class
-                .getClassLoader()
-                .getResourceAsStream("kompletici-firebase-adminsdk-4g7dm-326a116887.json");
-
-        Credentials credentials = GoogleCredentials.fromStream(inputStream);
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(credentials)
-                .build()
-                .getService();
-
-        storage.delete(blobId);
-
-        return "Deleted successfully";
+        return cloudStorageServiceImpl.deleteFile(photo.getImageName());
     }
 
     @Override

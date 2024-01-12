@@ -11,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,8 @@ public class ArchiveServiceImpl implements ArchiveService {
     private final DocumentRepository documentRepository;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CloudStorageServiceImpl cloudStorageService;
+    private final PhotoRepository photoRepository;
 
     @Override
     public String archiveDocument(Long documentID) {
@@ -77,7 +80,7 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
-    public String deleteDocument(ArchiveDeleteDto archiveDeleteDto) {
+    public String deleteDocument(ArchiveDeleteDto archiveDeleteDto) throws IOException {
         EmployeeEntity director = employeeRepository.findByRole(Role.DIRECTOR).orElseThrow(
                 ()-> new EmployeeNotFoundException("Director could not be found"));
 
@@ -89,19 +92,39 @@ public class ArchiveServiceImpl implements ArchiveService {
         if(archiveDeleteDto.getDocumentType().equals(DocumentType.INTERNAL_DOCUMENT)){
             ArchiveInternalDocEntity archiveInternalDoc = archiveInternalDocRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Internal document could not be found in the archive"));
+
+            deleteFromCloud(archiveInternalDoc.getDocument().getId());
             archiveInternalDocRepository.delete(archiveInternalDoc);
         }
         else if(archiveDeleteDto.getDocumentType().equals(DocumentType.OFFER)){
             ArchiveOfferEntity archiveOffer = archiveOfferRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Offer document could not be found in the archive"));
+
+            deleteFromCloud(archiveOffer.getDocument().getId());
+
             archiveOfferRepository.delete(archiveOffer);
         }
         else if(archiveDeleteDto.getDocumentType().equals(DocumentType.RECEIPT)){
             ArchiveReceiptEntity archiveReceipt = archiveReceiptRepository.findById(archiveDeleteDto.getArchiveId())
                     .orElseThrow(()->new DocumentNotFoundException("Receipt document could not be found in the archive"));
+
+            deleteFromCloud(archiveReceipt.getDocument().getId());
+
             archiveReceiptRepository.delete(archiveReceipt);
         }
 
         return "Document deleted successfully";
+    }
+
+
+    public void deleteFromCloud(Long documentId) throws IOException {
+        DocumentEntity document = documentRepository.findById(documentId)
+                .orElseThrow(()->new DocumentNotFoundException("Document could not be found"));
+
+        PhotoEntity photo = photoRepository.findById(document.getPhoto().getPhotoID())
+                .orElseThrow(()->new DocumentNotFoundException("Photo could not be found"));
+
+        cloudStorageService.deleteFile(photo.getImageName());
+        cloudStorageService.deleteFile(document.getFileName());
     }
 }

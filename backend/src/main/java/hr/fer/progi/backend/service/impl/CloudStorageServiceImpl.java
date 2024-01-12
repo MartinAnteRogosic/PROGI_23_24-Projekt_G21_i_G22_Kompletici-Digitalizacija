@@ -48,6 +48,26 @@ public class CloudStorageServiceImpl implements CloudStorageService {
     }
 
     @Override
+    public String deleteFile(String fileName) throws IOException {
+        BlobId blobId = BlobId.of("kompletici.appspot.com", fileName);
+
+
+        InputStream inputStream = ImageService.class
+                .getClassLoader()
+                .getResourceAsStream("kompletici-firebase-adminsdk-4g7dm-326a116887.json");
+
+        Credentials credentials = GoogleCredentials.fromStream(inputStream);
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();
+
+        storage.delete(blobId);
+
+        return "File deleted successfully";
+    }
+
+    @Override
     public File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
 
         File file = new File(fileName);

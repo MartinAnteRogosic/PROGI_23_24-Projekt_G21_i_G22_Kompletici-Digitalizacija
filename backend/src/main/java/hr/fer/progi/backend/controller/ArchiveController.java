@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
@@ -30,7 +32,7 @@ public class ArchiveController {
     }
 
     @DeleteMapping("/delete-document")
-    public ResponseEntity<String> deleteDocument(@RequestBody ArchiveDeleteDto archiveDeleteDto) {
+    public ResponseEntity<String> deleteDocument(@RequestBody ArchiveDeleteDto archiveDeleteDto) throws IOException {
         String response = archiveService.deleteDocument(archiveDeleteDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
