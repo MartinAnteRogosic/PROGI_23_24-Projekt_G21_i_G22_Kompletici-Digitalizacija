@@ -2,6 +2,7 @@ package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.service.impl.TesseractOCRServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @RestController
 public class OcrController {
 

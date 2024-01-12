@@ -16,6 +16,7 @@ import java.util.List;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/v1/employee-management")
 public class EmployeeManagementController {
 
