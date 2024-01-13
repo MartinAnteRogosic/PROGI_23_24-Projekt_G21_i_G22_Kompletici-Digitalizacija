@@ -102,7 +102,7 @@ const ImageDocument = (props) => {
     }
 
     return (
-        <div>
+        <div className="img-doc-container">
             <img src={props.imgdoc.photoUrl} alt="img"
                 onClick={openModal} className="document-photo"/>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>

@@ -7,7 +7,6 @@ const UploadFiles = () => {
 
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const [selectedFiles, setSelectedFiles] = useState([]);
-    const [previewImages, setPreviewImages] = useState([]);
     const [returned, setReturned] = useState(false);
     const [data, setData] = useState([]);
 
@@ -25,9 +24,6 @@ const UploadFiles = () => {
         console.log(files);
 
         setSelectedFiles(files);
-
-        const previews = Array.from(files).map((file) => URL.createObjectURL(file));
-        setPreviewImages(previews);
     };
 
     async function handleSubmit(e) {
@@ -66,18 +62,13 @@ const UploadFiles = () => {
             onChange={handleFileChange}
             />
 
-            {previewImages.length > 0 && (
-            <div>
-                <p>Preview:</p>
-                {previewImages.map((preview, index) => (
-                <img key={index} src={preview} alt={`Preview ${index}`} style={{ maxWidth: '100px', maxHeight: '100px', margin: '5px' }} />
-                ))}
-            </div>
-            )}
-
         <button type="submit">Submit</button>
         {returned && (
-            <ImageDocument imgdoc={data.length > 0 ? data[0] : null} />
+            <div className='uploaded-files'>
+                { data.map((imgdoc, index) => (
+                    <ImageDocument key={index} imgdoc={imgdoc}/>
+                ))}
+            </div>
         )}
       </form>
     </div>

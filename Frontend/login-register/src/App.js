@@ -48,6 +48,10 @@ function App() {
             <ProtectedRoute user={loggeduser}>
               <ArchivePage />
             </ProtectedRoute> }/>
+          <Route path = "/history" element = { 
+            <ProtectedRoute user={loggeduser}>
+              <ArchivePage />
+            </ProtectedRoute> }/>
         </Routes>
       </userContext.Provider>
       </BrowserRouter>

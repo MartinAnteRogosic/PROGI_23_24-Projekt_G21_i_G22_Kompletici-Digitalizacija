@@ -1,6 +1,9 @@
 .document-photo {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
+    border: 2px orangered solid;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .modal-document-photo {

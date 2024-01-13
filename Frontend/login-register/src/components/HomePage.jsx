@@ -22,16 +22,6 @@ const HomePage = () => {
     <div className="home-page">
       <Header />
       <UploadFiles />
-      <div className="menu-bar">
-        <ul>
-          <li>Home</li>
-          <li>
-            <Link to={`/archive`}>Archive</Link>
-          </li>
-          <li>Send</li>
-          <li>LogOut</li>
-        </ul>
-      </div>
     </div>
   );
 };
