@@ -104,8 +104,11 @@ const Header = () => {
         </div>
         
         <div className="center-links">
+          <Link to={`/home`}>Home</Link>
           <a href="/statistic">Statistic</a>
           <Link to={`/requests`}>Requests</Link>
+          <Link to={`/archive`}>Archive</Link>
+          <Link to={`/history`}>History</Link>
         </div>
 
       </div>

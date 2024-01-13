@@ -1,9 +1,8 @@
 import React from "react";
 import './RequestItem.css';
 
-const RequestItem = () => {
+const RequestItem = ({ id }) => {
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
-
     const user = {
         firstName: userinfo.firstName,
         lastName: userinfo.lastName,
@@ -12,8 +11,8 @@ const RequestItem = () => {
 
     return (
         <div className="request-item">
-            <span>item thingy</span>
-            {user.role == 'REVISOR' ?
+            <span>{ id }</span>
+            {user.role == 'REVISER' ?
             <div><button>Verify</button>
             <button>Send to accountant</button></div> : null}
             {user.role == 'ACCOUNTANT' ?
