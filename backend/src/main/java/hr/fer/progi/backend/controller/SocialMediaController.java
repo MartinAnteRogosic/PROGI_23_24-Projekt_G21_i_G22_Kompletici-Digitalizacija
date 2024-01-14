@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/social")
+@RequestMapping("/api/v1/social")
 public class SocialMediaController {
 
     @PostMapping("/shareOnFacebook")

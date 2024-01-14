@@ -31,10 +31,4 @@ public class ImageController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /*ovo je sam testno, nece ovak radit*/
-    @DeleteMapping("/delete/{imageId}")
-    public  ResponseEntity<?> deleteImage(@PathVariable("imageId") Long imageId) throws IOException {
-        String response = imageService.deleteImage(imageId);
-        return ResponseEntity.ok(response);
-    }
 }

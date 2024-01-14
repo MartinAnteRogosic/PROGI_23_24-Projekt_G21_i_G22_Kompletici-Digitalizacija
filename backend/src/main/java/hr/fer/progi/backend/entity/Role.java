@@ -21,16 +21,6 @@ public enum Role {
             CHANGE_DOCUMENT_CATEGORY
     )),
 
-    ACCOUNTANT(Set.of(
-            ARCHIVE_DOCUMENT,
-            ARCHIVE_ALL_DOCUMENTS,
-            ARCHIVE_DELETE_DOCUMENT,
-            DOCUMENT_GET_BY_TYPE,
-            DOCUMENT_GET_BY_ID,
-            DOCUMENT_SEND_TO_SIGN,
-            DOCUMENT_CHANGE_CATEGORY
-    )),
-
     ACCOUNTANT_RECEIPT(Set.of(
             ARCHIVE_DOCUMENT,
             ARCHIVE_ALL_DOCUMENTS,

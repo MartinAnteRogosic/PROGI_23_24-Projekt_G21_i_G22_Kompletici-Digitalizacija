@@ -46,7 +46,7 @@ public class BackendApplication {
 					.lastName("Kovač")
 					.email("ana.kovač@gmail.com")
 					.password("anapass")
-					.role(ACCOUNTANT)
+					.role(ACCOUNTANT_INT_DOC)
 					.build();
 
 			EmployeeDto reviser = EmployeeDto.builder()

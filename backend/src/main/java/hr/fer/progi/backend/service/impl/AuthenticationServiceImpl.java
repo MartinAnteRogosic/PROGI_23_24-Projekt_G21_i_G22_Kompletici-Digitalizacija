@@ -3,6 +3,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.EmployeeEntity;
+import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
@@ -29,6 +30,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (employeeRepository.existsByEmail(employeeEntity.getEmail())) {
             return RegistrationResponseDto.builder()
                     .message("Email '" + employeeEntity.getEmail() + "' is already taken.")
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+
+        if(employeeEntity.getRole().equals(Role.DIRECTOR) &&
+        employeeRepository.existsByRole(Role.DIRECTOR)){
+            return RegistrationResponseDto.builder()
+                    .message("Director already exists.")
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }

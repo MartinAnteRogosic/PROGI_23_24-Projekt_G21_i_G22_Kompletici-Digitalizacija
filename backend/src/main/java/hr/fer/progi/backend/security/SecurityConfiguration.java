@@ -42,25 +42,45 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/authenticate/**")
                                 .permitAll()
 
+                                .requestMatchers("/api/v1/employees/get-all-revisers").hasRole(EMPLOYEE.name())
+                                .requestMatchers("/api/v1/employees/get-revision-documents").hasRole(REVISER.name())
+                                .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(), ACCOUNTANT_RECEIPT.name(),DIRECTOR.name())
 
-                                .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
 
                                 .requestMatchers("/api/v1/employee-management/**").hasRole(DIRECTOR.name())
-                                .requestMatchers(GET, "/api/v1/employee-management/statistics/**").hasAnyAuthority(ALL_EMPLOYEE_STATISTICS.name(), EMPLOYEE_STATISTICS.name())
-                                .requestMatchers(DELETE, "/api/v1/employee-management/delete-account").hasAuthority(DELETE_EMPLOYEE_ACCOUNT.name())
 
-                                .requestMatchers("/api/v1/document/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
                                 .requestMatchers(GET, "/api/v1/document/change-category").hasAuthority(CHANGE_DOCUMENT_CATEGORY.name())
 
-                                .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/sign-document").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/documents-for-sign").hasRole(DIRECTOR.name())
+                                .requestMatchers(("/api/v1/document/send-to-sign")).hasAnyRole(ACCOUNTANT_RECEIPT.name(),
+                                                                                                ACCOUNTANT_OFFER.name(),
+                                                                                                ACCOUNTANT_INT_DOC.name())
+                                .requestMatchers("/api/v1/document/send-to-reviser").hasRole(EMPLOYEE.name())
+                                .requestMatchers("/api/v1/document/correct").hasAnyRole(EMPLOYEE.name(),
+                                                                                            REVISER.name(),
+                                                                                            ACCOUNTANT_INT_DOC.name(),
+                                                                                            ACCOUNTANT_OFFER.name(),
+                                                                                            ACCOUNTANT_RECEIPT.name(),
+                                                                                            DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/verify").hasAnyRole(REVISER.name())
+                                .requestMatchers("/api/v1/document/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(),ACCOUNTANT_RECEIPT.name(), DIRECTOR.name())
 
-                                .requestMatchers("/api/v1/archive/archive-document/{documentId}").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
-                                .requestMatchers("/api/v1/archive/all-archive-documents").hasAnyRole(ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
+
                                 .requestMatchers("/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/archive/**").hasAnyRole(ACCOUNTANT_INT_DOC.name(),
+                                                                                    ACCOUNTANT_OFFER.name(),
+                                                                                    ACCOUNTANT_RECEIPT.name(),
+                                                                                    DIRECTOR.name())
+
+                                .requestMatchers("/api/v1/social/**").hasRole(DIRECTOR.name())
+
 
                                 .requestMatchers("/api/v1/test/reviser").hasRole(REVISER.name())
                                 .requestMatchers("/api/v1/test/director").hasRole(DIRECTOR.name())
-                                .requestMatchers("/api/v1/test/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/test/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
                                 .anyRequest()
                                 .denyAll()
 
