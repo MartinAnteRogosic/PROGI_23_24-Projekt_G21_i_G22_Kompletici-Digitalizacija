@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 const ReviserRequest = ({ id }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [correct, setCorrect] = useState(false);
 
     const customStyles = { 
         content: {
@@ -45,6 +46,7 @@ const ReviserRequest = ({ id }) => {
             //send request to backend to update verified to true
             const res = await API.post("/api/v1/document/verify", { id: id, verified: true }, config);
             console.log(res);
+            setCorrect(true);
         } catch (err) {
           console.log(err);
         }
@@ -61,7 +63,12 @@ const ReviserRequest = ({ id }) => {
                     <p className="scanned-text">
                         { id }
                     </p>
-                    <button>Verify correct scan</button>     
+                    {
+                        correct ? 
+                        <p>Verified</p>
+                        :
+                        <button onClick={handleVerify}>Verify correct scan</button>
+                    }  
                 </div>
             </Modal>
         </div>

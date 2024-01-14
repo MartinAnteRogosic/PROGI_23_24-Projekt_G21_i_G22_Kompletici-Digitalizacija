@@ -57,7 +57,7 @@ const RequestsPage = () => {
             {   requests.length > 0 ? (
                 <ul className="request-items">
                 {requests.map((item, index) => (
-                    <li key={index}>
+                    <li key={item.id}>
                         { user.role === "REVISER" && (
                             <ReviserRequest id={item.id}/>
                         )}

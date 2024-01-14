@@ -9,6 +9,7 @@ const ImageDocument = (props) => {
     const [text, setText] = useState('');
     const [confirm, setConfirm] = useState(false);
     const [revisors, setRevisors] = useState([]);
+    const [sent, setSent] = useState(false);
 
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
 
@@ -96,6 +97,7 @@ const ImageDocument = (props) => {
         try {
             const res = await API.post('/api/v1/document/send-to-reviser', data, config);
             console.log(res);
+            setSent(true);
         } catch(err) {
             console.log(err);
         }
@@ -112,22 +114,28 @@ const ImageDocument = (props) => {
                     <p className="scanned-text">
                         {text}
                     </p>
-                    { !confirm && (
+                    { !confirm ? (
                         <div>
                             <button onClick={handleCorrectClick}>Correct</button>
                             <button onClick={handleIncorrectClick}>Incorrect</button>
                         </div>
-                    )}
-                    { confirm && (
-                        <button onClick={getRevisors}>Get revisors</button>
-                    )}
-                    { revisors.length > 0 && (
+                    ): (<div>
+                            <p className="confirmation-text">Scanned document has been confirmed as correct</p>
+                            <button onClick={getRevisors}>Get revisors</button>
+                        </div>)
+                    }
+                    { revisors.length > 0 && !sent && (
                         <div>
                             <p>Revisors:</p>
                             {revisors.map((revisor, index) => (
                                 <button key={index} onClick={() => handleRevisorClick(revisor.id)}> {revisor.firstName} {revisor.lastName} </button>
                             ))}
                         </div>
+                        )
+                    }
+                    {
+                        sent && (
+                            <p className="confirmation-text">Document has been sent to revisor</p>
                         )
                     }            
                 </div>

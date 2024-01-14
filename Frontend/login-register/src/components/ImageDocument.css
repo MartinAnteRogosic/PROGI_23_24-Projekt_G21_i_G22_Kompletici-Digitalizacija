@@ -14,3 +14,7 @@
 .scanned-text {
     white-space: pre-line;
 }
+
+.confirmation-text {
+    color: seagreen;
+}

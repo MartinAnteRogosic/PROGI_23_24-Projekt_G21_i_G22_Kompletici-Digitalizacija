@@ -66,7 +66,7 @@ const UploadFiles = () => {
         {returned && (
             <div className='uploaded-files'>
                 { data.map((imgdoc, index) => (
-                    <ImageDocument key={index} imgdoc={imgdoc}/>
+                    <ImageDocument key={imgdoc.documentId} imgdoc={imgdoc}/>
                 ))}
             </div>
         )}

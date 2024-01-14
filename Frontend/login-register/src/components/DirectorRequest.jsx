@@ -7,6 +7,8 @@ import Modal from 'react-modal';
 const DirectorRequest = ({ id }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [signed, setSigned] = useState(false);
+    const [caption, setCaption] = useState('');
 
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const user = {
@@ -46,6 +48,7 @@ const DirectorRequest = ({ id }) => {
             //send request to backend to update signed to true
             const res = await API.post("/api/v1/document/sign-document", { documentId: id, confirm: true }, config);
             console.log(res);
+            setSigned(true);
         } catch (err) {
           console.log(err);
         }
@@ -53,7 +56,6 @@ const DirectorRequest = ({ id }) => {
 
     async function handleShare() {
         try {
-            //send request to backend to update signed to true
             const res = await API.post("/api/v1/document/shareOnFacebook", { documentId: id, confirm: true }, config);
             console.log(res);
         } catch (err) {
@@ -72,8 +74,20 @@ const DirectorRequest = ({ id }) => {
                     <p className="scanned-text">
                         { id }
                     </p>
-                    <button>Sign document</button>
-                    <button>Share on Facebook</button>
+                    {
+                        signed ? (
+                            <div>Document signed</div>
+                        ) : (
+                            <button onClick={handleSigning}>Sign document</button>
+                        )
+                    
+                    }
+                    <form action="">
+                        <label htmlFor="caption">Caption post</label>
+                        <input value={caption} onChange={(e) => setCaption(e.target.value)} type="text" id="caption" name="caption" required/>
+                        <button type="submit">Share on Facebook</button>
+                    </form>
+                    
                 </div>
             </Modal>
         </div>
