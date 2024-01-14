@@ -1,13 +1,6 @@
 package hr.fer.progi.backend;
 
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.entity.DocumentEntity;
-import hr.fer.progi.backend.entity.DocumentType;
-import hr.fer.progi.backend.entity.EmployeeEntity;
-import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-import hr.fer.progi.backend.repository.DocumentRepository;
-import hr.fer.progi.backend.repository.EmployeeRepository;
-import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import hr.fer.progi.backend.service.impl.AuthenticationServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,10 +18,7 @@ public class BackendApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(
-			AuthenticationServiceImpl authenticationService,
-			DocumentRepository documentRepository,
-			ArchiveServiceImpl archiveService,
-			EmployeeRepository employeeRepository
+			AuthenticationServiceImpl authenticationService
 			) {
 		return args -> {
 
@@ -70,29 +60,6 @@ public class BackendApplication {
 			authenticationService.register(reviser);
 			authenticationService.register(employee);
 
-
-			EmployeeEntity accountant_entity = employeeRepository.findById(2L).orElseThrow(()->new EmployeeNotFoundException("not found"));
-			EmployeeEntity reviser_entity = employeeRepository.findById(3L).orElseThrow(()->new EmployeeNotFoundException("not found"));
-
-			/* adding test documents */
-			DocumentEntity racun = DocumentEntity.builder()
-					.type(DocumentType.RECEIPT)
-					.url("url_račun")
-					.validationEmployee(reviser_entity)
-					.scanEmployee(accountant_entity)
-					.verified(false)
-					.build();
-
-			DocumentEntity ponuda = DocumentEntity.builder()
-					.type(DocumentType.OFFER)
-					.scanEmployee(accountant_entity)
-					.validationEmployee(reviser_entity)
-					.verified(false)
-					.url("url_ponuda")
-					.build();
-
-			documentRepository.save(racun);
-			documentRepository.save(ponuda);
 
 		};
 	}

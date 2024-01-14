@@ -1,14 +1,8 @@
 package hr.fer.progi.backend.service.impl;
 
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.dto.UploadResponseDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
+import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.PhotoNotFoundException;
@@ -21,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -31,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -40,8 +31,9 @@ public class ImageServiceImpl implements ImageService {
 
     private final PhotoRepository photoRepository;
     private final DocumentRepository documentRepository;
-    private final TesseractOCRServiceImpl tesseractOCRServiceImpl;
-    private final CloudStorageServiceImpl cloudStorageServiceImpl;
+    private final TesseractOCRServiceImpl tesseractOCRService;
+    private final CloudStorageServiceImpl cloudStorageService;
+    private final DocumentServiceImpl documentService;
 
 
 
@@ -55,8 +47,8 @@ public class ImageServiceImpl implements ImageService {
 
             String fileName_new = fileName.split("\\.")[0].concat("_").concat(formatter.format(new Date())).concat(".").concat(fileName.split("\\.")[1]);
 
-            File file = cloudStorageServiceImpl.convertToFile(multipartFile, fileName_new);
-            String URL = cloudStorageServiceImpl.uploadFile(file, fileName_new);
+            File file = cloudStorageService.convertToFile(multipartFile, fileName_new);
+            String URL = cloudStorageService.uploadFile(file, fileName_new);
             file.delete();
 
 
@@ -82,7 +74,7 @@ public class ImageServiceImpl implements ImageService {
         PhotoEntity photo = photoRepository.findById(imageId)
                 .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
 
-        return cloudStorageServiceImpl.deleteFile(photo.getImageName());
+        return cloudStorageService.deleteFile(photo.getImageName());
     }
 
     @Override
@@ -95,10 +87,14 @@ public class ImageServiceImpl implements ImageService {
                     try {
                         PhotoEntity photo = uploadImage(file, employee);
 
-                        File textFile = generateTextFile(file, photo.getImageName());
-                        String documentURL = cloudStorageServiceImpl.uploadFile(textFile, textFile.getName());
+                        String documentText = tesseractOCRService.recognizeText(file.getInputStream());
+
+                        File textFile = generateTextFile(documentText, photo.getImageName());
+                        String documentURL = cloudStorageService.uploadFile(textFile, textFile.getName());
+                        DocumentType documentType = documentService.categorizeDocument(documentText);
 
                         DocumentEntity document = DocumentEntity.builder()
+                                .type(documentType)
                                 .fileName(textFile.getName())
                                 .url(documentURL)
                                 .scanEmployee(employee)
@@ -133,12 +129,11 @@ public class ImageServiceImpl implements ImageService {
         return photoRepository.findAll();
     }
 
-    public File generateTextFile(MultipartFile multipartFile, String fileName) throws IOException {
+    public File generateTextFile(String documentText, String fileName) throws IOException {
 
-        String text = tesseractOCRServiceImpl.recognizeText(multipartFile.getInputStream());
         String documentName = fileName.split("\\.")[0];
         Path tempFile = Files.createTempFile(documentName, ".txt");
-        Files.write(tempFile, text.getBytes(), StandardOpenOption.WRITE);
+        Files.write(tempFile, documentText.getBytes(), StandardOpenOption.WRITE);
         File  textFile = tempFile.toFile();
         return textFile;
 

@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -171,6 +173,29 @@ public class DocumentServiceImpl implements DocumentService {
         document.setVerified(documentDto.getVerified());
         documentRepository.save(document);
         return String.format("Document %s has been verified", document.getId());
+    }
+
+    @Override
+    public DocumentType categorizeDocument(String documentText) {
+
+        String patternString = "P\\d{9}|R\\d{6}|INT\\d{4}";
+
+        Pattern pattern = Pattern.compile(patternString);
+
+        Matcher matcher = pattern.matcher(documentText);
+
+        if(matcher.find()){
+            String documentTag = matcher.group();
+            if(documentTag.startsWith("INT")){
+                return DocumentType.INTERNAL_DOCUMENT;
+            } else if(documentTag.startsWith("P")){
+                return DocumentType.OFFER;
+            } else if(documentTag.startsWith("R")){
+                return DocumentType.RECEIPT;
+            }
+        }
+
+        return null;
     }
 
 

@@ -42,4 +42,6 @@ public interface DocumentService {
     String setCorrect(DocumentDto documentDto);
 
     String setVerified(DocumentDto documentDto);
+
+    DocumentType categorizeDocument(String documentText);
 }
