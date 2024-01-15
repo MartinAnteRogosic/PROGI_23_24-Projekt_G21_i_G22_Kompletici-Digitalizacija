@@ -3,6 +3,7 @@ package hr.fer.progi.backend.service.impl;
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.EmployeeEntity;
@@ -15,8 +16,10 @@ import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.DocumentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +40,7 @@ public class DocumentServiceImpl implements DocumentService {
         List<DocumentEntity> documents = documentRepository.findByType(documentType);
 
         return documents.stream().map(
-                this::mapDocumentEntityToDto)
+                        this::mapDocumentEntityToDto)
                 .collect(Collectors.toList());
 
     }
@@ -67,7 +70,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String changeCategory(ChangeCategoryDto changeCategoryDto) {
         DocumentEntity documentEntity = documentRepository.findById(changeCategoryDto.getDocumentId())
-                .orElseThrow(()-> new DocumentNotFoundException("Document could not be found"));
+                .orElseThrow(() -> new DocumentNotFoundException("Document could not be found"));
 
         documentEntity.setType(changeCategoryDto.getNewDocumentType());
 
@@ -76,17 +79,17 @@ public class DocumentServiceImpl implements DocumentService {
         return "Successfully changed document type";
     }
 
-   @Override
-   public List<DocumentEntity> getAllDocumentsForUser(Long userId) {
-       return documentRepository.findAllById(userId);
-   }
+    @Override
+    public List<DocumentEntity> getAllDocumentsForUser(Long userId) {
+        return documentRepository.findAllById(userId);
+    }
 
     @Override
     public List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId) {
         List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeId);
 
         return documents.stream().map(
-                this::mapDocumentEntityToDto)
+                        this::mapDocumentEntityToDto)
                 .collect(Collectors.toList());
     }
 
@@ -102,44 +105,52 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-   public String setDocumentToBeSinged(DocumentDto documentDto) {
+    public String setDocumentToBeSinged(DocumentDto documentDto) {
         DocumentEntity document = documentRepository.findById(documentDto.getId())
                 .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
 
-            document.setToBeSigned(documentDto.getToBeSigned());
-            documentRepository.save(document);
+        document.setToBeSigned(documentDto.getToBeSigned());
+        documentRepository.save(document);
 
-            return String.format("Document %s has been sent to director for signing", document.getId());
+        return String.format("Document %s has been sent to director for signing", document.getId());
     }
 
     @Override
     public List<DocumentDto> getAllDocumentsForSigning() {
         List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrueAndVerifiedIsTrue();
 
-        return documents.stream().map(
-                this::mapDocumentEntityToDto)
+        return documents.stream()
+                .map(this::mapDocumentEntityToDto)
                 .collect(Collectors.toList());
 
     }
 
     @Override
-    public void signDocument(Long documentId) {
-        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
-        document.setSigned(true);
-        document.setToBeSigned(false);
-        documentRepository.save(document);
+    public List<PhotoDocumentDto> getDocumentHistory(Principal connectedEmployee) {
+
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
+        List<DocumentEntity> documents = documentRepository.findByScanEmployeeId(employeeEntity.getId());
+
+        return generatePhotoDocumentDtos(documents);
     }
 
     @Override
-    public void refuseSign(Long documentId) {
-        DocumentEntity document = documentRepository.findById(documentId).orElseThrow(() -> new DocumentNotFoundException("document not found"));
+    public String signDocument(DocumentDto documentDto) {
+
+        DocumentEntity document = documentRepository.findById(documentDto.getId()).orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+        document.setSigned(documentDto.getSigned());
         document.setToBeSigned(false);
+
         documentRepository.save(document);
+
+        return String.format("Document %s has been signed", document.getId());
     }
 
     @Override
-    public List<DocumentEntity> getAllDocuments() {
-        return documentRepository.findAll();
+    public List<PhotoDocumentDto> getAllDocuments() {
+        List<DocumentEntity> documents = documentRepository.findAll();
+
+        return generatePhotoDocumentDtos(documents);
     }
 
     @Override
@@ -184,18 +195,26 @@ public class DocumentServiceImpl implements DocumentService {
 
         Matcher matcher = pattern.matcher(documentText);
 
-        if(matcher.find()){
+        if (matcher.find()) {
             String documentTag = matcher.group();
-            if(documentTag.startsWith("INT")){
+            if (documentTag.startsWith("INT")) {
                 return DocumentType.INTERNAL_DOCUMENT;
-            } else if(documentTag.startsWith("P")){
+            } else if (documentTag.startsWith("P")) {
                 return DocumentType.OFFER;
-            } else if(documentTag.startsWith("R")){
+            } else if (documentTag.startsWith("R")) {
                 return DocumentType.RECEIPT;
             }
         }
 
         return null;
+    }
+
+    @Override
+    public List<PhotoDocumentDto> getAllUnconfirmedDocuments() {
+
+        List<DocumentEntity> documents = documentRepository.findByCorrectIsNull();
+
+        return generatePhotoDocumentDtos(documents);
     }
 
 
@@ -204,6 +223,22 @@ public class DocumentServiceImpl implements DocumentService {
                 .id(documentEntity.getId())
                 .url(documentEntity.getUrl())
                 .build();
+    }
+
+    public List<PhotoDocumentDto> generatePhotoDocumentDtos(List<DocumentEntity> documents) {
+        return documents.stream()
+                .map(document -> {
+                    PhotoEntity photo = document.getPhoto();
+
+                    return PhotoDocumentDto.builder()
+                            .documentId(document.getId())
+                            .documentUrl(document.getUrl())
+                            .documentName(document.getFileName())
+                            .photoId(photo.getPhotoID())
+                            .photoUrl(photo.getUrl())
+                            .photoName(photo.getImageName())
+                            .build();
+                }).collect(Collectors.toList());
     }
 }
 

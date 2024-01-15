@@ -29,23 +29,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final DocumentServiceImpl documentService;
     private final DocumentRepository documentRepository;
+
     public void changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
 
-        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
 
         /*checking is the current password is correct*/
-        if(!passwordEncoder.matches(request.getOldPassword(), employeeEntity.getPassword())){
+        if (!passwordEncoder.matches(request.getOldPassword(), employeeEntity.getPassword())) {
             throw new ChangePasswordException("Wrong old password");
         }
 
 
-
         //check if new password and password confirmation are the same
-        if(!request.getNewPassword().equals(request.getPasswordConfirmation())){
+        if (!request.getNewPassword().equals(request.getPasswordConfirmation())) {
             throw new ChangePasswordException("Password and password confirmation are not the same");
         }
 
-        if(passwordEncoder.matches(request.getNewPassword(), employeeEntity.getPassword())){
+        if (passwordEncoder.matches(request.getNewPassword(), employeeEntity.getPassword())) {
             throw new ChangePasswordException("New password can't be the same as the old one.");
         }
 
@@ -57,7 +57,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     }
-
 
 
     @Override
@@ -85,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> getAllRevisers() {
         List<EmployeeEntity> revisers = employeeRepository.findByRole(Role.REVISER);
 
-        if(revisers.isEmpty()){
+        if (revisers.isEmpty()) {
             throw new NoRevisersFoundException("There are no revisers in the database");
         }
 
@@ -96,10 +95,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<DocumentDto> getRevisionDocuments(Principal connectedEmployee) {
-        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
         List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
 
-        return documents.stream().map(documentService::mapDocumentEntityToDto).collect(Collectors.toList());
+        return documents.stream()
+                .map(documentService::mapDocumentEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

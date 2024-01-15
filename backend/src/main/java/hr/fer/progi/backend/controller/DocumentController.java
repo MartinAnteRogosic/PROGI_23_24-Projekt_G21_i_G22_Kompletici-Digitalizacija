@@ -1,21 +1,21 @@
 package hr.fer.progi.backend.controller;
+
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
-import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
+import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -69,19 +69,25 @@ public class DocumentController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/historyDocument/{userId}")
-    public ResponseEntity<List<DocumentEntity>> getAllDocumentById(@PathVariable Long userId) {
-        List<DocumentEntity> documents = documentService.getAllDocumentsForUser(userId);
+    @GetMapping("/document-history")
+    public ResponseEntity<List<PhotoDocumentDto>> getAllDocumentHistory(Principal connectedEmployee) {
+
+        List<PhotoDocumentDto> documents = documentService.getDocumentHistory(connectedEmployee);
+
         return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
     @GetMapping("/historyDocument/{userId}/{documentId}")
     public ResponseEntity<PhotoDocumentDto> getDocumentAndPhotoById(@PathVariable Long documentId, @PathVariable String userId) {
         DocumentEntity document = documentService.getDocumentById(documentId);
-        PhotoEntity photo = documentService.getPhotoById(documentId);
+        PhotoEntity photo = document.getPhoto();
         PhotoDocumentDto dto = PhotoDocumentDto.builder()
-                .document(document)
-                .photo(photo)
+                .documentId(document.getId())
+                .documentName(document.getFileName())
+                .documentUrl(document.getUrl())
+                .photoId(photo.getPhotoID())
+                .photoName(photo.getImageName())
+                .photoUrl(photo.getUrl())
                 .build();
 
         if (dto != null) {
@@ -111,34 +117,31 @@ public class DocumentController {
         return new ResponseEntity<>(listOfDocumentsForSigning, HttpStatus.OK);
     }
 
-    @GetMapping("/sign-document")
-    public ResponseEntity<String> signDocuments(@RequestParam Boolean confirm,Long documentId) {
 
-        if(confirm == Boolean.TRUE){
-             documentService.signDocument(documentId);
-            return ResponseEntity.ok("Document successfully marked to be signed.");
-        }else{
-            return ResponseEntity.ok("The document was rejected for signing.");
-        }
+    @PostMapping("/sign-document")
+    public ResponseEntity<String> signDocuments(@RequestBody DocumentDto documentDto) {
+
+        String response = documentService.signDocument(documentDto);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+    @GetMapping("/all-unconfirmed")
+    public ResponseEntity<List<PhotoDocumentDto>> getAllUnconfirmedDocuments(){
+        List<PhotoDocumentDto> listOfDocuments = documentService.getAllUnconfirmedDocuments();
+
+        return new ResponseEntity<>(listOfDocuments, HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/all-documents")
     public ResponseEntity<List<PhotoDocumentDto>> getAllDocuments(){
 
-        List<PhotoEntity> allPhotos = imageService.getAllPhotos();
+        List<PhotoDocumentDto> listOfDocuments = documentService.getAllDocuments();
 
-        List<PhotoDocumentDto> dtoList = allPhotos.stream().map(photo ->{
-            DocumentEntity document = documentRepository.findByPhoto(photo).orElseThrow(()-> new DocumentNotFoundException("not found"));
-
-            PhotoDocumentDto dto = PhotoDocumentDto.builder()
-                    .document(document)
-                    .photo(photo)
-                    .build();
-            return dto;
-        }).collect(Collectors.toList());
-
-        return new ResponseEntity<>(dtoList,HttpStatus.OK);
+        return new ResponseEntity<>(listOfDocuments,HttpStatus.OK);
     }
 
 }

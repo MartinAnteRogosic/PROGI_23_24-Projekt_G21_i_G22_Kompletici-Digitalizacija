@@ -54,6 +54,8 @@ public class SecurityConfiguration {
 
                                 .requestMatchers("/api/v1/document/sign-document").hasRole(DIRECTOR.name())
                                 .requestMatchers("/api/v1/document/documents-for-sign").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/all-documents").hasRole(DIRECTOR.name())
+                                .requestMatchers("/api/v1/document/document-history").hasRole(EMPLOYEE.name())
                                 .requestMatchers(("/api/v1/document/send-to-sign")).hasAnyRole(ACCOUNTANT_RECEIPT.name(),
                                                                                                 ACCOUNTANT_OFFER.name(),
                                                                                                 ACCOUNTANT_INT_DOC.name())

@@ -3,10 +3,12 @@ package hr.fer.progi.backend.service;
 import hr.fer.progi.backend.dto.ChangeCategoryDto;
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface DocumentService {
@@ -23,19 +25,18 @@ public interface DocumentService {
     List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId);
     PhotoEntity getPhotoById(Long photoId);
 
-
-
     List<DocumentEntity> getAllVerifiedDocuments();
 
     String setDocumentToBeSinged(DocumentDto documentDto);
 
     List<DocumentDto> getAllDocumentsForSigning();
 
-    void signDocument(Long documentId);
+    List<PhotoDocumentDto> getDocumentHistory(Principal connectedEmployee);
 
-    void refuseSign(Long documentId);
+    String signDocument(DocumentDto documentDto);
 
-    List<DocumentEntity> getAllDocuments();
+
+    List<PhotoDocumentDto> getAllDocuments();
 
     void sendToReviser(ChooseReviserDto choosereviserdto);
 
@@ -44,4 +45,6 @@ public interface DocumentService {
     String setVerified(DocumentDto documentDto);
 
     DocumentType categorizeDocument(String documentText);
+
+    List<PhotoDocumentDto> getAllUnconfirmedDocuments();
 }

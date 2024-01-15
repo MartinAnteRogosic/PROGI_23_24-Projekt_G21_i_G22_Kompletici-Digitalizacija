@@ -2,7 +2,6 @@ package hr.fer.progi.backend.controller;
 
 
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
-import hr.fer.progi.backend.dto.UploadResponseDto;
 import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,9 +24,9 @@ public class ImageController {
 
     /*ovo je sam testno, nece ovak radit*/
     @PostMapping("/upload")
-    public ResponseEntity<List<UploadResponseDto>> uploadImage(@RequestParam("files")List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
+    public ResponseEntity<List<PhotoDocumentDto>> uploadImage(@RequestParam("files")List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
 
-        List<UploadResponseDto> response = imageService.processImages(multipartFiles, connectedEmployee);
+        List<PhotoDocumentDto> response = imageService.processImages(multipartFiles, connectedEmployee);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

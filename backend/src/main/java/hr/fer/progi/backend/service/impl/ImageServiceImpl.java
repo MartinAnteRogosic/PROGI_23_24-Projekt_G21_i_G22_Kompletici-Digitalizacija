@@ -1,6 +1,6 @@
 package hr.fer.progi.backend.service.impl;
 
-import hr.fer.progi.backend.dto.UploadResponseDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.EmployeeEntity;
@@ -78,11 +78,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<UploadResponseDto> processImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
+    public List<PhotoDocumentDto> processImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
 
         EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
-        List<UploadResponseDto> listOfPhotoDocumentDto = multipartFiles.stream()
+        List<PhotoDocumentDto> listOfPhotoDocumentDto = multipartFiles.stream()
                 .map(file ->{
                     try {
                         PhotoEntity photo = uploadImage(file, employee);
@@ -107,11 +107,13 @@ public class ImageServiceImpl implements ImageService {
 
 
 
-                        return UploadResponseDto.builder()
+                        return PhotoDocumentDto.builder()
                                 .photoId(photo.getPhotoID())
                                 .photoUrl(photo.getUrl())
+                                .photoName(photo.getImageName())
                                 .documentId(savedDocument.getId())
                                 .documentUrl(savedDocument.getUrl())
+                                .documentName(savedDocument.getFileName())
                                 .build();
 
                     } catch (IOException e) {
@@ -134,8 +136,7 @@ public class ImageServiceImpl implements ImageService {
         String documentName = fileName.split("\\.")[0];
         Path tempFile = Files.createTempFile(documentName, ".txt");
         Files.write(tempFile, documentText.getBytes(), StandardOpenOption.WRITE);
-        File  textFile = tempFile.toFile();
-        return textFile;
+        return tempFile.toFile();
 
     }
 

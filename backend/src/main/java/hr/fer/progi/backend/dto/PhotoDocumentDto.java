@@ -1,13 +1,18 @@
 package hr.fer.progi.backend.dto;
-import hr.fer.progi.backend.entity.DocumentEntity;
-import hr.fer.progi.backend.entity.PhotoEntity;
-import lombok.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
 @Builder
-@Getter
-@Setter
 @AllArgsConstructor
 public class PhotoDocumentDto {
-    private PhotoEntity photo;
-    private DocumentEntity document;
+
+    private Long photoId;
+    private String photoUrl;
+    private String photoName;
+    private Long documentId;
+    private String documentUrl;
+    private String documentName;
 }
