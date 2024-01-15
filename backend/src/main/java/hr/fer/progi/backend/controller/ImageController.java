@@ -22,7 +22,6 @@ public class ImageController {
 
     private final ImageServiceImpl imageService;
 
-    /*ovo je sam testno, nece ovak radit*/
     @PostMapping("/upload")
     public ResponseEntity<List<PhotoDocumentDto>> uploadImage(@RequestParam("files")List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
 

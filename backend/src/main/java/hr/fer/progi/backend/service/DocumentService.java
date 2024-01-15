@@ -1,6 +1,5 @@
 package hr.fer.progi.backend.service;
 
-import hr.fer.progi.backend.dto.ChangeCategoryDto;
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
@@ -17,9 +16,8 @@ public interface DocumentService {
 
     DocumentEntity getDocumentById(Long documentId);
 
-    ChangeCategoryDto getPhotoAndDocument(ChangeCategoryDto changeCategoryDto);
+    String changeDocumentType(DocumentDto documentDto);
 
-    String changeCategory(ChangeCategoryDto changeCategoryDto);
     List<DocumentEntity> getAllDocumentsForUser(Long userId);
 
     List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId);

@@ -45,6 +45,12 @@ public class DocumentController {
         return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
+    @PostMapping("/change-category")
+    public ResponseEntity<String> changeDocumentCategory(@RequestBody DocumentDto documentDto) {
+        String  response = documentService.changeDocumentType(documentDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/send-to-reviser")
     public ResponseEntity<String> sendToReviser(@RequestBody ChooseReviserDto choosereviserdto) {
 

@@ -1,6 +1,5 @@
 package hr.fer.progi.backend.service.impl;
 
-import hr.fer.progi.backend.dto.ChangeCategoryDto;
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
@@ -10,7 +9,6 @@ import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
@@ -50,33 +48,18 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.findById(documentId).orElse(null);
     }
 
-    @Override
-    public ChangeCategoryDto getPhotoAndDocument(ChangeCategoryDto changeCategoryDto) {
-        PhotoEntity photo = photoRepository.findPhotoByDocumentId(changeCategoryDto.getDocumentId())
-                .orElseThrow(() ->
-                        new PhotoNotFoundException("Could not find a photo related to this document")
-                );
-
-        DocumentEntity documentEntity = documentRepository.findById(changeCategoryDto.getDocumentId())
-                .orElseThrow(() ->
-                        new DocumentNotFoundException("Document could not be found"));
-
-        return ChangeCategoryDto.builder()
-                .documentUrl(documentEntity.getUrl())
-                .photoUrl(photo.getUrl())
-                .build();
-    }
 
     @Override
-    public String changeCategory(ChangeCategoryDto changeCategoryDto) {
-        DocumentEntity documentEntity = documentRepository.findById(changeCategoryDto.getDocumentId())
+    public String changeDocumentType(DocumentDto documentDto) {
+
+        DocumentEntity documentEntity = documentRepository.findById(documentDto.getId())
                 .orElseThrow(() -> new DocumentNotFoundException("Document could not be found"));
 
-        documentEntity.setType(changeCategoryDto.getNewDocumentType());
+        documentEntity.setType(documentDto.getType());
 
         documentRepository.save(documentEntity);
 
-        return "Successfully changed document type";
+        return String.format("Type of document %s has been changed to %s", documentEntity.getId(), documentEntity.getType());
     }
 
     @Override
