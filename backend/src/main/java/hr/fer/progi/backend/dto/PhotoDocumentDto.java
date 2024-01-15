@@ -15,4 +15,5 @@ public class PhotoDocumentDto {
     private Long documentId;
     private String documentUrl;
     private String documentName;
+    private EmployeeDto employeeDto;
 }

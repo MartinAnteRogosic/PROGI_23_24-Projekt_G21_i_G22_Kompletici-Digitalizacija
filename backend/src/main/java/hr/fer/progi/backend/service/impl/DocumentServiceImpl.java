@@ -2,6 +2,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
+import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
@@ -133,7 +134,24 @@ public class DocumentServiceImpl implements DocumentService {
     public List<PhotoDocumentDto> getAllDocuments() {
         List<DocumentEntity> documents = documentRepository.findAll();
 
-        return generatePhotoDocumentDtos(documents);
+        List<PhotoDocumentDto> photoDocumentDtos = generatePhotoDocumentDtos(documents).stream()
+                .map(dto->{
+                    DocumentEntity document = documentRepository.findById(dto.getDocumentId())
+                            .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
+
+                    EmployeeEntity employee = document.getScanEmployee();
+                    EmployeeDto employeeDto = EmployeeDto.builder()
+                            .id(employee.getId())
+                            .firstName(employee.getFirstName())
+                            .lastName(employee.getLastName())
+                            .build();
+
+                    dto.setEmployeeDto(employeeDto);
+                    return dto;
+
+                }).collect(Collectors.toList());
+
+        return photoDocumentDtos;
     }
 
     @Override

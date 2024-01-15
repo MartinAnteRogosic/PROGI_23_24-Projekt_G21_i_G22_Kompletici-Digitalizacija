@@ -24,8 +24,6 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentServiceImpl documentService;
-    private final ImageServiceImpl imageService;
-    private final DocumentRepository documentRepository;
 
     @GetMapping("/type/{documentType}")
     public List<DocumentDto> getDocumentsByType(@PathVariable DocumentType documentType) {
