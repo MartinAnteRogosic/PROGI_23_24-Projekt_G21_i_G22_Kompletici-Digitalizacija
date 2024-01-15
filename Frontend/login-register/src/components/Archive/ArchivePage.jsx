@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { userContext } from "../userContext";
+import { userContext } from "../../userContext";
 import axios from "axios";
-import { API } from "../api";
+import { API } from "../../api";
 import ArchiveItem from "./ArchiveItem";
 import './ArchivePage.css';
-import Header from "./Header";
+import Header from "../Header/Header";
 
 const ArchivePage = () => {
   const userinfo = JSON.parse(sessionStorage.getItem("user"));

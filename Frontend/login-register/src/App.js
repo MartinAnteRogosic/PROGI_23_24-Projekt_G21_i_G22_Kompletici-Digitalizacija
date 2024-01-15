@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { LoginRegisterView } from './LoginRegisterView';
-import HomePage from './components/HomePage'; // Adjust the path to your HomePage component
-import RequestsPage from './components/RequestsPage';
-import ArchivePage from './components/ArchivePage';
+import HomePage from './components/HomePage/HomePage'; // Adjust the path to your HomePage component
+import RequestsPage from './components/Requests/RequestsPage';
+import ArchivePage from './components/Archive/ArchivePage';
+import HistoryPage from './components/HistoryPage/HistoryPage';
 import { userContext } from './userContext';
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
             </ProtectedRoute> }/>
           <Route path = "/history" element = { 
             <ProtectedRoute user={loggeduser}>
-              <ArchivePage />
+              <HistoryPage />
             </ProtectedRoute> }/>
         </Routes>
       </userContext.Provider>

@@ -14,19 +14,33 @@ export const Register = (props) => {
     const images = [
         {
             image: img1,
-            role: 'EMPLOYEE'
+            role: 'EMPLOYEE',
+            name: 'Employee'
         },
         {
             image: img2,
-            role: 'REVISER'
+            role: 'REVISER',
+            name: 'Reviser'
         },
         {
             image: img3,
-            role: 'ACCOUNTANT'
+            role: 'ACCOUNTANT_RECEIPT',
+            name: 'Accountant (receipts)'
+        },
+        {
+            image: img3,
+            role: 'ACCOUNTANT_OFFER',
+            name: 'Accountant (offers)'
+        },
+        {
+            image: img3,
+            role: 'ACCOUNTANT_INT_DOC',
+            name: 'Accountant (internal documents)'
         },
         {
             image: img4,
-            role: 'DIRECTOR'
+            role: 'DIRECTOR',
+            name: 'Director'
         }
     ];
 

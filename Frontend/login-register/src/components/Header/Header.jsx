@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from 'react-modal';
 import './Header.css';
-import { API } from "../api";
+import { API } from "../../api";
 import PasswordCheckList from "react-password-checklist";
 
 

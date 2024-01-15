@@ -32,8 +32,7 @@ const RoleSlider = ({ images, onChangeRole }) => {
                       key={index}
                     >
                       {index === current && (
-                        <><img src={imgObj.image} alt='role image' className='role-img' /><p>{imgObj.role}</p></>
-                        
+                        <><img src={imgObj.image} alt='role image' className='role-img' /><p>{imgObj.name}</p></>       
                       )}
                     </div>
                   );

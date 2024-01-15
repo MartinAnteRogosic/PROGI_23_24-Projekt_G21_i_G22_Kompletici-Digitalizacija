@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import './RequestItem.css';
-import { API } from "../api";
+import { API } from "../../api";
 import Modal from 'react-modal';
 
-const AccountantRequest = ({ id }) => {
+const ReviserRequest = ({ id }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [correct, setCorrect] = useState(false);
 
     const customStyles = { 
         content: {
@@ -25,12 +26,30 @@ const AccountantRequest = ({ id }) => {
         role: userinfo.role,
     };
 
+    const config = {
+        headers: {
+            Authorization: "Bearer " + userinfo.accessToken,
+            "Access-Control-Allow-Origin": "*",
+        },
+    }
+
     function openModal() { 
         setModalOpen(true);
     }
 
     function closeModal() { 
         setModalOpen(false);
+    }
+
+    async function handleVerify() {
+        try {
+            //send request to backend to update verified to true
+            const res = await API.post("/api/v1/document/verify", { id: id, verified: true }, config);
+            console.log(res);
+            setCorrect(true);
+        } catch (err) {
+          console.log(err);
+        }
     }
 
     return (
@@ -44,8 +63,12 @@ const AccountantRequest = ({ id }) => {
                     <p className="scanned-text">
                         { id }
                     </p>
-                    <button>Archive document</button>
-                    <button>Get signature</button>
+                    {
+                        correct ? 
+                        <p>Verified</p>
+                        :
+                        <button onClick={handleVerify}>Verify correct scan</button>
+                    }  
                 </div>
             </Modal>
         </div>
@@ -53,4 +76,4 @@ const AccountantRequest = ({ id }) => {
 
 };
 
-export default AccountantRequest;
+export default ReviserRequest;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { API } from "../api";
-import RequestItem from "./RequestItem";
-import Header from "./Header";
+import { API } from "../../api";
+import Header from "../Header/Header";
 import './RequestsPage.css';
 import ReviserRequest from "./ReviserRequest";
 import AccountantRequest from "./AccountantRequest";
@@ -34,8 +33,13 @@ const RequestsPage = () => {
                 console.log(res.data);
             }
             //if logged-in user is accountant, send request for all documents and photos where verified == true, archived == false and documentType == accountant's type
-            else if (user.role === "ACCOUNTANT") {
-                const res = await API.get("/api/v1/document/documents-for-sign", config);
+            else if (user.role.includes("ACCOUNTANT")) {
+                const type = user.role.split("_", 2);
+                const data = {
+                    type: type[1]
+                };
+                console.log(data);
+                const res = await API.get("/api/v1/document/get-by-type", data, config);
                 setRequests(res.data);
                 console.log(res.data);
             }

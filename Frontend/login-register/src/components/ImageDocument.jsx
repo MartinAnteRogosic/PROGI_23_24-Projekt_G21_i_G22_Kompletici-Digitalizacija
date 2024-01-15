@@ -68,7 +68,7 @@ const ImageDocument = (props) => {
     async function handleIncorrectClick() {
         const data = {
             correct: false,
-            documentId: props.imgdoc.documentId //valjda
+            id: props.imgdoc.documentId //valjda
         }
         try {
             const res = await API.post('/api/v1/document/correct', data, config);
@@ -103,6 +103,19 @@ const ImageDocument = (props) => {
         }
     }
 
+    function handleTypeChange(e) { 
+        const data = {
+            type: e.target.value,
+            id: props.imgdoc.documentId
+        }
+        try {
+            const res = API.post('/api/v1/document/change-category', data, config);
+            console.log(res);
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div className="img-doc-container">
             <img src={props.imgdoc.photoUrl} alt="img"
@@ -124,6 +137,11 @@ const ImageDocument = (props) => {
                             <button onClick={getRevisors}>Get revisors</button>
                         </div>)
                     }
+                    <select onChange={handleTypeChange}>
+                        <option value="RECEIPT">Receipt</option>
+                        <option value="OFFER">Offer</option>
+                        <option value="INTERNAL_DOCUMENT">Internal document</option>
+                    </select>
                     { revisors.length > 0 && !sent && (
                         <div>
                             <p>Revisors:</p>
