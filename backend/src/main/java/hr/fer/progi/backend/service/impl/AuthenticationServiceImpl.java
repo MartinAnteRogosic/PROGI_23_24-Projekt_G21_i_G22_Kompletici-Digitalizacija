@@ -5,6 +5,7 @@ import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
+import hr.fer.progi.backend.exception.RegistrationException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.security.JwtService;
 import hr.fer.progi.backend.service.AuthenticationService;
@@ -23,36 +24,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmployeeServiceImpl employeeService;
 
-    public RegistrationResponseDto register(EmployeeDto employeeDto) {
+    @Override
+    public String register(EmployeeDto employeeDto) {
 
         EmployeeEntity employeeEntity = employeeService.mapToEntity(employeeDto);
 
         if (employeeRepository.existsByEmail(employeeEntity.getEmail())) {
-            return RegistrationResponseDto.builder()
-                    .message("Email '" + employeeEntity.getEmail() + "' is already taken.")
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+
+            throw new RegistrationException("Email '" + employeeEntity.getEmail() + "' is already taken.");
         }
 
-        if(employeeEntity.getRole().equals(Role.DIRECTOR) &&
-        employeeRepository.existsByRole(Role.DIRECTOR)){
-            return RegistrationResponseDto.builder()
-                    .message("Director already exists.")
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+        if (employeeEntity.getRole().equals(Role.DIRECTOR) &&
+                employeeRepository.existsByRole(Role.DIRECTOR)) {
+            throw new RegistrationException("Director already exists.");
         }
 
 
         employeeRepository.save(employeeEntity);
 
-        return RegistrationResponseDto.builder()
-                .message("Registration successful")
-                .status(HttpStatus.OK)
-                .build();
+        return "Registration successful";
     }
 
 
-    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+    @Override
+    public LoginDto login(LoginDto loginRequestDto) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -69,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = jwtService.generateToken(employeeEntity);
 
 
-        return LoginResponseDto.builder()
+        return LoginDto.builder()
                 .tokenType("Bearer ")
                 .accessToken(token)
                 .firstName(employeeEntity.getFirstName())
@@ -79,8 +74,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
     }
-
-
 
 
 }

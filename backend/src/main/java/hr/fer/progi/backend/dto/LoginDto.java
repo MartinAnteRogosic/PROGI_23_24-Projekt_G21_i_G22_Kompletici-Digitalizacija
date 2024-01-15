@@ -4,13 +4,15 @@ import hr.fer.progi.backend.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
+import lombok.Getter;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class LoginResponseDto {
+public class LoginDto {
 
+    private String email;
+    private String password;
     private String accessToken;
     private String tokenType;
     private String firstName;

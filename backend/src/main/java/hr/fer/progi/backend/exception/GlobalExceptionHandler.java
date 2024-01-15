@@ -82,4 +82,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<ErrorObject> handleRegistrationException(RegistrationException ex){
+        ErrorObject errorObject = ErrorObject.builder()
+                .statusCode(HttpStatus.BAD_REQUEST)
+                .message(ex.getMessage())
+                .timestamp(new Date())
+                .build();
+
+        return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
+    }
 }
