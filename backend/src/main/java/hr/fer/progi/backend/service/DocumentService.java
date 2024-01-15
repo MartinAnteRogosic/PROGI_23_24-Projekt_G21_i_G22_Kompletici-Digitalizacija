@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface DocumentService {
 
-    List<DocumentDto> getDocumentsByType(DocumentType documentType);
+    List<PhotoDocumentDto> getDocumentsByType(DocumentType documentType);
 
     DocumentEntity getDocumentById(Long documentId);
 

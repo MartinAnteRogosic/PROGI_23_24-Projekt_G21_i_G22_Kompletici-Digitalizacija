@@ -6,9 +6,7 @@ import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
-import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
-import hr.fer.progi.backend.service.impl.ImageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +23,11 @@ public class DocumentController {
 
     private final DocumentServiceImpl documentService;
 
-    @GetMapping("/type/{documentType}")
-    public List<DocumentDto> getDocumentsByType(@PathVariable DocumentType documentType) {
-        return documentService.getDocumentsByType(documentType);
+    @GetMapping("/get-by-type")
+    public ResponseEntity<List<PhotoDocumentDto>> getDocumentsByType(@RequestBody DocumentDto documentDto) {
+        List<PhotoDocumentDto> documents = documentService.getDocumentsByType(documentDto.getType());
+
+        return new ResponseEntity<>(documents, HttpStatus.OK);
     }
 
     @GetMapping("/{documentId}")

@@ -35,12 +35,9 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public List<DocumentDto> getDocumentsByType(DocumentType documentType) {
+    public List<PhotoDocumentDto> getDocumentsByType(DocumentType documentType) {
         List<DocumentEntity> documents = documentRepository.findByType(documentType);
-
-        return documents.stream().map(
-                        this::mapDocumentEntityToDto)
-                .collect(Collectors.toList());
+        return generatePhotoDocumentDtos(documents);
 
     }
 
