@@ -33,6 +33,8 @@
 		
 			
 			\subsection{Opis tablica}
+
+				\textbf{User}  Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: id, name, surname, function, password i email. Ovaj entitet u vezi je One-to-Many s entitetom Photos preko korisnikovog id-a te je u vezi s entitetom Document preko korisnikovog id-a.
 		
 				\begin{longtblr}[
 					label=none,
@@ -51,6 +53,8 @@
 					email & VARCHAR(50)   &   E-mail korisnika \\ \hline
 				\end{longtblr}
 				
+				\textbf{Photos}  Ovaj entitet sadržava sve važne informacije o fotografijama pohranjenima u bazu. Sadrži atribute: photoID, url, imageName, uploadTime te strani ključ id preko korisnika. Ovaj entitet u vezi je One-to-Many s entitetom Photos preko korisnikovog id-a te je u vezi s entitetom Document preko korisnikovog id-a.
+
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -66,6 +70,8 @@
                     imageName   & VARCHAR(10)  &  Ime prenesene fotografije \\ \hline
                     uploadTime  & TIMESTAMP  &  Datum i vrijeme prijenosa fotografije \\ \hline
 				\end{longtblr}
+
+				\textbf{Document}  Ovaj entitet sadržava sve važne informacije o dokumentima pohranjenima u bazu. Sadrži atribute: documentID, verifierID, correct, documentType, signed, verified, superVerified te strani ključ id preko korisnika. Ovaj entitet u vezi je One-to-One s entitetom Photos preko korisnikovog id-a, u Many-to-One vezi je s entitetom User te je u vezi One-to-Many s entitetom Archive preko korisnikovog id-a.
 
                 \begin{longtblr}[
 					label=none,
@@ -83,8 +89,10 @@
                     documentType  &  VARCHAR(20)  &  Tip dokumenta (limitirano na Račun, Ponuda i Interni dokument) \\ \hline
                     signed  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane direktora \\ \hline
                     verified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane računovođe \\ \hline
-                    superVerified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane nadležne osobe \\ \hline
+                    toBeSigned  &  BOOLEAN  &  Potvrda ukoliko rezultantni dokument očekiva potpis od direktora\\ \hline
                 \end{longtblr}
+
+				\textbf{Archive}  Ovaj entitet sadržava sve važne informacije o arhiviranim dokumentima u bazi. Sadrži atribute: archiveID te strani ključ documentID preko entiteta Dokument. Ovaj entitet u vezi je One-to-One s entitetom Photos preko korisnikovog id-a, u Many-to-One vezi je s entitetom User te je u vezi One-to-Many s entitetom Archive preko korisnikovog id-a.
 
                 \begin{longtblr}[
 					label=none,
@@ -94,14 +102,14 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveReciept}}	 \\ \hline[3pt]
+					\hline \SetCell[c=3]{c}{\textbf{Archive}}	 \\ \hline[3pt]
                     \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa \\ \hline
-                    clientName  &  VARCHAR(50)  &  Ime klijenta \\ \hline
-                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+                    \SetCell{LightGreen} archiveId  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa \\ \hline
                 \end{longtblr}
 
-                \begin{longtblr}[
+				\textbf{Statistics}  Ovaj entitet sadržava sve važne informacije o statistici svakog pojedinačnog zaposlenika. Sadrži atribute: timestampLogin, timestampLogout te strani ključ id preko korisnikovog identifikatora. Ovaj entitet je u vezi Many-to-One s entitetom User.
+
+				\begin{longtblr}[
 					label=none,
 					entry=none
 					]{
@@ -109,52 +117,23 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveOffer}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda \\ \hline
-                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{Archive}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} id  &  VARCHAR(10)  &  Jedinstveni identifikator zaposlenika čija se aktivnost na stranici sprema u statistiku \\ \hline
+                    timestampLogin  &  TIMESTAMP  &  Datum i vrijeme login-a zaposlenika \\ \hline
+					timestampLogout &  TIMESTAMP  &  Datum i vrijeme logout-a zaposlenika \\ \hline
                 \end{longtblr}
-
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveInternalDoc}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} archIntDocID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi internih dokumenata \\ \hline
-                    text  &  TEXT  &  Tekst arhiviranog internog dokumenta  \\ \hline
-                \end{longtblr}
-
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					}
-					\hline \SetCell[c=3]{c}{\textbf{Articles}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa izveden iz tablice ArchiveReciept \\ \hline
-                    \SetCell{LightBlue} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda izveden iz tablice ArchiveOffer \\ \hline
-                    articleName  &  VARCHAR(50)  &  Ime artikla \\ \hline
-                    price  &  FLOAT  &  Cijena artikla  \\ \hline
-                \end{longtblr}    
 
 			\subsection{Dijagram baze podataka}
 				
 				\begin{figure}[H]
-					\includegraphics[scale=0.6]{slike/kompletici_v2_ER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.6]{slike/kompletici_v3_ER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{ER dijagram baze podataka}
 					\label{fig:promjene}
 				\end{figure}
 				
 					\begin{figure}[H]
-					\includegraphics[scale=0.5]{slike/kompletici_v2_REL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.5]{slike/kompletici_v3_REL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{REL dijagram baze podataka}
 					\label{fig:promjene}
@@ -193,7 +172,15 @@
 			
 			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
+			Dijagram stanja prikazuje stanja objekta te prijelaze iz jednog stanja u drugo temeljene na dogadajima. Na slici je prikazan dijagram stanja za direktora. Nakon prijave, direktoru se prikazuje početna stranica na kojoj može pristupit svim svojim funkcionalnostima (skeniranju dokumenata, promjeni lozinke, pregledu zahtjeva itd.). Odabirom na skeniranje dokumenata direktoru se pruža mogućnost odabira upload-a dokumenta ili provjere već dostupnog dokumenta. Odabirom pregleda zahtjeva pružaju mu se opcije revizije, potpisivanja te arhiviranja dokumenta. Odabirom pregleda zapisa direktor može pregledati arhivu, povijest skeniranja te statistiku svih pojedinačnih zaposlenika. Direktoru se također pružaju opcije promjene lozinke, brisanja zaposlenika te objave dokumenta na društvenim mrežama (u ovom slučaju na društvenoj mreži "Facebook").
 			
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_stanja_direktor.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram stanja}
+				\label{fig:promjene}
+			\end{figure}
+
 			\eject 
 		
 		\section{Dijagram aktivnosti}
@@ -202,10 +189,30 @@
 			
 			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
 			
+			Dijagram aktivnosti primjenjuje se za opis modela toka upravljanja ili toka podataka. Ne upotrebljava se za modeliranje događajima poticanog ponašanja. U modeliranju toka upravljanja svaki novi korak poduzima se nakon završenog prethodnog, a naglasak je na jednostavnosti. Na dijagramu aktivnosti prikazan je princip rada zaposlenika. Zaposlenik nakon uspješne prijave u sustav upload-a fotografije koje se daju na skeniranje, te aplikacija iste fotografije konvertira koristeći Tesseract.
+
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_aktivnosti.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram aktivnosti}
+				\label{fig:promjene}
+			\end{figure}
+
+
 			\eject
 		\section{Dijagram komponenti}
 		
 			\textbf{\textit{dio 2. revizije}}\\
 		
 			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+
+			 Dijagram komponenti prikazan na slici opisuje organizaciju i međuovisnost komponenti, interne strukture i odnose prema okolini. Sustavu se pristupa preko dva različita sučelja. Preko sučelja za dohvat HTML, CSS i JS datoteka poslužuju se datoteke koje pripadaju frontend dijelu aplikacije. Router je komponenta koja na upit s url određuje koja datoteka će se poslužiti na sučelje. Frontend dio se sastoji od niza JavaScript datoteka koje su raspoređene u logičke cjeline nazvane po tipovima aktora koji im pristupaju. Sve JavaScript datoteke ovise o React biblioteci iz koje dohvaćaju gotove komponente kao što su gumbi, forme i slično. Preko sučelja za dohvat JSON podataka pristupa se REST API komponenti. REST API poslužuje podatke koji pripadaju backend dijelu aplikacije. EntityFrameWorkCore je zadužen za dohvaćanje tablica iz baze podataka pomoću SQL upita. Podaci koji su pristigli iz baze se šalju dalje MVC arhitekturi u obliku DTO preko Services. React-view komponenta preko dostupnih sučelja komunicira sa aplikacijom te ovisno o korisnikovim akcijama osvježava prikaz i dohvaća nove podatke ili datoteke.
+
+			 \begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_komponenti.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram komponenti}
+				\label{fig:promjene}
+			\end{figure}
+			 
 		\fi
