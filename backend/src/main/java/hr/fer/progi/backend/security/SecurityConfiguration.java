@@ -43,7 +43,6 @@ public class SecurityConfiguration {
                                 .permitAll()
 
                                 .requestMatchers("/api/v1/employees/get-all-revisers").hasRole(EMPLOYEE.name())
-                                .requestMatchers("/api/v1/employees/get-revision-documents").hasRole(REVISER.name())
                                 .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(), ACCOUNTANT_RECEIPT.name(),DIRECTOR.name())
 
 
@@ -59,6 +58,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/document/documents-for-sign").hasRole(DIRECTOR.name())
                                 .requestMatchers("/api/v1/document/all-documents").hasRole(DIRECTOR.name())
                                 .requestMatchers("/api/v1/document/document-history").hasRole(EMPLOYEE.name())
+                                .requestMatchers("/api/v1/document/get-revision-documents").hasRole(REVISER.name())
                                 .requestMatchers(("/api/v1/document/send-to-sign")).hasAnyRole(ACCOUNTANT_RECEIPT.name(),
                                                                                                 ACCOUNTANT_OFFER.name(),
                                                                                                 ACCOUNTANT_INT_DOC.name())

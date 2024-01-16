@@ -23,7 +23,7 @@ public class DocumentController {
 
     private final DocumentServiceImpl documentService;
 
-    @GetMapping("/get-by-type")
+    @PostMapping("/get-by-type")
     public ResponseEntity<List<PhotoDocumentDto>> getDocumentsByType(@RequestBody DocumentDto documentDto) {
         List<PhotoDocumentDto> documents = documentService.getDocumentsByType(documentDto.getType());
 
@@ -118,8 +118,8 @@ public class DocumentController {
     }
 
     @GetMapping("/documents-for-sign")
-    public ResponseEntity<List<DocumentDto>> getAllDocumentsForSigning(){
-        List<DocumentDto> listOfDocumentsForSigning = documentService.getAllDocumentsForSigning();
+    public ResponseEntity<List<PhotoDocumentDto>> getAllDocumentsForSigning(){
+        List<PhotoDocumentDto> listOfDocumentsForSigning = documentService.getAllDocumentsForSigning();
         return new ResponseEntity<>(listOfDocumentsForSigning, HttpStatus.OK);
     }
 

@@ -29,7 +29,7 @@ public interface DocumentService {
 
     List<PhotoDocumentDto> getRevisionDocuments(Principal connectedEmployee);
 
-    List<DocumentDto> getAllDocumentsForSigning();
+    List<PhotoDocumentDto> getAllDocumentsForSigning();
 
     List<PhotoDocumentDto> getDocumentHistory(Principal connectedEmployee);
 

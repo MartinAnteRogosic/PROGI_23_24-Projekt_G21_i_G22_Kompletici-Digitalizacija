@@ -105,12 +105,10 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<DocumentDto> getAllDocumentsForSigning() {
+    public List<PhotoDocumentDto> getAllDocumentsForSigning() {
         List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrueAndVerifiedIsTrue();
 
-        return documents.stream()
-                .map(this::mapDocumentEntityToDto)
-                .collect(Collectors.toList());
+        return generatePhotoDocumentDtos(documents);
 
     }
 
