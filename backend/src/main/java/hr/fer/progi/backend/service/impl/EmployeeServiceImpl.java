@@ -93,15 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .toList();
     }
 
-    @Override
-    public List<DocumentDto> getRevisionDocuments(Principal connectedEmployee) {
-        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
-        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
 
-        return documents.stream()
-                .map(documentService::mapDocumentEntityToDto)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public EmployeeDto mapToDtoForGetAll(EmployeeEntity employeeEntity) {

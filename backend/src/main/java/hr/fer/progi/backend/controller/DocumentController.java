@@ -35,13 +35,6 @@ public class DocumentController {
         return documentService.getDocumentById(documentId);
     }
 
-    @GetMapping("/get-by-reviser-id/{reviserId}")
-    public ResponseEntity<List<DocumentDto>>getDocumentsByReviserId(@PathVariable Long reviserId) {
-
-        List<DocumentDto> documents = documentService.getDocumentsByVerificationEmployeeId(reviserId);
-
-        return new ResponseEntity<>(documents, HttpStatus.OK);
-    }
 
     @PostMapping("/change-category")
     public ResponseEntity<String> changeDocumentCategory(@RequestBody DocumentDto documentDto) {
@@ -57,12 +50,21 @@ public class DocumentController {
         return new ResponseEntity<>("Document sent to reviser", HttpStatus.OK);
     }
 
+
+
     @PostMapping("/correct")
     public ResponseEntity<String> setCorrect(@RequestBody DocumentDto documentDto) {
 
         String response = documentService.setCorrect(documentDto);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-revision-documents")
+    public ResponseEntity<?> getRevisionDocuments(Principal connectedEmployee){
+        List<PhotoDocumentDto> listOfRevisionDocuments = documentService.getRevisionDocuments(connectedEmployee);
+
+        return new ResponseEntity<>(listOfRevisionDocuments, HttpStatus.OK);
     }
 
     @PostMapping("/verify")

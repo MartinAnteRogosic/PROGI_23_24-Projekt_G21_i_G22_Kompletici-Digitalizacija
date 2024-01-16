@@ -49,8 +49,11 @@ public class SecurityConfiguration {
 
                                 .requestMatchers("/api/v1/employee-management/**").hasRole(DIRECTOR.name())
 
-                                .requestMatchers("/api/v1/document/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
-                                .requestMatchers(GET, "/api/v1/document/change-category").hasAuthority(CHANGE_DOCUMENT_CATEGORY.name())
+                                .requestMatchers("/api/v1/document/change-category").hasAnyRole(ACCOUNTANT_RECEIPT.name(),
+                                                                                                    ACCOUNTANT_OFFER.name(),
+                                                                                                    ACCOUNTANT_INT_DOC.name(),
+                                                                                                    REVISER.name(),
+                                                                                                    DIRECTOR.name())
 
                                 .requestMatchers("/api/v1/document/sign-document").hasRole(DIRECTOR.name())
                                 .requestMatchers("/api/v1/document/documents-for-sign").hasRole(DIRECTOR.name())
@@ -67,9 +70,12 @@ public class SecurityConfiguration {
                                                                                             ACCOUNTANT_RECEIPT.name(),
                                                                                             DIRECTOR.name())
                                 .requestMatchers("/api/v1/document/verify").hasAnyRole(REVISER.name())
+                                .requestMatchers("/api/v1/document/get-by-type").hasAnyRole(ACCOUNTANT_INT_DOC.name(),
+                                                                                                ACCOUNTANT_OFFER.name(),
+                                                                                                ACCOUNTANT_RECEIPT.name())
                                 .requestMatchers("/api/v1/document/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(),ACCOUNTANT_RECEIPT.name(), DIRECTOR.name())
 
-                                .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
+                                .requestMatchers("/api/v1/images/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(), ACCOUNTANT_RECEIPT.name(), DIRECTOR.name())
 
                                 .requestMatchers("/api/v1/archive/delete-document").hasRole(DIRECTOR.name())
                                 .requestMatchers("/api/v1/archive/**").hasAnyRole(ACCOUNTANT_INT_DOC.name(),

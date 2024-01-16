@@ -97,6 +97,14 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public List<PhotoDocumentDto> getRevisionDocuments(Principal connectedEmployee) {
+        EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
+        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
+
+        return generatePhotoDocumentDtos(documents);
+    }
+
+    @Override
     public List<DocumentDto> getAllDocumentsForSigning() {
         List<DocumentEntity> documents = documentRepository.findByToBeSignedIsTrueAndVerifiedIsTrue();
 

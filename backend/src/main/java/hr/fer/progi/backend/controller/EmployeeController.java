@@ -44,10 +44,4 @@ public class EmployeeController {
         return new ResponseEntity<>(listOfRevisers, HttpStatus.OK);
     }
 
-    @GetMapping("/get-revision-documents")
-    public ResponseEntity<?> getRevisionDocuments(Principal connectedEmployee){
-        List<DocumentDto> listOfRevisionDocuments = employeeService.getRevisionDocuments(connectedEmployee);
-
-        return new ResponseEntity<>(listOfRevisionDocuments, HttpStatus.OK);
-    }
 }

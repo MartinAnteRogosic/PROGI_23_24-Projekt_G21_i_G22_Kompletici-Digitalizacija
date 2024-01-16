@@ -19,5 +19,4 @@ public interface EmployeeService {
 
     List<EmployeeDto> getAllRevisers();
 
-    List<DocumentDto> getRevisionDocuments(Principal connectedEmployee);
 }

@@ -27,6 +27,8 @@ public interface DocumentService {
 
     String setDocumentToBeSinged(DocumentDto documentDto);
 
+    List<PhotoDocumentDto> getRevisionDocuments(Principal connectedEmployee);
+
     List<DocumentDto> getAllDocumentsForSigning();
 
     List<PhotoDocumentDto> getDocumentHistory(Principal connectedEmployee);
