@@ -1,0 +1,64 @@
+\chapter{Opis projektnog zadatka}
+		
+		
+		Cilj ovog projekta je razvoj i implementacija aplikacije Digitaliziraj, koja će tvrtkama olakšati digitalizaciju dokumenata nužnih za poslovanje koristeći OCR (eng. Optical character recognition). Aplikacija će olakšati digitalizaciju dokumenata unutar organizacija, te osigurati da svaki radnik organizacije dobije dokumente za koje je zadužen. Time, aplikacija će povećati učinkovitost organizacije te ubrzati njeno djelovanje.\\
+		
+		Neregistrirani korisnik mora napraviti korisnički račun kako bi mogao koristiti funkcionalnosti aplikacije. Za to su mu potrebni sljedeći podatci:
+		
+		\begin{packed_item}
+			\item \textit{ime}
+			\item \textit{prezime}
+			\item \textit{email adresa}
+			\item \textit{lozinka}
+		\end{packed_item}
+	
+	Dodatno, ne registrirani korisnik mora odabrati na kojoj razini ovlasti želi stvoriti korisnički račun. Dostupne su 4 razine ovlasti:
+	
+	\begin{packed_item}
+		\item \textit{zaposlenik}
+		\item \textit{revizor}
+		\item \textit{računovođa}
+		\item \textit{direktor}
+	\end{packed_item}
+	
+	Razne razine iznad su navedene od najniže do najviše. U većini slučajeva viša razina ovlasti ima sve funkcionalnosti onih ispod sebe, osim u onim slučajevima kada struktura tvrtke te razne odgovornosti zaposlenika to traže drugačije. Detalji o funkcionalnostima svake razine ovlasti nalaze se u nastavku dokumenta. Dodatno postoji još razina ovlasti direktor, koja predstavlja razinu ovlasti vlasnika tvrtke. Aplikacija sama stvara jedan korisnički račun s tom razinom ovlasti te su podatci potrebni za prijavu u taj korisnički račun dani vlasniku tvrtke.\\
+	
+	Zaposlenik ima najnižu razinu ovlasti unutar sustava. Korisnik s razinom ovlasti zaposlenik može učitavati slike u sustav te provjeriti je li sustav točno odradio konverziju slike u dokument. Jednom kad zaposlenik potvrdi da je pretvorba iz slike u dokument odrađena ispravno, generiran dokument se šalje jednom od revizora tvrtke na pregled. U svrhu ubrzanja procesa aplikacija omogućuje učitavanje do 50 slika istovremeno (ova funkcionalnost omogućena je i za sve više razine ovlasti). Pri tom zaposlenik i dalje mora svaku od konverzija potvrditi kao točnu prije nego što je dokument proslijeđen revizoru na pregled. Zaposlenik ima pristup povijesti svih dokumenata koje je skenirao.\\
+	
+	Revizor je druga najniža razina ovlasti unutar sustava. Posao revizora jest kontrola rada zaposlenika te preusmjeravanje dokumenata odgovarajućem računovođi (ovisno o vrsti dokumenta). Kao takav revizor ima pristup povijesti svih dokumenata nad kojima je vršio kontrolu. U slučaju da revizor skenira dokument aplikacija će automatski detektirati računovođu kojem vrsta skeniranog dokumenta treba biti poslana, te će nakon što revizor potvrdi ispravnost konverzije taj dokument biti automatski poslan odgovarajućem računovođi.\\
+	
+	
+	Računovođa je najviša razina ovlasti u sustavu, izuzev direktora. Svaki računovođa je zadužen za obradu jedne od 3 vrste dokumenata koje aplikacija raspoznaje. To su računi, ponude i interni dokumenti. Računovođa ima pristup povijesti svih dokumenata one vrste za koju je zadužen. Posao računovođe je arhivirati dokumente. Pri arhiviranju dokumentu se dodjeljuje jedinstven broj arhiva. Računovođa također po potrebi može poslati dokument direktoru na potpisivanje. U tom slučaju direktor prima obavijest o tome. Nakon što direktor potpiše dokument računovođa dobiva obavijest da je dokument potpisan te ga onda može arhivirati. U slučaju da računovođa učita sliku dokumenta one vrste za koju nije zadužen aplikacija će mu automatski ponuditi slanje dokumenta odgovarajućem računovođi.\\
+	
+	Direktor je najviša razina ovlasti unutar sustava, te predstavlja najodgovorniju osoba unutar organizacije koja koristi aplikaciju za svoje poslovanje. Direktor ima uvid u povijest svih dokumenata te u statistike svih zaposlenika. U slučaju da mu računovođa pošalje zahtjev za potpis može potpisati dokument. U slučaju da direktor sam učitava slike u sustav te vrši konverziju, odmah mu se nudi mogućnost potpisivanja dokumenta te aplikacija automatski određuje računovođu kojem treba proslijediti učitan dokument. Dodatno za promotivne svrhe, direktoru je omogućena objava dokumenata na sljedećim društvenim mrežama: 
+	
+	\begin{packed_item}
+		\item Facebook
+		\item X
+		\item Instagram
+	\end{packed_item}
+	
+	\section{Potencijalna korist ovog projekta}
+	
+	Svojom strukturom i funkcionalnošću aplikacija ostvaruje brz i učinkovit sustav digitalizacije i distribucije dokumenata unutar organizacije. Njenom primjenom može se osigurati učinkovito poslovanje te raspodjela odgovornosti među zaposlenicima što pospješuje rad organizacije u mnogim aspektima. S obzirom na njenu općenitost aplikacija bi mogla biti  od interesa svim organizacijama koje se moraju baviti papirologijom. To uključuje: neprofitne humanitarne organizacije, tvrtke koje se natječu na tržištu, vladine agencije...\\
+	
+	\section{Slična rješenja}
+	
+	Na tržištu postoje razni sustavi za distribuciju dokumenata, također postoje i mnoge implementacije OCR-a. No vrlo je malen broj alata koji integriraju te dvije tehnologije u jedan sustav. Time se zaobilazi potreba da se odvojeni alati koriste za digitalizaciju dokumenata i njihovu distribuciju. \\
+	
+	\section{Mogućnost prilagodbe}
+	
+	Implementacija sustava u velikoj mjeri ovisi o strukturi organizacije i njenim potrebama za distribuciju dokumenata. Dodatno ako je klasifikacija dokumenata koju organizacija koristi složenija, potrebno je doraditi sustav automatskog prosljeđivanja dokumenata. Međutim implementacija dijelova sustava, koji se ne moraju mijenjati ovisno o potrebi klijenta, mogu se izvesti na način da je ta promjena relativno jednostavna.
+	
+	\section{Opseg projektnog zadatka}
+	
+	Konkretna implementacija izvedena u sklopu ovog projekta koristi relativno jednostavnu strukturu organizacije opisanu iznad, te razlikuje 3 različite vrste dokumenata i razina ovlasti. To je čini relativno jednostavnom za implementaciju no ujedno i lakom za integrirati u radni tok bilo koje organizacije koja koristi aplikaciju. 
+	
+	\section{Moguće nadogradnje}
+	
+	Mnoge nadogradnje su moguće na sustav. Integracija s alatima za preuređivanje digitalnih dokumenata, kako bi sustav postao znatno općenitije sredstvo za rukovanje dokumentima. Dodatno mogu se implementirati značajke koje bi omogućile komunikaciju među zaposlenicima,  generaciju raznih rasporeda i slično. Time bi aplikacija postala univerzalno sredstvo za upravljanje radom organizacije.
+	
+
+		
+		
+	
