@@ -1,8 +1,7 @@
 package hr.fer.progi.backend.service.impl;
 
-
+import hr.fer.progi.backend.entity.LoginEntity;
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
-import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
@@ -16,10 +15,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import hr.fer.progi.backend.dto.StatisticDto;
 
 import java.security.Principal;
+import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import hr.fer.progi.backend.repository.StatticsticRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final DocumentServiceImpl documentService;
     private final DocumentRepository documentRepository;
+    private final StatticsticRepository statticsticRepository;
+    private final EmployeeServiceImpl employeeServiceImpl;
 
     public void changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
 
@@ -94,6 +98,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
+
+    @Override
+    public long getTimeForEmployee(Long employeeId) {
+     List<LoginEntity> loginEntity = statticsticRepository.findAllById(employeeId);
+        return  loginEntity.stream()
+                .filter(loginEntity1 -> loginEntity1.getTimestampLogin() != null && loginEntity1.getTimestampLogout() != null)
+                .mapToLong(loginEntity1 -> Duration.between(
+                        loginEntity1.getTimestampLogin().toInstant(),
+                        loginEntity1.getTimestampLogout().toInstant()
+                ).toMinutes())
+                .sum();
+
+    }
+
+    @Override
+    public StatisticDto getStatsForEmployee(Long employeeId) {
+
+        List<DocumentEntity> listOfDocuments = documentService.getAllDocumentsForUser(employeeId);
+        long numberOfDocuments = (long) listOfDocuments.size();
+        long timeOfLogin = employeeServiceImpl.getTimeForEmployee(employeeId);
+
+        return StatisticDto.builder()
+                .timeOfLogin(timeOfLogin)
+                .numberOfDocuments(numberOfDocuments)
+                .build();
+    }
 
     @Override
     public EmployeeDto mapToDtoForGetAll(EmployeeEntity employeeEntity) {

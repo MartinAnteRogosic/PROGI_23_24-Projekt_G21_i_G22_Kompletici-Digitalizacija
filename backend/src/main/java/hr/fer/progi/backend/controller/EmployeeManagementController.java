@@ -1,11 +1,11 @@
 package hr.fer.progi.backend.controller;
 
-
 import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
-import hr.fer.progi.backend.entity.DocumentEntity;
+import hr.fer.progi.backend.dto.StatisticDto;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.service.impl.EmployeeManagementServiceImpl;
+import hr.fer.progi.backend.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,8 @@ public class EmployeeManagementController {
 
     private final EmployeeManagementServiceImpl employeeManagementService;
     private final DocumentServiceImpl documentService;
+    private final EmployeeServiceImpl employeeServiceimpl;
+
     @GetMapping("/statistics")
     public ResponseEntity<?> getAllEmployeeStatistics(){
             List<EmployeeDto> listOfEmployees = employeeManagementService.getAllEmployees();
@@ -29,10 +31,9 @@ public class EmployeeManagementController {
     }
 
     @GetMapping("/statistics/{employeeId}")
-    public ResponseEntity<?> getEmployeeStatisticById(@PathVariable(value = "employeeId") Long employeeId){
-         List<DocumentEntity> listOfDocuments = documentService.getAllDocumentsForUser(employeeId);
-         Integer numberOfDocuments = listOfDocuments.size();
-        return new ResponseEntity<>(String.format("Statistics of employee with id %d is %d", employeeId,numberOfDocuments), HttpStatus.OK);
+    public ResponseEntity<StatisticDto> getEmployeeStatisticById(@PathVariable(value = "employeeId") Long employeeId){
+         StatisticDto statisticDto = employeeServiceimpl.getStatsForEmployee(employeeId);
+        return new ResponseEntity<>(statisticDto, HttpStatus.OK);
     }
     @GetMapping("/all-employees")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(){

@@ -3,6 +3,7 @@ package hr.fer.progi.backend.service.impl;
 
 import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.EmployeeEntity;
+import hr.fer.progi.backend.entity.LoginEntity;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.exception.RegistrationException;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import hr.fer.progi.backend.entity.LoginEntity;
+import hr.fer.progi.backend.repository.StatticsticRepository;
+import java.sql.Timestamp;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmployeeServiceImpl employeeService;
+    private final StatticsticRepository statticsticRepository;
 
     @Override
     public String register(EmployeeDto employeeDto) {
@@ -62,6 +67,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 ));
 
         String token = jwtService.generateToken(employeeEntity);
+
+
+
+        LoginEntity loginEntity = new LoginEntity();
+        loginEntity.setEmployeeEntity(employeeEntity);
+        loginEntity.setTimestampLogin(new Timestamp(System.currentTimeMillis()));
+
+        statticsticRepository.save(loginEntity);
+
 
 
         return LoginDto.builder()
