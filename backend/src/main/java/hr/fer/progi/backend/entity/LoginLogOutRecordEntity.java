@@ -1,31 +1,33 @@
 package hr.fer.progi.backend.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Photo")
-public class Photo {
-
+@Table(name = "LoginLogOutRecord")
+public class LoginLogOutRecordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String url;
-    private String fileName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JsonBackReference
+    private EmployeeEntity employee;
 
-    @OneToOne(mappedBy = "photo")
-    private Document document;
+    private LocalDateTime loginTime;
+
+    private LocalDateTime logoutTime;
+
 }

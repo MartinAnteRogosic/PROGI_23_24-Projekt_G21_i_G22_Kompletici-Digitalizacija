@@ -7,7 +7,6 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,11 +39,14 @@ public class EmployeeEntity implements UserDetails {
 
     @OneToMany(mappedBy = "validationEmployee", fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<DocumentEntity> validatedDocuments;
+    private List<DocumentEntity> revisedDocuments;
 
     @OneToMany(mappedBy = "scanEmployee", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<DocumentEntity> scannedDocuments;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    private List<LoginLogOutRecordEntity> loginLogOutRecord;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

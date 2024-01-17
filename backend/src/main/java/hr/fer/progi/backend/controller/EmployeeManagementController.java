@@ -21,18 +21,16 @@ import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 public class EmployeeManagementController {
 
     private final EmployeeManagementServiceImpl employeeManagementService;
-    private final DocumentServiceImpl documentService;
-    private final EmployeeServiceImpl employeeServiceimpl;
 
     @GetMapping("/statistics")
     public ResponseEntity<?> getAllEmployeeStatistics(){
-            List<EmployeeDto> listOfEmployees = employeeManagementService.getAllEmployees();
-            return new ResponseEntity<>(listOfEmployees, HttpStatus.OK);
+            List<StatisticDto> employeeStatistics = employeeManagementService.getAllEmployeeStatistics();
+            return new ResponseEntity<>(employeeStatistics, HttpStatus.OK);
     }
 
-    @GetMapping("/statistics/{employeeId}")
-    public ResponseEntity<StatisticDto> getEmployeeStatisticById(@PathVariable(value = "employeeId") Long employeeId){
-         StatisticDto statisticDto = employeeServiceimpl.getStatsForEmployee(employeeId);
+    @GetMapping("/statistics-for-employee")
+    public ResponseEntity<StatisticDto> getEmployeeStatisticById(@RequestBody EmployeeDto employeeDto){
+         StatisticDto statisticDto = employeeManagementService.getStatsForEmployee(employeeDto.getId());
         return new ResponseEntity<>(statisticDto, HttpStatus.OK);
     }
     @GetMapping("/all-employees")

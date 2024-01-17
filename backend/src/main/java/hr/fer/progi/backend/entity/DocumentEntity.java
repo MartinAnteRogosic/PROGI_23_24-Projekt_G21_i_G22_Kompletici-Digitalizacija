@@ -25,14 +25,14 @@ public class DocumentEntity {
 
     private String fileName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "scan_employee_id")
     @JsonBackReference
     private EmployeeEntity scanEmployee;
 
     private Boolean correct;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "validation_employee_id")
     @JsonBackReference
     private EmployeeEntity validationEmployee;

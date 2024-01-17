@@ -133,6 +133,7 @@ public class DocumentController {
     }
 
 
+    //TODO vracat po id-u korisnika i validation null
     @GetMapping("/all-unconfirmed")
     public ResponseEntity<List<PhotoDocumentDto>> getAllUnconfirmedDocuments(){
         List<PhotoDocumentDto> listOfDocuments = documentService.getAllUnconfirmedDocuments();

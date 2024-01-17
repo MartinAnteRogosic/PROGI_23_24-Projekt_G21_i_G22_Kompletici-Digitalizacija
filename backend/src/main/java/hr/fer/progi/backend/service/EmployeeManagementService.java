@@ -2,6 +2,7 @@ package hr.fer.progi.backend.service;
 
 import hr.fer.progi.backend.dto.DeleteEmployeeAccountDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.dto.StatisticDto;
 import hr.fer.progi.backend.entity.Role;
 
 import java.security.Principal;
@@ -18,4 +19,7 @@ public interface EmployeeManagementService {
 
     void changeRoleOfEmployee(Long employeeId, Role role);
 
+    StatisticDto getStatsForEmployee(Long employeeId);
+
+    List<StatisticDto> getAllEmployeeStatistics();
 }

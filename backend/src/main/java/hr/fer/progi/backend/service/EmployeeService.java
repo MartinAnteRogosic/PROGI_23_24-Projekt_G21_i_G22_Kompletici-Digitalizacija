@@ -12,15 +12,11 @@ public interface EmployeeService {
 
     void changePassword(ChangePasswordRequestDto requestDto, Principal connectedEmployee);
 
-
-    EmployeeDto mapToDto(EmployeeEntity employeeEntity);
     EmployeeDto mapToDtoForGetAll(EmployeeEntity employeeEntity);
+
     EmployeeEntity mapToEntity(EmployeeDto employeeDto);
 
     List<EmployeeDto> getAllRevisers();
-   long getTimeForEmployee(Long employeeId);
-
-     StatisticDto getStatsForEmployee(Long employeeId);
 
 
-    }
+}

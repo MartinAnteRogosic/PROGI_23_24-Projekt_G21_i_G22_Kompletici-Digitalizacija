@@ -1,23 +1,23 @@
 package hr.fer.progi.backend.service.impl;
 
 
-import hr.fer.progi.backend.dto.*;
+import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.dto.LoginDto;
 import hr.fer.progi.backend.entity.EmployeeEntity;
-import hr.fer.progi.backend.entity.LoginEntity;
+import hr.fer.progi.backend.entity.LoginLogOutRecordEntity;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.exception.RegistrationException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
+import hr.fer.progi.backend.repository.LoginTimeRecordRepository;
 import hr.fer.progi.backend.security.JwtService;
 import hr.fer.progi.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import hr.fer.progi.backend.entity.LoginEntity;
-import hr.fer.progi.backend.repository.StatticsticRepository;
-import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmployeeServiceImpl employeeService;
-    private final StatticsticRepository statticsticRepository;
+    private final LoginTimeRecordRepository loginTimeRecordRepository;
 
     @Override
     public String register(EmployeeDto employeeDto) {
@@ -70,11 +70,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
 
-        LoginEntity loginEntity = new LoginEntity();
-        loginEntity.setEmployeeEntity(employeeEntity);
-        loginEntity.setTimestampLogin(new Timestamp(System.currentTimeMillis()));
+        LoginLogOutRecordEntity loginLogOutRecordEntity = LoginLogOutRecordEntity.builder()
+                .employee(employeeEntity)
+                .loginTime(LocalDateTime.now())
+                .build();
 
-        statticsticRepository.save(loginEntity);
+        loginTimeRecordRepository.save(loginLogOutRecordEntity);
 
 
 
