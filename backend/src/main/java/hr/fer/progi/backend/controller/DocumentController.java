@@ -50,7 +50,7 @@ public class DocumentController {
 
         return emitter;
     }
-    
+
     @PostMapping("/change-category")
     public ResponseEntity<String> changeDocumentCategory(@RequestBody DocumentDto documentDto) {
         String  response = documentService.changeDocumentType(documentDto);
