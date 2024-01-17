@@ -4,14 +4,17 @@ import hr.fer.progi.backend.dto.ChooseReviserDto;
 import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
-import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentServiceImpl documentService;
+    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
 
     @PostMapping("/get-by-type")
     public ResponseEntity<List<PhotoDocumentDto>> getDocumentsByType(@RequestBody DocumentDto documentDto) {
@@ -35,7 +40,17 @@ public class DocumentController {
         return documentService.getDocumentById(documentId);
     }
 
+    @GetMapping("/sse")
+    public SseEmitter handleSse() {
+        SseEmitter emitter = new SseEmitter();
+        this.emitters.add(emitter);
 
+        emitter.onCompletion(() -> this.emitters.remove(emitter));
+        emitter.onTimeout(() -> this.emitters.remove(emitter));
+
+        return emitter;
+    }
+    
     @PostMapping("/change-category")
     public ResponseEntity<String> changeDocumentCategory(@RequestBody DocumentDto documentDto) {
         String  response = documentService.changeDocumentType(documentDto);
@@ -110,8 +125,16 @@ public class DocumentController {
         return new ResponseEntity<>(listOfVerifiedDocuments, HttpStatus.OK);
     }
 
+
     @PostMapping("/send-to-sign")
     public ResponseEntity<String> setDocumentsToBeSinged(@RequestBody DocumentDto documentDto) {
+        for (SseEmitter emitter : this.emitters) {
+            try {
+                emitter.send(SseEmitter.event().name("message").data("Stigao je novi zahtjev za potpisivanje dokumenta!"));
+            } catch (IOException e) {
+                this.emitters.remove(emitter);
+            }
+        }
 
         String response = documentService.setDocumentToBeSinged(documentDto);
          return new ResponseEntity<>(response, HttpStatus.OK);
@@ -126,7 +149,13 @@ public class DocumentController {
 
     @PostMapping("/sign-document")
     public ResponseEntity<String> signDocuments(@RequestBody DocumentDto documentDto) {
-
+        for (SseEmitter emitter : this.emitters) {
+            try {
+                emitter.send(SseEmitter.event().name("message").data("Dokument je potpisan!"));
+            } catch (IOException e) {
+                this.emitters.remove(emitter);
+            }
+        }
         String response = documentService.signDocument(documentDto);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
