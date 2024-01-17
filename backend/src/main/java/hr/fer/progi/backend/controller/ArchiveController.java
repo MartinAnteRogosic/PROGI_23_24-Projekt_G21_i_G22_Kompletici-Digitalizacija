@@ -1,7 +1,7 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.dto.AllArchiveDocumentsDto;
 import hr.fer.progi.backend.dto.ArchiveDeleteDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,10 +26,9 @@ public class ArchiveController {
     }
 
     @GetMapping("/all-archive-documents")
-    public ResponseEntity<AllArchiveDocumentsDto> getAllArchivedDocuments() {
-        AllArchiveDocumentsDto allArchiveDocumentsDto = archiveService.getAllArchivedDocuments();
-        ResponseEntity<AllArchiveDocumentsDto> responseEntity = new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
-        return responseEntity;
+    public ResponseEntity<List<PhotoDocumentDto>> getAllArchivedDocuments() {
+        List<PhotoDocumentDto> allArchiveDocumentsDto = archiveService.getAllArchivedDocuments();
+        return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-document")

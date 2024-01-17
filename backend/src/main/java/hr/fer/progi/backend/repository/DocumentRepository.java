@@ -1,8 +1,5 @@
 package hr.fer.progi.backend.repository;
-import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.transaction.annotation.Transactional;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +11,7 @@ import java.util.Optional;
 public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> {
     List<DocumentEntity> findByType(DocumentType documentType);
 
-    List<DocumentEntity> findByValidationEmployeeIdAndVerifiedIsFalse(Long validationEmployee_id);
+    List<DocumentEntity> findByVerificationEmployeeIdAndVerifiedIsFalse(Long validationEmployee_id);
     List<DocumentEntity> findByToBeSignedIsTrueAndVerifiedIsTrue();
 
     List<DocumentEntity> findByScanEmployeeIdAndCorrectIsNullAndVerificationEmployeeIdIsNull(Long scanEmployeeId);

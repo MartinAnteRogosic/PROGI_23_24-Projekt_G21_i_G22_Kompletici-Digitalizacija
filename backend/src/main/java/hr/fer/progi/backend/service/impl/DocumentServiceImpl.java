@@ -67,7 +67,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId) {
-        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeId);
+        List<DocumentEntity> documents = documentRepository.findByVerificationEmployeeIdAndVerifiedIsFalse(employeeId);
 
         return documents.stream().map(
                         this::mapDocumentEntityToDto)
@@ -99,7 +99,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<PhotoDocumentDto> getRevisionDocuments(Principal connectedEmployee) {
         EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
-        List<DocumentEntity> documents = documentRepository.findByValidationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
+        List<DocumentEntity> documents = documentRepository.findByVerificationEmployeeIdAndVerifiedIsFalse(employeeEntity.getId());
 
         return generatePhotoDocumentDtos(documents);
     }

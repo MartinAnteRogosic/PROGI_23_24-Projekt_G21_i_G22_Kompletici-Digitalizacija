@@ -3,7 +3,6 @@ package hr.fer.progi.backend.service.impl;
 import hr.fer.progi.backend.dto.*;
 import hr.fer.progi.backend.entity.*;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
-import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.*;
 import hr.fer.progi.backend.service.ArchiveService;
 import lombok.RequiredArgsConstructor;
@@ -19,63 +18,47 @@ import java.util.stream.Collectors;
 @Service
 public class ArchiveServiceImpl implements ArchiveService {
 
-
-    private final ArchiveReceiptRepository archiveReceiptRepository;
-    private final ArchiveOfferRepository archiveOfferRepository;
-    private final ArchiveInternalDocRepository archiveInternalDocRepository;
     private final DocumentRepository documentRepository;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final CloudStorageServiceImpl cloudStorageService;
     private final PhotoRepository photoRepository;
+    private final ArchiveRepository archiveRepository;
 
     @Override
     public String archiveDocument(Long documentID) {
-        // Retrieve the document from the DocumentEntity
+
         DocumentEntity documentEntity = documentRepository.findById(documentID)
                 .orElseThrow(() -> new DocumentNotFoundException(String.format("Document with ID %d could not be found", documentID)));
 
-        if(documentEntity.getType().equals(DocumentType.RECEIPT)){
-            ArchiveReceiptEntity archiveReceipt = ArchiveReceiptEntity.builder()
-                    .documentType(documentEntity.getType())
-                    .document(documentEntity)
-                    .build();
-            archiveReceiptRepository.save(archiveReceipt);
+        ArchiveEntity archiveEntity = ArchiveEntity.builder()
+                .document(documentEntity)
+                .build();
 
-            System.out.println(archiveReceipt);
-
-
-        }
-        else if(documentEntity.getType().equals(DocumentType.OFFER)){
-            ArchiveOfferEntity archiveOffer = ArchiveOfferEntity.builder()
-                    .documentType(documentEntity.getType())
-                    .document(documentEntity)
-                    .build();
-
-            archiveOfferRepository.save(archiveOffer);
-            System.out.println(archiveOffer);
-        }
-        else if(documentEntity.getType().equals(DocumentType.INTERNAL_DOCUMENT)){
-            ArchiveInternalDocEntity archiveInternalDoc = ArchiveInternalDocEntity.builder()
-                    .documentType(documentEntity.getType())
-                    .document(documentEntity)
-                    .build();
-
-            archiveInternalDocRepository.save(archiveInternalDoc);
-            System.out.println(archiveInternalDoc);
-        }
+        archiveRepository.save(archiveEntity);
 
         return "Document successfully archived";
     }
 
     @Override
-    public AllArchiveDocumentsDto getAllArchivedDocuments() {
+    public List<PhotoDocumentDto> getAllArchivedDocuments() {
 
-        return AllArchiveDocumentsDto.builder()
-                .archiveInternalDocs(archiveInternalDocRepository.findAll())
-                .archiveOffers(archiveOfferRepository.findAll())
-                .archiveReceipts(archiveReceiptRepository.findAll())
-                .build();
+        List<ArchiveEntity> archive = archiveRepository.findAll();
+
+        return archive.stream()
+                .map(entity -> {
+                    DocumentEntity document = entity.getDocument();
+                    PhotoEntity photo = document.getPhoto();
+
+                    return PhotoDocumentDto.builder()
+                            .documentId(document.getId())
+                            .documentName(document.getFileName())
+                            .documentUrl(document.getUrl())
+                            .photoId(photo.getPhotoID())
+                            .photoName(photo.getImageName())
+                            .photoUrl(photo.getUrl())
+                            .build();
+                }).collect(Collectors.toList());
 
     }
 
@@ -88,29 +71,12 @@ public class ArchiveServiceImpl implements ArchiveService {
             throw new BadCredentialsException("Wrong password");
         }
 
-        if(archiveDeleteDto.getDocumentType().equals(DocumentType.INTERNAL_DOCUMENT)){
-            ArchiveInternalDocEntity archiveInternalDoc = archiveInternalDocRepository.findById(archiveDeleteDto.getArchiveId())
-                    .orElseThrow(()->new DocumentNotFoundException("Internal document could not be found in the archive"));
+        ArchiveEntity archiveEntity = archiveRepository.findById(archiveDeleteDto.getArchiveId())
+                .orElseThrow(()->new DocumentNotFoundException("Archive document could not be found"));
 
-            deleteFromCloud(archiveInternalDoc.getDocument().getId());
-            archiveInternalDocRepository.delete(archiveInternalDoc);
-        }
-        else if(archiveDeleteDto.getDocumentType().equals(DocumentType.OFFER)){
-            ArchiveOfferEntity archiveOffer = archiveOfferRepository.findById(archiveDeleteDto.getArchiveId())
-                    .orElseThrow(()->new DocumentNotFoundException("Offer document could not be found in the archive"));
+        deleteFromCloud(archiveEntity.getDocument().getId());
+        archiveRepository.delete(archiveEntity);
 
-            deleteFromCloud(archiveOffer.getDocument().getId());
-
-            archiveOfferRepository.delete(archiveOffer);
-        }
-        else if(archiveDeleteDto.getDocumentType().equals(DocumentType.RECEIPT)){
-            ArchiveReceiptEntity archiveReceipt = archiveReceiptRepository.findById(archiveDeleteDto.getArchiveId())
-                    .orElseThrow(()->new DocumentNotFoundException("Receipt document could not be found in the archive"));
-
-            deleteFromCloud(archiveReceipt.getDocument().getId());
-
-            archiveReceiptRepository.delete(archiveReceipt);
-        }
 
         return "Document deleted successfully";
     }

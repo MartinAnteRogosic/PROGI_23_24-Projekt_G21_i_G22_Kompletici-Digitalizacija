@@ -50,13 +50,9 @@ public class DocumentEntity {
 
     @JsonIgnore
     @OneToOne(mappedBy = "document")
-    private ArchiveInternalDocEntity archiveInternalDocEntity;
-    @JsonIgnore
-    @OneToOne(mappedBy = "document")
-    private ArchiveOfferEntity archiveOfferEntity;
-    @JsonIgnore
-    @OneToOne(mappedBy = "document")
-    private ArchiveReceiptEntity archiveReceiptEntity;
+    private ArchiveEntity archive;
+
+
 
 
 }
