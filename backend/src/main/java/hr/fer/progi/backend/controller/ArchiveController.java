@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.dto.ArchiveDeleteDto;
+import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.service.impl.ArchiveServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ public class ArchiveController {
 
     private final ArchiveServiceImpl archiveService;
 
-    @PostMapping("/archive-document/{documentId}")
-    public ResponseEntity<String> archiveDocument(@PathVariable(name = "documentId") Long documentId) {
-        String response = archiveService.archiveDocument(documentId);
+    @PostMapping("/archive-document")
+    public ResponseEntity<String> archiveDocument(@RequestBody DocumentDto documentDto) {
+        String response = archiveService.archiveDocument(documentDto.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
