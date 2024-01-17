@@ -3,10 +3,12 @@ import './RequestItem.css';
 import { API } from "../../api";
 import Modal from 'react-modal';
 
-const ReviserRequest = ({ id }) => {
+const ReviserRequest = ({ id, name, photo, doc }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [correct, setCorrect] = useState(false);
+    const [text, setText] = useState('');
+    const [changeType, setChangeType] = useState(false);
 
     const customStyles = { 
         content: {
@@ -33,8 +35,18 @@ const ReviserRequest = ({ id }) => {
         },
     }
 
-    function openModal() { 
+    async function openModal() { 
         setModalOpen(true);
+        try {
+            const res = await fetch(doc);
+            const text = await res.text();
+            console.log(text);
+            setText(text);
+        } catch(err) {
+            console.log(err);
+        }
+        
+        console.log(doc);
     }
 
     function closeModal() { 
@@ -52,23 +64,52 @@ const ReviserRequest = ({ id }) => {
         }
     }
 
+    async function handleTypeChange(e) { 
+        const data = {
+            type: e.target.value,
+            id: id
+        }
+        try {
+            const res = await API.post('/api/v1/document/change-category', data, config);
+            console.log(res);
+            setChangeType(false);
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div className="request-item">
-            <span>{ id }</span>
+            <span>{ name }</span>
             <button onClick={openModal}>Open</button>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
                 <div>
-                    <img src="" alt="img"
+                    <img src={photo} alt="img"
                         className="modal-document-photo"/>
                     <p className="scanned-text">
-                        { id }
+                        { text }
                     </p>
                     {
                         correct ? 
                         <p>Verified</p>
                         :
-                        <button onClick={handleVerify}>Verify correct scan</button>
-                    }  
+                        (<button onClick={handleVerify}>Verify correct scan</button>
+
+                        )
+                    }
+                    {
+                        !correct && (
+                            !changeType ? (
+                                <button onClick={() => setChangeType(true)}>Change document type</button>
+                            ) : (
+                            <select onChange={handleTypeChange}>
+                                <option value="RECEIPT">Receipt</option>
+                                <option value="OFFER">Offer</option>
+                                <option value="INTERNAL_DOCUMENT">Internal document</option>
+                            </select>
+                            )
+                        )
+                    }
                 </div>
             </Modal>
         </div>

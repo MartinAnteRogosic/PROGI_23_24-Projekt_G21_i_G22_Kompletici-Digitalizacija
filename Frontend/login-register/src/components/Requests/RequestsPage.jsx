@@ -28,7 +28,7 @@ const RequestsPage = () => {
         try {
             //if logged-in user is revisor, send request for all documents and photos where verifierID == revisor's ID
             if (user.role === "REVISER") {
-                const res = await API.get("/api/v1/employees/get-revision-documents", config);
+                const res = await API.get("/api/v1/document/get-revision-documents", config);
                 setRequests(res.data);
                 console.log(res.data);
             }
@@ -39,7 +39,7 @@ const RequestsPage = () => {
                     type: type[1]
                 };
                 console.log(data);
-                const res = await API.get("/api/v1/document/get-by-type", data, config);
+                const res = await API.post("/api/v1/document/get-by-type", data, config);
                 setRequests(res.data);
                 console.log(res.data);
             }
@@ -61,15 +61,15 @@ const RequestsPage = () => {
             {   requests.length > 0 ? (
                 <ul className="request-items">
                 {requests.map((item, index) => (
-                    <li key={item.id}>
+                    <li key={item.documentId}>
                         { user.role === "REVISER" && (
-                            <ReviserRequest id={item.id}/>
+                            <ReviserRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
                         )}
-                        { user.role === "ACCOUNTANT" && (
-                            <AccountantRequest id={item.id}/>
+                        { user.role.includes("ACCOUNTANT") && (
+                            <AccountantRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
                         )}
                         { user.role === "DIRECTOR" && (
-                            <DirectorRequest id={item.id}/>
+                            <DirectorRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
                         
                         )}
                     </li>

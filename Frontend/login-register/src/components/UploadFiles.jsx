@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { API } from '../api';
 import './UploadFiles.css';
 import ImageDocument from './ImageDocument';
 
 const UploadFiles = () => {
+
+    const initialized = useRef(false);
+
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true;
+            getDocs();
+        }
+    }, []);
 
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -41,13 +50,24 @@ const UploadFiles = () => {
 
         try {
             const res = await API.post('/api/v1/images/upload', formData, config);
-            setData(res.data);
+            setData(prevArray => [...prevArray, ...res.data]);
             setReturned(true);
             console.log(data);
         } catch(err) {
             console.log(err);
         }
-  };
+    };
+
+    async function getDocs() {
+        try {
+            const res = await API.get('/api/v1/document/all-unconfirmed', config);
+            setData(prevArray => [...prevArray, ...res.data]);
+            setReturned(true);
+            console.log("here");
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
     return (
         <div className='upload-container'>

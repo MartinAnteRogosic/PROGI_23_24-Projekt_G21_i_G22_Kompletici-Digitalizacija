@@ -4,11 +4,12 @@ import { API } from "../../api";
 import Modal from 'react-modal';
 
 
-const DirectorRequest = ({ id }) => {
+const DirectorRequest = ({ id, name, photo, doc }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [signed, setSigned] = useState(false);
     const [caption, setCaption] = useState('');
+    const [text, setText] = useState('');
 
     const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const user = {
@@ -35,8 +36,18 @@ const DirectorRequest = ({ id }) => {
         },
     }
 
-    function openModal() { 
+    async function openModal() { 
         setModalOpen(true);
+        try {
+            const res = await fetch(doc);
+            const text = await res.text();
+            console.log(text);
+            setText(text);
+        } catch(err) {
+            console.log(err);
+        }
+        
+        console.log(doc);
     }
 
     function closeModal() { 
@@ -46,7 +57,7 @@ const DirectorRequest = ({ id }) => {
     async function handleSigning() {
         try {
             //send request to backend to update signed to true
-            const res = await API.post("/api/v1/document/sign-document", { documentId: id, confirm: true }, config);
+            const res = await API.post("/api/v1/document/sign-document", { id: id, signed: true }, config);
             console.log(res);
             setSigned(true);
         } catch (err) {
@@ -65,14 +76,12 @@ const DirectorRequest = ({ id }) => {
 
     return (
         <div className="request-item">
-            <span>{ id }</span>
+            <span>{ name }</span>
             <button onClick={openModal}>Open</button>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
                 <div>
-                    <img src="" alt="img"
-                        className="modal-document-photo"/>
                     <p className="scanned-text">
-                        { id }
+                        { text }
                     </p>
                     {
                         signed ? (
