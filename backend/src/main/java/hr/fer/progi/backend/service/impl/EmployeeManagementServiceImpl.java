@@ -103,13 +103,13 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
         int numberOfScannedDocument = employee.getScannedDocuments().size();
         int numberOfRevisedDocument = employee.getRevisedDocuments().size();
 
-        Map<String, Long> totalTimePerDate = loginTimeRecordRepository.findAllById(employee.getId()).stream()
+        Map<String, Long> totalTimePerDate = loginTimeRecordRepository.findAllByEmployeeIdAndLogoutTimeIsNotNull(employee.getId()).stream()
                 .collect(Collectors.groupingBy(
                         record -> record.getLoginTime().toLocalDate().toString(),
                         Collectors.summingLong(record -> Duration.between(
                                         record.getLoginTime(),
                                         record.getLogoutTime())
-                                .toMinutes())
+                                .toSeconds())
                 ));
 
         List<LoginTime> timePerDate = totalTimePerDate.entrySet().stream()
@@ -122,6 +122,9 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
 
 
         return StatisticDto.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .role(employee.getRole())
                 .numberOfScannedDocuments(numberOfScannedDocument)
                 .numberOfRevisedDocuments(numberOfRevisedDocument)
                 .loginTimes(timePerDate)

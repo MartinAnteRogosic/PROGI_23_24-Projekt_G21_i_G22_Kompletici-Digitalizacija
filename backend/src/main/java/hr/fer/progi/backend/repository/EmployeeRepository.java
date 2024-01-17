@@ -16,4 +16,5 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
     Boolean existsByRole(Role role);
 
     List<EmployeeEntity> findByRole(Role role);
+
 }

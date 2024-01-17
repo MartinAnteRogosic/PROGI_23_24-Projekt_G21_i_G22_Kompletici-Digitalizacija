@@ -34,7 +34,7 @@ public class BackendApplication {
 			EmployeeDto accountant = EmployeeDto.builder()
 					.firstName("Ana")
 					.lastName("Kovač")
-					.email("ana.kovač@gmail.com")
+					.email("ana.kovac@gmail.com")
 					.password("anapass")
 					.role(ACCOUNTANT_INT_DOC)
 					.build();

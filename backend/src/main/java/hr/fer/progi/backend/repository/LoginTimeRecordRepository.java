@@ -10,6 +10,6 @@ public interface LoginTimeRecordRepository extends JpaRepository<LoginLogOutReco
 
     Optional<LoginLogOutRecordEntity> findTopByEmployeeIdOrderByLoginTimeDesc(Long employeeId);
 
-    List<LoginLogOutRecordEntity> findAllById(Long employeeId);
+    List<LoginLogOutRecordEntity> findAllByEmployeeIdAndLogoutTimeIsNotNull(Long employeeId);
 
 }
