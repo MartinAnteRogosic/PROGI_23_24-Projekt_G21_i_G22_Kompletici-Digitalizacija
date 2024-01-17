@@ -46,5 +46,6 @@ public interface DocumentService {
 
     DocumentType categorizeDocument(String documentText);
 
-    List<PhotoDocumentDto> getAllUnconfirmedDocuments();
+
+    List<PhotoDocumentDto> getAllUnconfirmedDocuments(Principal connectedEmployee);
 }

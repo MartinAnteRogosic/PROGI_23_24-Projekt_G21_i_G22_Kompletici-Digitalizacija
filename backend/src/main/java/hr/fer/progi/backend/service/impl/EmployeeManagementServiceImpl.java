@@ -59,7 +59,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
 
         List<DocumentEntity> listOfValidatedDocuments = employeeEntity.getRevisedDocuments();
         listOfValidatedDocuments.stream().map(document -> {
-            document.setValidationEmployee(null);
+            document.setVerificationEmployee(null);
             return document;
         }).collect(Collectors.toList());
 

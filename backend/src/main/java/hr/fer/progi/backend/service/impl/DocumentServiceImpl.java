@@ -165,7 +165,7 @@ public class DocumentServiceImpl implements DocumentService {
         EmployeeEntity reviser = employeeRepository.findById(choosereviserdto.getReviserId())
                 .orElseThrow(() -> new EmployeeNotFoundException("Reviser not found"));
 
-        document.setValidationEmployee(reviser);
+        document.setVerificationEmployee(reviser);
         documentRepository.save(document);
     }
 
@@ -214,9 +214,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<PhotoDocumentDto> getAllUnconfirmedDocuments() {
+    public List<PhotoDocumentDto> getAllUnconfirmedDocuments(Principal connectedEmployee) {
 
-        List<DocumentEntity> documents = documentRepository.findByCorrectIsNull();
+        EmployeeEntity employee = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
+
+        List<DocumentEntity> documents = documentRepository.findByScanEmployeeIdAndCorrectIsNullAndVerificationEmployeeIdIsNull(employee.getId());
 
         return generatePhotoDocumentDtos(documents);
     }

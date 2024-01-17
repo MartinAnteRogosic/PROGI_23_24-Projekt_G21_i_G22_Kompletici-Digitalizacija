@@ -37,7 +37,7 @@ public class EmployeeEntity implements UserDetails {
     @JsonManagedReference
     private List<PhotoEntity> scannedPhotos;
 
-    @OneToMany(mappedBy = "validationEmployee", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "verificationEmployee", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<DocumentEntity> revisedDocuments;
 

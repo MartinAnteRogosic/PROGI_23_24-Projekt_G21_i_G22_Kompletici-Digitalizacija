@@ -33,9 +33,9 @@ public class DocumentEntity {
     private Boolean correct;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "validation_employee_id")
+    @JoinColumn(name = "verification_employee_id")
     @JsonBackReference
-    private EmployeeEntity validationEmployee;
+    private EmployeeEntity verificationEmployee;
 
     private Boolean verified;
 

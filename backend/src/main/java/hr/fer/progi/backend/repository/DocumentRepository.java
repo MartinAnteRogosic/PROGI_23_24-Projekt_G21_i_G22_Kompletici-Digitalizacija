@@ -17,7 +17,7 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
     List<DocumentEntity> findByValidationEmployeeIdAndVerifiedIsFalse(Long validationEmployee_id);
     List<DocumentEntity> findByToBeSignedIsTrueAndVerifiedIsTrue();
 
-    List<DocumentEntity> findByCorrectIsNull();
+    List<DocumentEntity> findByScanEmployeeIdAndCorrectIsNullAndVerificationEmployeeIdIsNull(Long scanEmployeeId);
 
     @Query("SELECT d FROM DocumentEntity d WHERE d.id = :userId")
     List<DocumentEntity> findAllById(Long userId);
