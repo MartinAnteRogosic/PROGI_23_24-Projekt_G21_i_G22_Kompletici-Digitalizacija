@@ -105,7 +105,7 @@ const Header = () => {
         
         <div className="center-links">
           <Link to={`/home`}>Home</Link>
-          <a href="/statistic">Statistic</a>
+          <Link to={`/statistic`}>Statistic</Link>
           <Link to={`/requests`}>Requests</Link>
           <Link to={`/archive`}>Archive</Link>
           <Link to={`/history`}>History</Link>

@@ -6,6 +6,7 @@ import HomePage from './components/HomePage/HomePage'; // Adjust the path to you
 import RequestsPage from './components/Requests/RequestsPage';
 import ArchivePage from './components/Archive/ArchivePage';
 import HistoryPage from './components/HistoryPage/HistoryPage';
+import StatisticPage from './components/StatisticPage/Statistic'
 import { userContext } from './userContext';
 
 function App() {
@@ -37,22 +38,13 @@ function App() {
       <userContext.Provider value={{ user: user, setUser: setUser }}>
         <Routes>
           <Route path = "/" element = { <LoginRegisterView /> }/>
-          <Route path = "/home" element = { 
-            <ProtectedRoute user={loggeduser}>
-              <HomePage />
-            </ProtectedRoute> }/>
-          <Route path = "/requests" element = { 
-            <ProtectedRoute user={loggeduser}>
-              <RequestsPage />
-            </ProtectedRoute> }/>
-          <Route path = "/archive" element = { 
-            <ProtectedRoute user={loggeduser}>
-              <ArchivePage />
-            </ProtectedRoute> }/>
-          <Route path = "/history" element = { 
-            <ProtectedRoute user={loggeduser}>
-              <HistoryPage />
-            </ProtectedRoute> }/>
+          
+          <Route path="/home" element={<ProtectedRoute user={loggeduser}><HomePage /></ProtectedRoute>} />
+          <Route path="/requests" element={<ProtectedRoute user={loggeduser}><RequestsPage /></ProtectedRoute>} />
+          <Route path="/archive" element={<ProtectedRoute user={loggeduser}><ArchivePage /></ProtectedRoute>} />
+          <Route path="/history" element={<ProtectedRoute user={loggeduser}><HistoryPage /></ProtectedRoute>} />
+          <Route path="/statistic" element={<ProtectedRoute user={loggeduser}><StatisticPage /></ProtectedRoute>} />
+        
         </Routes>
       </userContext.Provider>
       </BrowserRouter>
