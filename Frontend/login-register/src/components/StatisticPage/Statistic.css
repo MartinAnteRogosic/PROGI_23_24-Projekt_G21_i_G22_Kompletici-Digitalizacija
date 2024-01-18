@@ -107,6 +107,10 @@
   margin-right: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5em;
+}
+.button:hover {
+  transform: scale(1.3);
 }
 
 .button:hover {
