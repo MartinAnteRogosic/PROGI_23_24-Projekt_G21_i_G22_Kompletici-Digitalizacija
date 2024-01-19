@@ -71,7 +71,7 @@ public class ArchiveServiceImpl implements ArchiveService {
             throw new BadCredentialsException("Wrong password");
         }
 
-        ArchiveEntity archiveEntity = archiveRepository.findById(archiveDeleteDto.getArchiveId())
+        ArchiveEntity archiveEntity = archiveRepository.findByDocumentId(archiveDeleteDto.getDocumentId())
                 .orElseThrow(()->new DocumentNotFoundException("Archive document could not be found"));
 
         deleteFromCloud(archiveEntity.getDocument().getId());
