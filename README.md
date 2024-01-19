@@ -19,13 +19,19 @@ Pravo pregleda statistike aktivnosti za sve korisnike.
 Pregled cijelog povijesti.
 Brisanje računa zaposlenika.
 Potpisivanje skeniranih dokumenata.
+
+
 _Revizor:_
 Pregledavanje dokumenata koje su zaposlenici skenirali.
 Promjena kategorije dokumenata.
 Proslijeđivanje određenih dokumenata računovođi.
 _Računovođa:_
+
+
 Slanje dokumenata direktoru na potpisivanje.
 Arhiviranje dokumenata.
+
+
 _Zaposlenik:_
 Skeniranje dokumenata.
 Slanje skeniranih dokumenata revizoru.
@@ -51,3 +57,16 @@ Uvezite frontend projekt u odgovarajući razvojni okoliš.
 Otvorite terminal i navigirajte do direktorija frontend projekta.
 Pokrenite frontend aplikaciju pomoću naredbe npm start.
 Nakon ovih koraka, aplikacija će biti dostupna lokalno, a korisnici mogu pristupiti funkcionalnostima OCR-a, upravljati dokumentima te pregledavati i obrađivati podatke sukladno svojim ulogama.
+
+**Praćenje i kontrola koda**
+
+Za praćenje i kontrolu koda korišten je Git/GitHub. Sve izmjene i novosti u kodu prate se kroz GitHub repozitorij.
+
+**Deploy i hosting**
+
+Aplikacija je deployana uz pomoć Render alata, što osigurava stabilno i brzo iskustvo korisnika prilikom korištenja aplikacije.
+
+**Dokumentacija**
+
+Dokumentacija je pisana u alatu LaTeX radi jasnoće, preglednosti i lakšeg održavanja. Svi relevantni dokumenti i upute nalaze se u odgovarajućim LaTeX datotekama.
+
