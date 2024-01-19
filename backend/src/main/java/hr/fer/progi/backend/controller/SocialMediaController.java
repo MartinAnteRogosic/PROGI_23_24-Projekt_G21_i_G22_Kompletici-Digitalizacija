@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.controller;
 
+import hr.fer.progi.backend.dto.SocialMediaDto;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookLink;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class SocialMediaController {
 
     @PostMapping("/shareOnFacebook")
-    public String shareOnFacebook(@RequestParam("fileUrl") String fileUrl, @RequestParam("caption") String caption) {
+    public String shareOnFacebook(@RequestBody SocialMediaDto socialMediaDto) {
 
-        return "https://www.facebook.com/sharer/sharer.php?u=" + fileUrl + "&quote=" + caption;
+        return "https://www.facebook.com/sharer/sharer.php?u=" + socialMediaDto.getFileUrl() + "&quote=" + socialMediaDto.getCaption();
     }
 
 }
