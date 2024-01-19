@@ -1,5 +1,6 @@
 package hr.fer.progi.backend.controller;
 import hr.fer.progi.backend.controller.SocialMediaController;
+import hr.fer.progi.backend.dto.SocialMediaDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -21,10 +22,14 @@ public class SocialMediaControllerTest {
         String caption = "slika";
         String expectedUrl = "https://www.facebook.com/sharer/sharer.php?u=" + fileUrl + "&quote=" + caption;
 
+        SocialMediaDto socialMediaDto = SocialMediaDto.builder()
+                .fileUrl(fileUrl)
+                .caption(caption)
+                .build();
         mockServer.expect(requestTo("/api/v1/social/shareOnFacebook?fileUrl=" + fileUrl + "&caption=" + caption))
                 .andRespond(withSuccess(expectedUrl, MediaType.APPLICATION_JSON));
 
-        String actualResponse = socialMediaController.shareOnFacebook(fileUrl, caption);
+        String actualResponse = socialMediaController.shareOnFacebook(socialMediaDto);
 
         mockServer.verify();
         assertEquals(expectedUrl, actualResponse);

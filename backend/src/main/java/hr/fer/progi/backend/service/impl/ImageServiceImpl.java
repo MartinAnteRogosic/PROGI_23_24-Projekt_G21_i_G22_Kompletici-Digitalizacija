@@ -114,6 +114,7 @@ public class ImageServiceImpl implements ImageService {
                                 .documentId(savedDocument.getId())
                                 .documentUrl(savedDocument.getUrl())
                                 .documentName(savedDocument.getFileName())
+                                .documentType(savedDocument.getType())
                                 .build();
 
                     } catch (IOException e) {

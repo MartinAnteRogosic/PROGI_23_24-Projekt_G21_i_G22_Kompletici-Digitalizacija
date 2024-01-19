@@ -245,6 +245,7 @@ public class DocumentServiceImpl implements DocumentService {
                             .documentId(document.getId())
                             .documentUrl(document.getUrl())
                             .documentName(document.getFileName())
+                            .documentType(document.getType())
                             .photoId(photo.getPhotoID())
                             .photoUrl(photo.getUrl())
                             .photoName(photo.getImageName())
