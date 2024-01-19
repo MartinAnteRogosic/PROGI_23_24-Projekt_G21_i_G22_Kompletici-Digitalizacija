@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ArchiveRepository extends JpaRepository<ArchiveEntity, Long>{
 
     Optional<ArchiveEntity> findByDocumentId(Long documentId);
+    Boolean existsByDocumentId(Long documentId);
 }

@@ -98,6 +98,6 @@ public class GlobalExceptionHandler {
                 .timestamp(new Date())
                 .build();
 
-        return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorObject,HttpStatus.BAD_REQUEST);
     }
 }

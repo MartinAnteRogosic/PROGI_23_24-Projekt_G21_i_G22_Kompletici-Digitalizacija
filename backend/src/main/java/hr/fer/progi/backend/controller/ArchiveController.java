@@ -32,7 +32,7 @@ public class ArchiveController {
         return new ResponseEntity<>(allArchiveDocumentsDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-document")
+    @PostMapping("/delete-document")
     public ResponseEntity<String> deleteDocument(@RequestBody ArchiveDeleteDto archiveDeleteDto) throws IOException {
         String response = archiveService.deleteDocument(archiveDeleteDto);
         return new ResponseEntity<>(response, HttpStatus.OK);

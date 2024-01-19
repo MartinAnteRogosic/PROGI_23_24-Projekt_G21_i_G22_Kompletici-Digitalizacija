@@ -19,8 +19,9 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
+
     @GetMapping("/home")
-    public ResponseEntity<String> landing(){
+    public ResponseEntity<String> landing() {
 
         return ResponseEntity.ok("Employee home page :)");
     }
@@ -29,16 +30,16 @@ public class EmployeeController {
     public ResponseEntity<?> changePassword(
             @RequestBody ChangePasswordRequestDto request,
             Principal connectedEmployee
-    ){
+    ) {
 
         employeeService.changePassword(request, connectedEmployee);
 
-        return ResponseEntity.accepted().build();    }
-
+        return ResponseEntity.accepted().build();
+    }
 
 
     @GetMapping("/get-all-revisers")
-    public ResponseEntity<?> getAllRevisers(){
+    public ResponseEntity<?> getAllRevisers() {
         List<EmployeeDto> listOfRevisers = employeeService.getAllRevisers();
 
         return new ResponseEntity<>(listOfRevisers, HttpStatus.OK);

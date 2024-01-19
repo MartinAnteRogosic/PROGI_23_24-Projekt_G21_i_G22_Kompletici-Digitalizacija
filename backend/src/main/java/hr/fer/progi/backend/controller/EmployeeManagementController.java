@@ -40,7 +40,7 @@ public class EmployeeManagementController {
     }
 
     @GetMapping("all-employees/{employeeId}")
-    public ResponseEntity<?>  changeRoleOfEmplye(@RequestParam Role role, @PathVariable Long employeeId){
+    public ResponseEntity<?>  changeRoleOfEmployee(@RequestParam Role role, @PathVariable Long employeeId){
             employeeManagementService.changeRoleOfEmployee(employeeId,role);
         return new ResponseEntity<>(String.format("Function successfully changed for employee with id %d", employeeId), HttpStatus.OK);
 

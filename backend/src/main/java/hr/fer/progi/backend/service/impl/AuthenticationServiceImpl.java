@@ -33,7 +33,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String register(EmployeeDto employeeDto) {
 
         EmployeeEntity employeeEntity = employeeService.mapToEntity(employeeDto);
-
         if (employeeRepository.existsByEmail(employeeEntity.getEmail())) {
 
             throw new RegistrationException("Email '" + employeeEntity.getEmail() + "' is already taken.");

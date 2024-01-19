@@ -10,6 +10,7 @@ import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
+import hr.fer.progi.backend.repository.ArchiveRepository;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
@@ -32,11 +33,15 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final PhotoRepository photoRepository;
     private final EmployeeRepository employeeRepository;
+    private final ArchiveRepository archiveRepository;
 
 
     @Override
     public List<PhotoDocumentDto> getDocumentsByType(DocumentType documentType) {
         List<DocumentEntity> documents = documentRepository.findByType(documentType);
+
+        documents.removeIf(document -> archiveRepository.existsByDocumentId(document.getId()));
+
         return generatePhotoDocumentDtos(documents);
 
     }

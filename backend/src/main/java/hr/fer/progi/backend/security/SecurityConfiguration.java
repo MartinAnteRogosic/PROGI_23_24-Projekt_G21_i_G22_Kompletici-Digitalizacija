@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/authenticate/**")
                                 .permitAll()
 
-                                .requestMatchers("/api/v1/employees/get-all-revisers").hasRole(EMPLOYEE.name())
+                                .requestMatchers("/api/v1/employees/get-all-revisers").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(), ACCOUNTANT_RECEIPT.name(),DIRECTOR.name())
                                 .requestMatchers("/api/v1/employees/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), ACCOUNTANT_OFFER.name(), ACCOUNTANT_RECEIPT.name(),DIRECTOR.name())
 
 
