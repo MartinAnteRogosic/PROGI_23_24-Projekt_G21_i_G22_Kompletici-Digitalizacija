@@ -18,6 +18,7 @@ const ReviserRequest = ({ id, name, photo, doc }) => {
             bottom: 'auto',
             marginRight: "-50%",
             transform: 'translate(-50%, -50%)',
+            width: '80%'
         },
     }
 
@@ -80,18 +81,18 @@ const ReviserRequest = ({ id, name, photo, doc }) => {
 
     return (
         <div className="request-item">
-            <span>{ name }</span>
-            <button onClick={openModal}>Open</button>
+            <button className="request-name-button" onClick={openModal}>{ name }</button>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
-                <div>
+                <div className="modal-container">
                     <img src={photo} alt="img"
                         className="modal-document-photo"/>
                     <p className="scanned-text">
                         { text }
                     </p>
+                    <div>
                     {
                         correct ? 
-                        <p>Verified</p>
+                        <p className="confirmation-text">Verified</p>
                         :
                         (<button onClick={handleVerify}>Verify correct scan</button>
 
@@ -110,6 +111,8 @@ const ReviserRequest = ({ id, name, photo, doc }) => {
                             )
                         )
                     }
+                    </div>
+                    
                 </div>
             </Modal>
         </div>

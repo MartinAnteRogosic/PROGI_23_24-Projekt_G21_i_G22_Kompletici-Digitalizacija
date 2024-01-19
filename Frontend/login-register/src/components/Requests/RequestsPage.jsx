@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { API } from "../../api";
 import Header from "../Header/Header";
 import './RequestsPage.css';
@@ -7,8 +7,12 @@ import AccountantRequest from "./AccountantRequest";
 import DirectorRequest from "./DirectorRequest";
 
 const RequestsPage = () => {
-    const userinfo = JSON.parse(sessionStorage.getItem("user"));
 
+    useEffect(() => {
+        getRequests();
+    }, []);
+
+    const userinfo = JSON.parse(sessionStorage.getItem("user"));
     const [requests, setRequests] = useState([]);
 
     const user = {
@@ -63,7 +67,7 @@ const RequestsPage = () => {
                 {requests.map((item, index) => (
                     <li key={item.documentId}>
                         { user.role === "REVISER" && (
-                            <ReviserRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
+                            <ReviserRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl} />
                         )}
                         { user.role.includes("ACCOUNTANT") && (
                             <AccountantRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>

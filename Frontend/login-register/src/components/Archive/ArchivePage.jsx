@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { userContext } from "../../userContext";
 import axios from "axios";
 import { API } from "../../api";
@@ -7,12 +7,13 @@ import './ArchivePage.css';
 import Header from "../Header/Header";
 
 const ArchivePage = () => {
+
+  useEffect(() => {
+    getArchivedDocuments();
+  }, []);
+
   const userinfo = JSON.parse(sessionStorage.getItem("user"));
-  const [archiveData, setArchiveData] = useState({
-    archiveInternalDoc: [],
-    archiveOffer: [],
-    archiveReceipt: [],
-  });
+  const [archiveData, setArchiveData] = useState([]);
 
   const user = {
     firstName: userinfo.firstName,
@@ -32,11 +33,7 @@ const ArchivePage = () => {
       const res = await API.get("/api/v1/archive/all-archive-documents", config);
       const data = res.data;
       console.log(data);
-      setArchiveData({
-        archiveInternalDoc: data.archiveInternalDocEntities || [],
-        archiveOffer: data.archiveOfferEntities || [],
-        archiveReceipt: data.archiveReceiptEntities || [],
-      });
+      setArchiveData(data);
     } catch (err) {
       console.log(err);
     }
@@ -46,23 +43,11 @@ const ArchivePage = () => {
     <div className="archive-container">
         <Header />
       <button onClick={getArchivedDocuments}>Refresh</button>
-      {archiveData.archiveInternalDoc.length > 0 ||
-      archiveData.archiveOffer.length > 0 ||
-      archiveData.archiveReceipt.length > 0 ? (
+      {archiveData.length > 0 ? (
         <ul className="archive-items">
-          {archiveData.archiveInternalDoc.map((item, index) => (
-            <li key={index}>
-                <ArchiveItem id={item.archIntDocID}/>
-            </li>
-          ))}
-          {archiveData.archiveOffer.map((item, index) => (
-            <li key={index}>
-                <ArchiveItem id={item.arcOfferID}/>
-            </li>
-          ))}
-          {archiveData.archiveReceipt.map((item, index) => (
-            <li key={index}>
-                <ArchiveItem id={item.arcRecID}/>
+          {archiveData.map((item, index) => (
+            <li key={item.documentId}>
+                <ArchiveItem id={item.documentId} name={item.documentName} doc={item.documentUrl}/>
             </li>
           ))}
         </ul>

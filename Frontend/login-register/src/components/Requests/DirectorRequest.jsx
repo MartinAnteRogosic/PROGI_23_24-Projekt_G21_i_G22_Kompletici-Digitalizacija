@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './RequestItem.css';
 import { API } from "../../api";
 import Modal from 'react-modal';
@@ -76,8 +76,7 @@ const DirectorRequest = ({ id, name, photo, doc }) => {
 
     return (
         <div className="request-item">
-            <span>{ name }</span>
-            <button onClick={openModal}>Open</button>
+            <button className="request-name-button" onClick={openModal}>{ name }</button>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
                 <div>
                     <p className="scanned-text">
@@ -85,7 +84,7 @@ const DirectorRequest = ({ id, name, photo, doc }) => {
                     </p>
                     {
                         signed ? (
-                            <div>Document signed</div>
+                            <p className="confirmation-text">Document signed</p>
                         ) : (
                             <button onClick={handleSigning}>Sign document</button>
                         )

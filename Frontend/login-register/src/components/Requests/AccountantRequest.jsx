@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './RequestItem.css';
 import { API } from "../../api";
 import Modal from 'react-modal';
@@ -67,7 +67,6 @@ const AccountantRequest = ({ id, name, photo, doc }) => {
         try {
             const res = await API.post("/api/v1/archive/archive-document", { id: id, archived: true }, config);
             console.log(res);
-            setGetSignature(true);
         } catch (err) {
           console.log(err);
         }
@@ -75,8 +74,7 @@ const AccountantRequest = ({ id, name, photo, doc }) => {
 
     return (
         <div className="request-item">
-            <span>{ name }</span>
-            <button onClick={openModal}>Open</button>
+            <button className="request-name-button" onClick={openModal}>{ name }</button>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
                 <div>
                     <p className="scanned-text">

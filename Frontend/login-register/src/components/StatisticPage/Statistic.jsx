@@ -45,6 +45,13 @@ const Statistic = () => {
     "role": userinfo.role
   };
 
+  const config = {
+    headers: {
+        Authorization: "Bearer " + userinfo.accessToken,
+        "Access-Control-Allow-Origin": "*",
+    },
+  };
+
   const customStyles = {
     content: {
       top: '50%',
@@ -84,7 +91,7 @@ const Statistic = () => {
   // Trebalo bi dohvatiti ID usera koji je ulogiran
   const fetchUserStats = async () => {
     try {
-      const response = await API.get(`/api/v1/employee-management/statistics-for-employee?id=${user.id}`);
+      const response = await API.get(`/api/v1/employee-management/statistics-for-employee`, config);
       setAllEmployees([response.data]); 
       setAuthorizationError(false);
     } catch (error) {
@@ -96,7 +103,7 @@ const Statistic = () => {
   // Trebalo bi dohvatiti statistiku svih zaposlenika samo za direktora
   const fetchEmployeeStats = async () => {
     try {
-      const response = await API.get(`/api/v1/employee-management/statistics-for-employee?id=${user.id}`);
+      const response = await API.get(`/api/v1/employee-management/statistics`, config);
       setAllEmployees([response.data]); 
       setAuthorizationError(false);
     } catch (error) {
@@ -118,8 +125,9 @@ const Statistic = () => {
 
   const handleAllEmployeesClick = async () => {
     try {
-      if (userRole === "Director") {
-        const response = await API.get('/api/v1/employee-management/all-employees');
+      if (userRole === "DIRECTOR") {
+        const response = await API.get('/api/v1/employee-management/all-employees', config);
+        console.log(response);
         setAllEmployees(response.data);
         setAuthorizationError(false);
       } else {

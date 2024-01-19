@@ -7,7 +7,8 @@ const ImageDocument = (props) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [text, setText] = useState('');
-    const [confirm, setConfirm] = useState(false);
+    const [correct, setCorrect] = useState(false);
+    const [incorrect, setIncorrect] = useState(false);
     const [revisors, setRevisors] = useState([]);
     const [sent, setSent] = useState(false);
 
@@ -28,6 +29,7 @@ const ImageDocument = (props) => {
           bottom: 'auto',
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
+            width: '80%',
         },
       };
 
@@ -57,7 +59,7 @@ const ImageDocument = (props) => {
         }
         try {
             const res = await API.post('/api/v1/document/correct', data, config);
-            setConfirm(true);
+            setCorrect(true);
             console.log(res);
         } catch(err) {
             console.log(err);
@@ -72,7 +74,7 @@ const ImageDocument = (props) => {
         }
         try {
             const res = await API.post('/api/v1/document/correct', data, config);
-            setConfirm(true);
+            setIncorrect(true);
             console.log(res);
         } catch(err) {
             console.log(err);
@@ -108,21 +110,32 @@ const ImageDocument = (props) => {
             <img src={props.imgdoc.photoUrl} alt="img"
                 onClick={openModal} className="document-photo"/>
             <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
-                <div>
+                <div className="modal-container">
                     <img src={props.imgdoc.photoUrl} alt="img"
                         className="modal-document-photo"/>
                     <p className="scanned-text">
                         {text}
                     </p>
-                    { !confirm ? (
+                    { !correct && !incorrect ? (
                         <div>
                             <button onClick={handleCorrectClick}>Correct</button>
                             <button onClick={handleIncorrectClick}>Incorrect</button>
                         </div>
-                    ): (<div>
-                            <p className="confirmation-text">Scanned document has been confirmed as correct</p>
+                    ): null }
+                    {
+                        correct && (
+                        <div>
+                            <p className="confirmation-text-correct">Scanned document has been confirmed as correct</p>
                             <button onClick={getRevisors}>Get revisors</button>
-                        </div>)
+                        </div>
+                        )
+                    } 
+                    {
+                        incorrect && (
+                        <div>
+                            <p className="confirmation-text-incorrect">Scanned document is incorrect</p>
+                        </div>
+                        )
                     }
                     { revisors.length > 0 && !sent && (
                         <div>

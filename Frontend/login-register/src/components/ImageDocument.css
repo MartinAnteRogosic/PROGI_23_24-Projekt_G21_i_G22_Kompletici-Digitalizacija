@@ -7,14 +7,25 @@
 }
 
 .modal-document-photo {
-    width: 400px;
-    height: 400px;
+    max-width: 50%;
 }
 
 .scanned-text {
     white-space: pre-line;
 }
 
-.confirmation-text {
+.confirmation-text-correct {
     color: seagreen;
+}
+
+.confirmation-text-incorrect {
+    color: red;
+}
+
+.modal-container {
+    max-height: 50em;
+    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }

@@ -4,6 +4,7 @@ import { userContext } from '../../userContext';
 import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import UploadFiles from '../UploadFiles';
+import Footer from '../Footer';
 
 
 const HomePage = () => {
@@ -18,6 +19,7 @@ const HomePage = () => {
     <div className="home-page">
       <Header />
       <UploadFiles />
+      <Footer />
     </div>
   );
 };
