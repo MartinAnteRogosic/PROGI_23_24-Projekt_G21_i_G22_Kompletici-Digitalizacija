@@ -33,6 +33,8 @@
 		
 			
 			\subsection{Opis tablica}
+
+				\textbf{Employee}  Ovaj entitet sadržava sve važne informacije o zaposleniku koji koristi aplikaciju. Sadrži atribute: id, first_name, last_name, email, password i role. Ovaj entitet u vezi je One-to-Many s entitetom Photos preko zaposlenikovog id-a te je u vezi One-to-Many s entitetom Document preko zaposlenikovog id-a.
 		
 				\begin{longtblr}[
 					label=none,
@@ -42,15 +44,17 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{User}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & VARCHAR(10)	&  	Jedinstveni identifikator svakog zaposlenika  	\\ \hline
-					name	& CHAR(30) &   Ime korisnika	\\ \hline
-                    surname & CHAR(30) &   Prezime korisnika    \\ \hline 
-					function & CHAR(10) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
-					password & VARCHAR(30)	&  	Korisnikova lozinka	\\ \hline 
-					email & VARCHAR(50)   &   E-mail korisnika \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{Employee}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}id & BIGINT	&  	Jedinstveni identifikator svakog zaposlenika  	\\ \hline
+					first_name	& VARCHAR(255) &   Ime zaposlenika	\\ \hline
+                    last_name & VARCHAR(255) &   Prezime korisnika    \\ \hline 
+					role & VARCHAR(255) &   Funkcija svakog zaposlenika (limitirano na Zaposlenik, Revizor, Računovođa i Direktor)   \\ \hline 
+					password & VARCHAR(255)	&  	Zaposlenikova lozinka	\\ \hline 
+					email & VARCHAR(255)   &   E-mail korisnika \\ \hline
 				\end{longtblr}
 				
+				\textbf{Photos}  Ovaj entitet sadržava sve važne informacije o fotografijama pohranjenima u bazu. Sadrži atribute: photoid, url, image_name, upload_time te strani ključ upload_employee_id preko korisnika. Ovaj entitet u vezi je Many-to-One s entitetom Employee preko zaposlenikovog id-a te je u One-to-One vezi s entitetom Document preko zaposlenikovog id-a.
+
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -60,12 +64,14 @@
 						rowhead = 1,
 					}
 					\hline \SetCell[c=3]{c}{\textbf{Photos}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} id	& VARCHAR(10)   &   Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline
-                    \SetCell{LightGreen} photoID  & VARCHAR(10)   &   Jedinstveni identifikator fotografije \\ \hline
+					\SetCell{LightBlue} upload_employee_id	& BIGINT   &   Jedinstveni identifikator zaposlenika koji je objavio fotografiju izveden iz tablice Employee	\\ \hline
+                    \SetCell{LightGreen} photoid  & BIGINT   &   Jedinstveni identifikator fotografije \\ \hline
                     url   & VARCHAR(255)   &  URL fotografije \\ \hline
-                    imageName   & VARCHAR(10)  &  Ime prenesene fotografije \\ \hline
+                    image_name   & VARCHAR(255)  &  Ime prenesene fotografije \\ \hline
                     uploadTime  & TIMESTAMP  &  Datum i vrijeme prijenosa fotografije \\ \hline
 				\end{longtblr}
+
+				\textbf{Document}  Ovaj entitet sadržava sve važne informacije o dokumentima pohranjenima u bazi. Sadrži atribute: id, correct, type, to_be_signed, signed, verified, url, file_name te strane ključeve photo_id, scan_employee_id i verification_employee_id. Ovaj entitet u vezi je One-to-One s entitetom Photos preko zaposlenikovog id-a, u Many-to-One vezi je s entitetom Employee te je u vezi One-to-One s entitetom Archive preko zaposlenikovog id-a.
 
                 \begin{longtblr}[
 					label=none,
@@ -76,15 +82,20 @@
 						rowhead = 1,
 					}
 					\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} id  &  VARCHAR(10)  &  Jedinstveni identifikator zaposlenika izveden iz tablice RegisteredUser	\\ \hline
-                    \SetCell{LightGreen} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator prenesenog dokumenta \\ \hline
-                    verifierID  &  VARCHAR(10)  &  Jedinstveni identifikator zaposlenika koji je potvrdio dokument \\ \hline
+                    \SetCell{LightBlue} photo_id  &  BIGINT  &  Jedinstveni identifikator fotografije sadržane u dokumentu, izveden iz tablice Photos	\\ \hline
+					\SetCell{LightBlue} scan_employee_id  &  BIGINT  &  Jedinstveni identifikator zaposlenika koji je skenirao dokument izveden iz tablice Employee	\\ \hline
+					\SetCell{LightBlue} verification_employee_id  &  BIGINT  &  Jedinstveni identifikator zaposlenika zaduženog za verifikaciju ispravnosti konverzije, izveden iz tablice Employee	\\ \hline
+                    \SetCell{LightGreen} id  &  BIGINT  &  Jedinstveni identifikator prenesenog dokumenta \\ \hline
                     correct  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument ispravno skeniran \\ \hline
-                    documentType  &  VARCHAR(20)  &  Tip dokumenta (limitirano na Račun, Ponuda i Interni dokument) \\ \hline
+                    type  &  VARCHAR(255)  &  Tip dokumenta (limitirano na Račun, Ponuda i Interni dokument) \\ \hline
                     signed  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane direktora \\ \hline
                     verified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane računovođe \\ \hline
-                    superVerified  &  BOOLEAN  &  Potvrda ukoliko je rezultantni dokument potpisan od strane nadležne osobe \\ \hline
+                    to_be_signed  &  BOOLEAN  &  Potvrda ukoliko rezultantni dokument očekiva potpis od direktora\\ \hline
+					file_name  &  VARCHAR(255)  &  Ime pohranjenog dokumenta\\ \hline
+					url  &  VARCHAR(255)  &  URL zapis\\ \hline
                 \end{longtblr}
+
+				\textbf{Archive_entity}  Ovaj entitet sadržava sve važne informacije o arhiviranim dokumentima u bazi. Sadrži atribute: id te strani ključ document_id preko entiteta Dokument. Ovaj entitet u vezi je One-to-One s entitetom Dokument preko dokumentovog id-a.
 
                 \begin{longtblr}[
 					label=none,
@@ -94,14 +105,14 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveReciept}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa \\ \hline
-                    clientName  &  VARCHAR(50)  &  Ime klijenta \\ \hline
-                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{Archive}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} document_id  &  BIGINT  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
+                    \SetCell{LightGreen} id  &  BIGINT  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi \\ \hline
                 \end{longtblr}
 
-                \begin{longtblr}[
+				\textbf{Login_log_out_record}  Ovaj entitet sadržava sve važne informacije o vremenu rada svakog pojedinačnog zaposlenika. Sadrži atribute: id, login_time, logout_time te strani ključ employee_id preko korisnikovog identifikatora. Ovaj entitet je u vezi Many-to-One s entitetom Employee preko zaposlenikovog id-a.
+
+				\begin{longtblr}[
 					label=none,
 					entry=none
 					]{
@@ -109,52 +120,24 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveOffer}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda \\ \hline
-                    totalPrice  &  FLOAT  &  Ukupna cijena \\ \hline
+					\hline \SetCell[c=3]{c}{\textbf{Archive}}	 \\ \hline[3pt]
+                    \SetCell{LightBlue} employee_id  &  BIGINT  &  Jedinstveni identifikator zaposlenika čija se aktivnost na stranici sprema u statistiku \\ \hline
+					\SetCell{LightGreen} id  &  BIGINT  &  Jedinstveni identifikator session-a koji se gleda \\ \hline
+                    login_time  &  TIMESTAMP  &  Datum i vrijeme login-a zaposlenika \\ \hline
+					logout_time &  TIMESTAMP  &  Datum i vrijeme logout-a zaposlenika \\ \hline
                 \end{longtblr}
-
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					}
-					\hline \SetCell[c=3]{c}{\textbf{ArchiveInternalDoc}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} documentID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se arhivira \\ \hline
-                    \SetCell{LightGreen} archIntDocID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi internih dokumenata \\ \hline
-                    text  &  TEXT  &  Tekst arhiviranog internog dokumenta  \\ \hline
-                \end{longtblr}
-
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					}
-					\hline \SetCell[c=3]{c}{\textbf{Articles}}	 \\ \hline[3pt]
-                    \SetCell{LightBlue} arcRecID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi računa izveden iz tablice ArchiveReciept \\ \hline
-                    \SetCell{LightBlue} arcOfferID  &  VARCHAR(10)  &  Jedinstveni identifikator dokumenta koji se nalazi u arhivi ponuda izveden iz tablice ArchiveOffer \\ \hline
-                    articleName  &  VARCHAR(50)  &  Ime artikla \\ \hline
-                    price  &  FLOAT  &  Cijena artikla  \\ \hline
-                \end{longtblr}    
 
 			\subsection{Dijagram baze podataka}
 				
 				\begin{figure}[H]
-					\includegraphics[scale=0.6]{slike/kompletici_v2_ER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.6]{slike/kompletici_v4_ER.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{ER dijagram baze podataka}
 					\label{fig:promjene}
 				\end{figure}
 				
 					\begin{figure}[H]
-					\includegraphics[scale=0.5]{slike/kompletici_v2_REL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+					\includegraphics[scale=0.5]{slike/kompletici_v4_REL.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 					\centering
 					\caption{REL dijagram baze podataka}
 					\label{fig:promjene}
@@ -166,18 +149,27 @@
 			
 			
 		\section{Dijagram razreda}
+
+		Na slikama su prikazani razredi koji pripadaju backend dijelu arhitekture. Na slikama su prikazani razredi koji nasljeđuju Controller razred, metode pomoću kojih oni manipuliraju s DTO (Data transfer objects), te razredi koji implementiraju razred Entity.
 		
 			\begin{figure}[H]
-				\includegraphics[scale=0.5]{slike/dijagram_razred1.jpeg} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\includegraphics[scale=0.5]{slike/dijagram_razreda_controller.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 				\centering
-				\caption{Dijagram razreda 1}
+				\caption{Dijagram razreda - dio Controllers}
 				\label{fig:promjene}
 			\end{figure}
 			
 			\begin{figure}[H]
-				\includegraphics[scale=0.5]{slike/dijagram_razred2.jpeg} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\includegraphics[scale=0.5]{slike/dijagram_razreda_dto.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 				\centering
-				\caption{Dijagram razreda 2}
+				\caption{Dijagram razreda - dio Data transfer objects}
+				\label{fig:promjene}
+			\end{figure}
+
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_razreda_entity.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram razreda - dio Entity}
 				\label{fig:promjene}
 			\end{figure}
 			
@@ -193,7 +185,15 @@
 			
 			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
+			Dijagram stanja prikazuje stanja objekta te prijelaze iz jednog stanja u drugo temeljene na dogadajima. Na slici je prikazan dijagram stanja za direktora. Nakon prijave, direktoru se prikazuje početna stranica na kojoj može pristupit svim svojim funkcionalnostima (skeniranju dokumenata, promjeni lozinke, pregledu zahtjeva itd.). Odabirom na skeniranje dokumenata direktoru se pruža mogućnost odabira upload-a dokumenta ili provjere već dostupnog dokumenta. Odabirom pregleda zahtjeva pružaju mu se opcije revizije, potpisivanja te arhiviranja dokumenta. Odabirom pregleda zapisa direktor može pregledati arhivu, povijest skeniranja te statistiku svih pojedinačnih zaposlenika. Direktoru se također pružaju opcije promjene lozinke, brisanja zaposlenika te objave dokumenta na društvenim mrežama (u ovom slučaju na društvenoj mreži "Facebook").
 			
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_stanja_direktor.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram stanja}
+				\label{fig:promjene}
+			\end{figure}
+
 			\eject 
 		
 		\section{Dijagram aktivnosti}
@@ -202,10 +202,30 @@
 			
 			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
 			
+			Dijagram aktivnosti primjenjuje se za opis modela toka upravljanja ili toka podataka. Ne upotrebljava se za modeliranje događajima poticanog ponašanja. U modeliranju toka upravljanja svaki novi korak poduzima se nakon završenog prethodnog, a naglasak je na jednostavnosti. Na dijagramu aktivnosti prikazan je princip rada zaposlenika. Zaposlenik nakon uspješne prijave u sustav upload-a fotografije koje se daju na skeniranje, te aplikacija iste fotografije konvertira koristeći Tesseract.
+
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_aktivnosti.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram aktivnosti}
+				\label{fig:promjene}
+			\end{figure}
+
+
 			\eject
 		\section{Dijagram komponenti}
 		
 			\textbf{\textit{dio 2. revizije}}\\
 		
 			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+
+			 Dijagram komponenti prikazan na slici opisuje organizaciju i međuovisnost komponenti, interne strukture i odnose prema okolini. Sustavu se pristupa preko dva različita sučelja. Preko sučelja za dohvat HTML, CSS i JS datoteka poslužuju se datoteke koje pripadaju frontend dijelu aplikacije. Router je komponenta koja na upit s url određuje koja datoteka će se poslužiti na sučelje. Frontend dio se sastoji od niza JavaScript datoteka koje su raspoređene u logičke cjeline nazvane po tipovima aktora koji im pristupaju. Sve JavaScript datoteke ovise o React biblioteci iz koje dohvaćaju gotove komponente kao što su gumbi, forme i slično. Preko sučelja za dohvat JSON podataka pristupa se REST API komponenti. REST API poslužuje podatke koji pripadaju backend dijelu aplikacije. EntityFrameWorkCore je zadužen za dohvaćanje tablica iz baze podataka pomoću SQL upita. Podaci koji su pristigli iz baze se šalju dalje MVC arhitekturi u obliku DTO preko Services. React-view komponenta preko dostupnih sučelja komunicira sa aplikacijom te ovisno o korisnikovim akcijama osvježava prikaz i dohvaća nove podatke ili datoteke.
+
+			 \begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/dijagram_komponenti.png} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+				\centering
+				\caption{Dijagram komponenti}
+				\label{fig:promjene}
+			\end{figure}
+			 
 		\fi
