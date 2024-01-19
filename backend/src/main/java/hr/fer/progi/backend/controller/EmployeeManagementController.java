@@ -37,7 +37,7 @@ public class EmployeeManagementController {
         return new ResponseEntity<>(listOfEmployees, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-account")
+    @PostMapping("/delete-account")
     public ResponseEntity<String> deleteEmployeeById(@RequestBody DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee){
        String response =  employeeManagementService.deleteEmployee(deleteEmployeeAccountDto, connectedEmployee);
 
