@@ -198,7 +198,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public DocumentType categorizeDocument(String documentText) {
 
-        String patternString = "P\\d{9}|R\\d{6}|INT\\d{4}";
+        String patternString = "P\\d{9}|R\\d{6}|INT\\s\\d{4}";
 
         Pattern pattern = Pattern.compile(patternString);
 
