@@ -22,7 +22,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class DocumentController {
 
     private final DocumentServiceImpl documentService;
-    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
 
     @PostMapping("/get-by-type")
@@ -30,11 +29,6 @@ public class DocumentController {
         List<PhotoDocumentDto> documents = documentService.getDocumentsByType(documentDto.getType());
 
         return new ResponseEntity<>(documents, HttpStatus.OK);
-    }
-
-    @GetMapping("/{documentId}")
-    public DocumentEntity getDocumentById(@PathVariable Long documentId) {
-        return documentService.getDocumentById(documentId);
     }
 
     @PostMapping("/change-category")
@@ -61,7 +55,7 @@ public class DocumentController {
     }
 
     @GetMapping("/get-revision-documents")
-    public ResponseEntity<?> getRevisionDocuments(Principal connectedEmployee){
+    public ResponseEntity<List<PhotoDocumentDto>> getRevisionDocuments(Principal connectedEmployee){
         List<PhotoDocumentDto> listOfRevisionDocuments = documentService.getRevisionDocuments(connectedEmployee);
 
         return new ResponseEntity<>(listOfRevisionDocuments, HttpStatus.OK);

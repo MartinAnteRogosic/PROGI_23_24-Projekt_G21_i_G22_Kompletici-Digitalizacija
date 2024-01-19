@@ -6,7 +6,6 @@ import hr.fer.progi.backend.dto.LoginTime;
 import hr.fer.progi.backend.dto.StatisticDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
-import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
@@ -37,7 +36,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
     private final LoginTimeRecordRepository loginTimeRecordRepository;
 
     @Override
-    public void deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
+    public String deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
 
         EmployeeEntity director = (EmployeeEntity) ((UsernamePasswordAuthenticationToken)connectedEmployee).getPrincipal();
 
@@ -69,6 +68,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
 
         employeeRepository.delete(employeeEntity);
 
+        return "Successfully deleted employee account";
     }
 
     @Override
@@ -82,17 +82,6 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void changeRoleOfEmployee(Long employeeId, Role role) {
-
-           EmployeeEntity employee = employeeRepository.findById(employeeId)
-                   .orElseThrow(()->new EmployeeNotFoundException(
-                           String.format("Employee with id %d could not be found", employeeId)
-                   ));
-
-           employee.setRole(role);
-           employeeRepository.save(employee);
-    }
 
     @Override
     public StatisticDto getStatsForEmployee(Long employeeId) {

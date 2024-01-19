@@ -38,7 +38,7 @@ public class EmployeeController {
 
 
     @GetMapping("/get-all-revisers")
-    public ResponseEntity<?> getAllRevisers() {
+    public ResponseEntity<List<EmployeeDto>> getAllRevisers() {
         List<EmployeeDto> listOfRevisers = employeeService.getAllRevisers();
 
         return new ResponseEntity<>(listOfRevisers, HttpStatus.OK);

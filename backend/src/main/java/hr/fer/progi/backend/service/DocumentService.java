@@ -13,8 +13,6 @@ public interface DocumentService {
 
     List<PhotoDocumentDto> getDocumentsByType(DocumentType documentType);
 
-    DocumentEntity getDocumentById(Long documentId);
-
     String changeDocumentType(DocumentDto documentDto);
 
     List<DocumentEntity> getAllVerifiedDocuments();

@@ -44,11 +44,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     }
 
-    @Override
-    public DocumentEntity getDocumentById(Long documentId) {
-        return documentRepository.findById(documentId).orElse(null);
-    }
-
 
     @Override
     public String changeDocumentType(DocumentDto documentDto) {
