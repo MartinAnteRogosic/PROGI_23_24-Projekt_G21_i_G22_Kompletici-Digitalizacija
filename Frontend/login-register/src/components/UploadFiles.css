@@ -1,0 +1,56 @@
+.upload-container {
+    margin-top: 1rem;
+    border: 2px black solid;
+    border-radius: 5rem;
+    width: 80%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(45deg, #222231 20% );
+}
+
+.uploaded-files {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.upload-container,
+.upload-form,
+#imageUpload,
+.uploaded-files {
+    color: #647bff;
+}
+
+/* You can also target specific elements inside the form if needed */
+.upload-form label{
+    color: #647bff;
+}
+.upload-form button{
+    color: 647bff;
+}
+
+.submit-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 6px solid;
+    border-color: #3d5af1 transparent #3d5af1 transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
