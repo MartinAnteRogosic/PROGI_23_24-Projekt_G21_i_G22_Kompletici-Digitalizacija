@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import "./Statistic.css";
 import { API } from '../../api';
 
+
 const UserInfo = ({ user, handleLogout, openModal }) => {
   return (
     <div className="user-info">
@@ -87,46 +88,10 @@ const Statistic = () => {
     e.preventDefault();
   };
 
-
-  // Trebalo bi dohvatiti ID usera koji je ulogiran
-  const fetchUserStats = async () => {
-    try {
-      const response = await API.get(`/api/v1/employee-management/statistics-for-employee`, config);
-      setAllEmployees([response.data]); 
-      setAuthorizationError(false);
-    } catch (error) {
-      console.error('Error fetching user statistics:', error);
-      setAuthorizationError(true);
-    }
-  };
-
-  // Trebalo bi dohvatiti statistiku svih zaposlenika samo za direktora
-  const fetchEmployeeStats = async () => {
-    try {
-      const response = await API.get(`/api/v1/employee-management/statistics`, config);
-      setAllEmployees([response.data]); 
-      setAuthorizationError(false);
-    } catch (error) {
-      console.error('Error fetching employee statistics:', error);
-      setAuthorizationError(true);
-    }
-  };
-
-  const handleEmployeeClick = () => {
-    if (userRole === "Director") {
-      const employeeId = prompt("Enter employee ID:");
-      if (employeeId) {
-        fetchEmployeeStats(employeeId);
-      }
-    } else {
-      fetchUserStats();
-    }
-  };
-
   const handleAllEmployeesClick = async () => {
     try {
       if (userRole === "DIRECTOR") {
-        const response = await API.get('/api/v1/employee-management/all-employees', config);
+        const response = await API.get('/api/v1/employee-management/statistics', config);  // /statistics
         console.log(response);
         setAllEmployees(response.data);
         setAuthorizationError(false);
@@ -135,9 +100,32 @@ const Statistic = () => {
         setAuthorizationError(true);
       }
     } catch (error) {
-      console.error('Error fetching all employees:', error);
+      console.error('Error fetching employee statistics:', error);
     }
-  };
+  };  
+
+  const EmployeeList = ({ allEmployees }) => {
+    return (
+      <div>
+        {allEmployees.map((employee, index) => (
+          <div className="Employee_text" key={index}>
+            <p>{`${employee.firstName} ${employee.lastName} (${employee.role}):`}</p>
+            <ul>
+              {employee.loginTimes.map((loginTime, loginIndex) => (
+                <a key={loginIndex}>
+                  {`on the date: ${loginTime.date}, user ${employee.firstName} has been active for: ${loginTime.totalTime}s\n` }
+                </a>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  };  
+
+  // Ivan Horvat (DIRECTOR): [object Object]
+
+  // Date: 2024-01-19, Total Time: 91 (Active)
 
   return (
     <div className="container">
@@ -156,22 +144,19 @@ const Statistic = () => {
       <h1 className="statistic-header">Statistic</h1>
 
       <div className="button-bar">
-        <button className="button" onClick={handleEmployeeClick}>
+        {/* <button className="button" onClick={handleEmployeeClick}>
           {userRole === "Director" ? "Choose Employee" : "Employee"}
-        </button>
-        <button className="button" onClick={handleAllEmployeesClick}>All Employees</button>
+        </button> */}
+        <button className="button" onClick={handleAllEmployeesClick}>All Employees </button>
       </div>
-
       {authorizationError && (
         <div>Access denied. You are not authorized to view this statistic.</div>
       )}
-
-      {allEmployees.length > 0 && (
-        <EmployeeList allEmployees={allEmployees} />
-      )}
-
+      {allEmployees.length > 0 && <EmployeeList allEmployees={allEmployees} />}
     </div>
+    
   );
+
 };
 
 export default Statistic;
