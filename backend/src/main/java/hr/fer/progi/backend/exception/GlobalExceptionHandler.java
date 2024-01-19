@@ -23,18 +23,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(LoginEntityNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleLoginEntityNotFoundException(LoginEntityNotFoundException ex){
-        ErrorObject errorObject = ErrorObject.builder()
-                .statusCode(HttpStatus.NOT_FOUND)
-                .message(ex.getMessage())
-                .timestamp(new Date())
-                .build();
-
-        return new ResponseEntity<>(errorObject,HttpStatus.NOT_FOUND);
-    }
-
-
     @ExceptionHandler(DocumentNotFoundException.class)
     public ResponseEntity<ErrorObject> handleDocumentNotFoundException(DocumentNotFoundException ex){
         ErrorObject errorObject = ErrorObject.builder()

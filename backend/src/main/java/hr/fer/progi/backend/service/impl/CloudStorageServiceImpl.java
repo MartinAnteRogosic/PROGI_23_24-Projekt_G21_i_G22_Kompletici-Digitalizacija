@@ -77,8 +77,4 @@ public class CloudStorageServiceImpl implements CloudStorageService {
         return file;
     }
 
-    @Override
-    public String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }
 }

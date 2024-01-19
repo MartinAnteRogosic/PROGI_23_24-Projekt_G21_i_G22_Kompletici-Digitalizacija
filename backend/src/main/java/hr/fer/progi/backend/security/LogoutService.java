@@ -1,9 +1,10 @@
 package hr.fer.progi.backend.security;
 
+import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.LoginLogOutRecordEntity;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.repository.EmployeeRepository;
+import hr.fer.progi.backend.repository.LoginTimeRecordRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
-import hr.fer.progi.backend.repository.LoginTimeRecordRepository;
 
 import java.time.LocalDateTime;
 

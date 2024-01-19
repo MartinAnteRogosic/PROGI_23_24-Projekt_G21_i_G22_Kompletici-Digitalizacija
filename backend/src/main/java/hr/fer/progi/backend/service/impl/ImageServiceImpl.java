@@ -5,7 +5,6 @@ import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
-import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
@@ -14,7 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -69,13 +69,6 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
-    @Override
-    public String deleteImage(Long imageId) throws IOException {
-        PhotoEntity photo = photoRepository.findById(imageId)
-                .orElseThrow(() -> new PhotoNotFoundException("Photo could not be found"));
-
-        return cloudStorageService.deleteFile(photo.getImageName());
-    }
 
     @Override
     public List<PhotoDocumentDto> processImages(List<MultipartFile> multipartFiles, Principal connectedEmployee) throws IOException {
@@ -127,10 +120,6 @@ public class ImageServiceImpl implements ImageService {
         return listOfPhotoDocumentDto;
     }
 
-    @Override
-    public List<PhotoEntity> getAllPhotos() {
-        return photoRepository.findAll();
-    }
 
     public File generateTextFile(String documentText, String fileName) throws IOException {
 

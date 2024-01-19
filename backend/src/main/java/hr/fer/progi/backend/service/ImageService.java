@@ -12,12 +12,5 @@ import java.util.List;
 public interface ImageService {
 
     PhotoEntity uploadImage(MultipartFile multipartFile, EmployeeEntity employee);
-
-    //String uploadDocument();
-
-    String deleteImage(Long imageId) throws IOException;
-
     List<PhotoDocumentDto> processImages(List<MultipartFile> multipartFile, Principal connectedEmployee) throws IOException;
-
-    List<PhotoEntity> getAllPhotos();
 }

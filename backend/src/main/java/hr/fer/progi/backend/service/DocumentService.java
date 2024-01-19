@@ -5,7 +5,6 @@ import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
-import hr.fer.progi.backend.entity.PhotoEntity;
 
 import java.security.Principal;
 import java.util.List;
@@ -17,11 +16,6 @@ public interface DocumentService {
     DocumentEntity getDocumentById(Long documentId);
 
     String changeDocumentType(DocumentDto documentDto);
-
-    List<DocumentEntity> getAllDocumentsForUser(Long userId);
-
-    List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId);
-    PhotoEntity getPhotoById(Long photoId);
 
     List<DocumentEntity> getAllVerifiedDocuments();
 

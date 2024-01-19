@@ -2,7 +2,6 @@ package hr.fer.progi.backend.security;
 
 
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
-
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

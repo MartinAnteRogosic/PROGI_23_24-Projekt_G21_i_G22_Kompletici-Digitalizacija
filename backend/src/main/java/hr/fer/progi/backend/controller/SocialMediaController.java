@@ -1,10 +1,6 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.dto.SocialMediaDto;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.FacebookLink;
-import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

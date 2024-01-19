@@ -1,6 +1,7 @@
 package hr.fer.progi.backend.controller;
 
-import hr.fer.progi.backend.dto.*;
+import hr.fer.progi.backend.dto.EmployeeDto;
+import hr.fer.progi.backend.dto.LoginDto;
 import hr.fer.progi.backend.service.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface EmployeeManagementService {
 
-    /*List<?> getAllEmployeeStatistics();
-
-    String getEmployeeStatisticsById();*/
 
     void deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee);
     List<EmployeeDto> getAllEmployees();

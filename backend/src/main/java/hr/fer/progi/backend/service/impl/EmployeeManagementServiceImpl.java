@@ -112,6 +112,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
                                 .toSeconds())
                 ));
 
+
         List<LoginTime> timePerDate = totalTimePerDate.entrySet().stream()
                 .map(entry -> LoginTime.builder()
                         .date(entry.getKey())

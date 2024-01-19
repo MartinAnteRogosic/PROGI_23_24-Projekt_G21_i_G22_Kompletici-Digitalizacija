@@ -14,9 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static hr.fer.progi.backend.entity.Permission.*;
 import static hr.fer.progi.backend.entity.Role.*;
-import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -66,7 +64,6 @@ public class SecurityConfiguration {
                                 .requestMatchers(("/api/v1/document/send-to-sign")).hasAnyRole(ACCOUNTANT_RECEIPT.name(),
                                                                                                 ACCOUNTANT_OFFER.name(),
                                                                                                 ACCOUNTANT_INT_DOC.name())
-                                .requestMatchers("/api/v1/document/send-to-reviser").hasRole(EMPLOYEE.name())
                                 .requestMatchers("/api/v1/document/correct").hasAnyRole(EMPLOYEE.name(),
                                                                                             REVISER.name(),
                                                                                             ACCOUNTANT_INT_DOC.name(),
@@ -90,11 +87,9 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/social/**").hasRole(DIRECTOR.name())
 
 
-                                .requestMatchers("/api/v1/test/reviser").hasRole(REVISER.name())
-                                .requestMatchers("/api/v1/test/director").hasRole(DIRECTOR.name())
-                                .requestMatchers("/api/v1/test/**").hasAnyRole(EMPLOYEE.name(), REVISER.name(), ACCOUNTANT_INT_DOC.name(), DIRECTOR.name())
+
                                 .anyRequest()
-                                .denyAll()
+                                .authenticated()
 
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

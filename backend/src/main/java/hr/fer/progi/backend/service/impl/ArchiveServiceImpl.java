@@ -1,9 +1,13 @@
 package hr.fer.progi.backend.service.impl;
 
-import hr.fer.progi.backend.dto.*;
+import hr.fer.progi.backend.dto.ArchiveDeleteDto;
+import hr.fer.progi.backend.dto.PhotoDocumentDto;
 import hr.fer.progi.backend.entity.*;
 import hr.fer.progi.backend.exception.DocumentNotFoundException;
-import hr.fer.progi.backend.repository.*;
+import hr.fer.progi.backend.repository.ArchiveRepository;
+import hr.fer.progi.backend.repository.DocumentRepository;
+import hr.fer.progi.backend.repository.EmployeeRepository;
+import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ArchiveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

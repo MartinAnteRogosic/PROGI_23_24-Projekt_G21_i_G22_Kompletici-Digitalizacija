@@ -5,7 +5,6 @@ import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.dto.StatisticDto;
 import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.service.impl.EmployeeManagementServiceImpl;
-import hr.fer.progi.backend.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import hr.fer.progi.backend.service.impl.DocumentServiceImpl;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")

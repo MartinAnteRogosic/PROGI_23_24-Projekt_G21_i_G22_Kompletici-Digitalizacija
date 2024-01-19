@@ -15,6 +15,7 @@ import hr.fer.progi.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,11 +29,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmployeeServiceImpl employeeService;
     private final LoginTimeRecordRepository loginTimeRecordRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public String register(EmployeeDto employeeDto) {
 
-        EmployeeEntity employeeEntity = employeeService.mapToEntity(employeeDto);
+        EmployeeEntity employeeEntity =EmployeeEntity.builder()
+                .firstName(employeeDto.getFirstName())
+                .lastName(employeeDto.getLastName())
+                .email(employeeDto.getEmail())
+                .password(passwordEncoder.encode(employeeDto.getPassword()))
+                .role(employeeDto.getRole())
+                .build();
+
         if (employeeRepository.existsByEmail(employeeEntity.getEmail())) {
 
             throw new RegistrationException("Email '" + employeeEntity.getEmail() + "' is already taken.");

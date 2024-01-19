@@ -1,7 +1,6 @@
 package hr.fer.progi.backend.controller;
 
 import hr.fer.progi.backend.dto.ChangePasswordRequestDto;
-import hr.fer.progi.backend.dto.DocumentDto;
 import hr.fer.progi.backend.dto.EmployeeDto;
 import hr.fer.progi.backend.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +20,20 @@ public class EmployeeController {
     private final EmployeeServiceImpl employeeService;
 
     @GetMapping("/home")
-    public ResponseEntity<String> landing() {
+    public ResponseEntity<String> home() {
 
-        return ResponseEntity.ok("Employee home page :)");
+        return ResponseEntity.ok("Employee home page");
     }
 
     @PatchMapping("/changePassword")
-    public ResponseEntity<?> changePassword(
+    public ResponseEntity<String> changePassword(
             @RequestBody ChangePasswordRequestDto request,
             Principal connectedEmployee
     ) {
 
-        employeeService.changePassword(request, connectedEmployee);
+        String response = employeeService.changePassword(request, connectedEmployee);
 
-        return ResponseEntity.accepted().build();
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
 

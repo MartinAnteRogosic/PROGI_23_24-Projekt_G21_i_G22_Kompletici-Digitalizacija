@@ -13,7 +13,6 @@ import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.ArchiveRepository;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
-import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
-    private final PhotoRepository photoRepository;
     private final EmployeeRepository employeeRepository;
     private final ArchiveRepository archiveRepository;
 
@@ -63,26 +61,6 @@ public class DocumentServiceImpl implements DocumentService {
         documentRepository.save(documentEntity);
 
         return String.format("Type of document %s has been changed to %s", documentEntity.getId(), documentEntity.getType());
-    }
-
-    @Override
-    public List<DocumentEntity> getAllDocumentsForUser(Long userId) {
-        return documentRepository.findAllById(userId);
-    }
-
-    @Override
-    public List<DocumentDto> getDocumentsByVerificationEmployeeId(Long employeeId) {
-        List<DocumentEntity> documents = documentRepository.findByVerificationEmployeeIdAndVerifiedIsFalse(employeeId);
-
-        return documents.stream().map(
-                        this::mapDocumentEntityToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public PhotoEntity getPhotoById(Long photoId) {
-        return photoRepository.findById(photoId).orElse(null);
-
     }
 
     @Override
@@ -228,13 +206,6 @@ public class DocumentServiceImpl implements DocumentService {
         return generatePhotoDocumentDtos(documents);
     }
 
-
-    public DocumentDto mapDocumentEntityToDto(DocumentEntity documentEntity) {
-        return DocumentDto.builder()
-                .id(documentEntity.getId())
-                .url(documentEntity.getUrl())
-                .build();
-    }
 
     public List<PhotoDocumentDto> generatePhotoDocumentDtos(List<DocumentEntity> documents) {
         return documents.stream()

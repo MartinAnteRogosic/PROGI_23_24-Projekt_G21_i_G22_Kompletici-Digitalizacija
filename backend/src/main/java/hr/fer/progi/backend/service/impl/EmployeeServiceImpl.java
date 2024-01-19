@@ -7,7 +7,6 @@ import hr.fer.progi.backend.entity.Role;
 import hr.fer.progi.backend.exception.ChangePasswordException;
 import hr.fer.progi.backend.exception.NoRevisersFoundException;
 import hr.fer.progi.backend.repository.EmployeeRepository;
-import hr.fer.progi.backend.repository.LoginTimeRecordRepository;
 import hr.fer.progi.backend.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
 
-    public void changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
+    @Override
+    public String changePassword(ChangePasswordRequestDto request, Principal connectedEmployee) {
 
         EmployeeEntity employeeEntity = (EmployeeEntity) ((UsernamePasswordAuthenticationToken) connectedEmployee).getPrincipal();
 
@@ -50,18 +50,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employeeEntity);
 
 
+        return "Password changed successfully";
     }
 
-    @Override
-    public EmployeeEntity mapToEntity(EmployeeDto employeeDto) {
-        return EmployeeEntity.builder()
-                .firstName(employeeDto.getFirstName())
-                .lastName(employeeDto.getLastName())
-                .email(employeeDto.getEmail())
-                .password(passwordEncoder.encode(employeeDto.getPassword()))
-                .role(employeeDto.getRole())
-                .build();
-    }
+
 
     @Override
     public List<EmployeeDto> getAllRevisers() {
