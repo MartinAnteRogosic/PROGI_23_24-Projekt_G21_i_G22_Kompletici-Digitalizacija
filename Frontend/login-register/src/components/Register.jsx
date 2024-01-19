@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import RoleSlider from "./RoleSlider";
 import PasswordCheckList from "react-password-checklist";
 import axios from "axios";
+import "./Register.css";
 
 import img1 from '../img/ante.png';
 import img2 from '../img/ante_zoom.png';
@@ -85,10 +86,12 @@ export const Register = (props) => {
                 <label htmlFor="password">Password</label>
                 <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*********" id="password" name="password" required/>
 
-                <PasswordCheckList rules={["minLength", "specialChar", "number", "capital"]}
-                                    minLength={6}
-                                    value={pass}
-                                    onChange={(isValid) => {}}/>
+                <PasswordCheckList className="password-checklist"
+                    rules={["minLength", "specialChar", "number", "capital"]}
+                    minLength={6}
+                    value={pass}
+                    onChange={(isValid) => {}}
+                />
 
                 <button type="submit">Register</button>
             </form>
