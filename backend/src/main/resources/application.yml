@@ -1,0 +1,27 @@
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: VGr1LgQ6YCFEKGCqzF6o82zdvJYYC7zJ
+        url: jdbc:postgresql://dpg-cmleq2f109ks7391noa0-a:5432/kompletici_e9by
+        username: kompletici_e9by_user
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        show-sql: false
+    servlet:
+        context-path: /api
+        multipart:
+            max-file-size: 5MB
+            max-request-size: 60MB
+
+application:
+    security:
+        jwt:
+            secret-key: 7iAGHtY6YttfJhHwAm6M5ZWidInVYZ+Una6I392a+sZdXfRNTiLebEFmagTx3u0b
+            expiration: 86400000 # one day
+server:
+    port: 8080

@@ -1,0 +1,31 @@
+.document-photo {
+    width: 150px;
+    height: 150px;
+    border: 2px orangered solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.modal-document-photo {
+    max-width: 50%;
+}
+
+.scanned-text {
+    white-space: pre-line;
+}
+
+.confirmation-text-correct {
+    color: seagreen;
+}
+
+.confirmation-text-incorrect {
+    color: red;
+}
+
+.modal-container {
+    max-height: 50em;
+    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

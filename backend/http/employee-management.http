@@ -1,0 +1,34 @@
+### Register director
+POST http://localhost:8080/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "firstName": "Pero",
+  "lastName": "Peric",
+  "email": "pero@gmail.com",
+  "password": "1234",
+  "role": "EMPLOYEE"
+}
+
+### Login
+POST http://localhost:8080/api/v1/authenticate/login
+Content-Type: application/json
+
+{
+  "email": "pero@gmail.com",
+  "password": "1234"
+}
+
+> {% client.global.set("auth-token", response.body.accessToken) %}
+
+### Get all employeeEntity statistics
+GET http://localhost:8080/api/v1/employeeEntity-management/statistics
+Authorization: Bearer {{auth-token}}
+
+### Get employeeEntity statistics by id
+GET http://localhost:8080/api/v1/employeeEntity-management/statistics/1
+Authorization: Bearer {{auth-token}}
+
+### Delete employeeEntity account by id
+DELETE http://localhost:8080/api/v1/employeeEntity-management/delete-account/1
+Authorization: Bearer {{auth-token}}

@@ -1,0 +1,23 @@
+### Register employeeEntity
+POST http://localhost:8080/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "firstName": "Ivo",
+  "lastName": "Ivic",
+  "email": "ivo@gmail.com",
+  "password": "1234",
+  "role": "EMPLOYEE"
+}
+
+### Register employeeEntity again
+POST http://localhost:8080/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "firstName": "Ivo",
+  "lastName": "Ivic",
+  "email": "ivo@gmail.com",
+  "password": "1234",
+  "role": "EMPLOYEE"
+}

@@ -1,0 +1,12 @@
+.form-container button{
+    background-color: rgb(65, 63, 63);
+    color: #fff;
+    height: 1.5rem;
+    border-radius: 2em;
+}
+.form-container button:hover{
+    transform: scale(1.2);
+}
+.form-container label{
+    color: #fff;
+}

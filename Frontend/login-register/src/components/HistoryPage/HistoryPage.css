@@ -1,0 +1,12 @@
+.history-container {
+    height: 100vh;
+    width: 100%;
+}
+
+.history-items {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
