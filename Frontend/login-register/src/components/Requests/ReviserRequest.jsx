@@ -3,12 +3,13 @@ import './RequestItem.css';
 import { API } from "../../api";
 import Modal from 'react-modal';
 
-const ReviserRequest = ({ id, name, photo, doc }) => {
+const ReviserRequest = ({ id, name, photo, doc, type }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [correct, setCorrect] = useState(false);
     const [text, setText] = useState('');
     const [changeType, setChangeType] = useState(false);
+    const [selectedType, setSelectedType] = useState(type);
 
     const customStyles = { 
         content: {
@@ -65,7 +66,8 @@ const ReviserRequest = ({ id, name, photo, doc }) => {
         }
     }
 
-    async function handleTypeChange(e) { 
+    async function handleTypeChange(e) {
+        setSelectedType(e.target.value);
         const data = {
             type: e.target.value,
             id: id
@@ -103,7 +105,7 @@ const ReviserRequest = ({ id, name, photo, doc }) => {
                             !changeType ? (
                                 <button onClick={() => setChangeType(true)}>Change document type</button>
                             ) : (
-                            <select onChange={handleTypeChange}>
+                            <select value={selectedType} onChange={handleTypeChange}>
                                 <option value="RECEIPT">Receipt</option>
                                 <option value="OFFER">Offer</option>
                                 <option value="INTERNAL_DOCUMENT">Internal document</option>

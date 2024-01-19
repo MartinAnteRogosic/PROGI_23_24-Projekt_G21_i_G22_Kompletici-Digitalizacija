@@ -35,6 +35,7 @@ const ArchivePage = () => {
       console.log(data);
       setArchiveData(data);
     } catch (err) {
+      alert("You do not have permission to view this page");
       console.log(err);
     }
   }

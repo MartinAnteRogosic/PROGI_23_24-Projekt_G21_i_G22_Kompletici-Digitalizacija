@@ -24,6 +24,8 @@ const Header = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirm] = useState('');
+  const [employees, setEmployees] = useState([]);
+  const [directorPass, setDirectorPass] = useState('');
 
   const config = {
     headers: {
@@ -33,6 +35,7 @@ const Header = () => {
     };
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   
   const user = {
     "firstName": userinfo.firstName,
@@ -43,6 +46,23 @@ const Header = () => {
   function handleLogout() {
     sessionStorage.removeItem("user");
     window.location.reload();
+  }
+
+  async function openDeleteModal() {
+    try {
+      const res = await API.get('/api/v1/employee-management/all-employees', config);
+      setEmployees(res.data);
+      setDeleteModalOpen(true);
+      console.log(res.data);
+    } catch(err) {
+      console.log(err);
+    }
+    
+
+  }
+
+  function closeDeleteModal() {
+    setDeleteModalOpen(false);
   }
 
   function openModal() {
@@ -73,7 +93,22 @@ const Header = () => {
     }
   }
 
-
+  async function handleDelete(id) {
+    const data = {
+      directorPassword: directorPass,
+      employeeId: id
+    }
+    console.log(data);
+    try {
+      const res = await API.post('/api/v1/employee-management/delete-account', data, config);
+      const updatedEmployees = employees.filter(employee => employee.id !== id);
+      setEmployees(updatedEmployees);
+      console.log(res);
+    } catch(err) {
+      alert("Pogrešna lozinka");
+      console.log(err);
+    }
+  };
 
     return (
         <div className="header">
@@ -82,6 +117,11 @@ const Header = () => {
           <span className="username">ROLE: { user.role }</span>
           <button onClick={handleLogout}>Log out</button>
           <button onClick={openModal}>Change password</button>
+          {
+            userinfo.role === "DIRECTOR" && (
+              <button onClick={openDeleteModal}>Delete employees</button>
+            )
+          }
           <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles}>
             <form onSubmit={handleSubmit}>
               <label htmlFor="oldPassword">Old password: </label>
@@ -101,6 +141,23 @@ const Header = () => {
               <button type="submit">Change password</button>
             </form>
           </Modal>
+          <Modal isOpen={deleteModalOpen} onRequestClose={closeDeleteModal} style={customStyles}>
+            {
+              employees.length > 0 && (
+                <div className="employees-list">
+                  {employees.map((item, index) => (
+                    <div className="emp-buttons">
+                      <span>{item.firstName + ' ' + item.lastName}</span>
+                      <button onClick={() => handleDelete(item.id)}>Delete</button>
+                    </div>    
+                ))}
+                </div>
+              )
+            }
+            <label>Password:</label>
+            <input value={directorPass} onChange={(e) => setDirectorPass(e.target.value)} type="password" required/>
+          </Modal>
+
         </div>
         
         <div className="center-links">

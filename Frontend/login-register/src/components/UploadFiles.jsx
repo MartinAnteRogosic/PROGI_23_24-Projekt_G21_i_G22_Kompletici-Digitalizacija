@@ -18,6 +18,7 @@ const UploadFiles = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [returned, setReturned] = useState(false);
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     //let data = undefined;
 
@@ -37,7 +38,7 @@ const UploadFiles = () => {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        setLoading(true);
         const formData = new FormData();
         //console.log(selectedFiles);
         for (const file of selectedFiles){
@@ -52,6 +53,7 @@ const UploadFiles = () => {
             const res = await API.post('/api/v1/images/upload', formData, config);
             setData(prevArray => [...prevArray, ...res.data]);
             setReturned(true);
+            setLoading(false);
             console.log(data);
         } catch(err) {
             console.log(err);
@@ -81,8 +83,15 @@ const UploadFiles = () => {
             multiple
             onChange={handleFileChange}
             />
-
-        <button type="submit">Submit</button>
+        <div className='submit-div'>
+            <button type="submit">Submit</button>
+            {
+                loading && (
+                    <div className='spinner'></div>
+                )
+            }
+        </div>
+        
         {returned && (
             <div className='uploaded-files'>
                 { data.map((imgdoc, index) => (

@@ -69,15 +69,19 @@ const ArchiveItem = ({ id, name, doc }) => {
                     <p className="scanned-text">
                         { text }
                     </p>
-                    { deleting ? (
-                    <>
-                        <form>
-                            <label>Password:</label>
-                            <input value={password} onChange={(e) => setPass(e.target.value)} type="password" required/>
-                            <button onClick={handleDelete}>Confirm</button> 
-                        </form>
-                    </>
-                    ) : <button onClick={() => setDeleting(true)}>Delete from archive</button>}
+                    {
+                        userinfo.role === "DIRECTOR" && (
+                            deleting ? (
+                                <>
+                                    <form>
+                                        <label>Password:</label>
+                                        <input value={password} onChange={(e) => setPass(e.target.value)} type="password" required/>
+                                        <button onClick={handleDelete}>Confirm</button> 
+                                    </form>
+                                </>
+                                ) : <button onClick={() => setDeleting(true)}>Delete from archive</button>
+                        )
+                    }
                 </div>
             </Modal>
         </div>

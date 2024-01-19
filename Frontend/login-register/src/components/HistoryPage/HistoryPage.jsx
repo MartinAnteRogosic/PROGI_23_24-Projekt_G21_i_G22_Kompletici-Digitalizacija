@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './HistoryPage.css';
 import { API } from "../../api";
 import Header from "../Header/Header";
+import HistoryItem from "./HistoryItem";
 
 const HistoryPage = () => {
 
@@ -19,7 +20,17 @@ const HistoryPage = () => {
             "Access-Control-Allow-Origin": "*",
         },
     };
-    
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: "-50%",
+            transform: 'translate(-50%, -50%)',
+        },
+    }
 
     async function getHistory() {
         try {
@@ -31,7 +42,6 @@ const HistoryPage = () => {
         }
     }
 
-
     return (
     <div className="history-container">
         <Header />
@@ -39,8 +49,8 @@ const HistoryPage = () => {
                 <ul className="history-items">
                 {data.map((item, index) => (
                     <li key={item.documentId}>
-                        {item.documentName}
-                    </li>
+                        <HistoryItem id={item.documentId} name={item.documentName} doc={item.documentUrl}/>
+                    </li> 
                 ))}
                 </ul>) : (<div> User hasn't uploaded any documents yet </div>)
         }

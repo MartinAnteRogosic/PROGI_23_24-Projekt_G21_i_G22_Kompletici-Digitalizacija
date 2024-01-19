@@ -67,13 +67,13 @@ const RequestsPage = () => {
                 {requests.map((item, index) => (
                     <li key={item.documentId}>
                         { user.role === "REVISER" && (
-                            <ReviserRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl} />
+                            <ReviserRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl} type={item.documentType}/>
                         )}
                         { user.role.includes("ACCOUNTANT") && (
-                            <AccountantRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
+                            <AccountantRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl} type={item.documentType}/>
                         )}
                         { user.role === "DIRECTOR" && (
-                            <DirectorRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl}/>
+                            <DirectorRequest id={item.documentId} name={item.documentName} photo={item.photoUrl} doc={item.documentUrl} type={item.documentType}/>
                         
                         )}
                     </li>
