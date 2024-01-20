@@ -102,7 +102,7 @@ public class ImageServiceImpl implements ImageService {
                                 .build();
 
                         DocumentEntity savedDocument = documentRepository.save(document);
-                        
+
 
                         return PhotoDocumentDto.builder()
                                 .photoId(photo.getPhotoID())

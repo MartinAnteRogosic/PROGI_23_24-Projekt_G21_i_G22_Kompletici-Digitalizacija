@@ -4,6 +4,7 @@ FROM openjdk:17-alpine AS builder
 COPY . .
 RUN chmod +x mvnw
 
+RUN apk add --no-chache tesseract-ocr
 # Pokretanje builda
 RUN ./mvnw clean package -DskipTests
 
