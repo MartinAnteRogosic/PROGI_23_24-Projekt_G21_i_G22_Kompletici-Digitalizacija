@@ -8,7 +8,7 @@ https://kompletici-front.onrender.com
 
 **Opis projekta**
 
-Ova aplikacija ima za cilj omogućiti korisnicima da jednostavno i brzo izvode optičko prepoznavanje znakova (OCR) na slikama koje uploadaju. Nakon što korisnik uploada sliku, aplikacija će obraditi sliku i vratiti mu tekst koji je isčitan iz slike.
+Cilj ove aplikacije omogućiti korisnicima da jednostavno i brzo izvode optičko prepoznavanje znakova (OCR) na slikama koje uploadaju. Nakon što korisnik uploada sliku, aplikacija će obraditi sliku i vratiti mu tekst koji je isčitan iz slike.
 
 **Uloge korisnika**
 
@@ -16,7 +16,7 @@ Aplikacija uključuje više razina korisničkih uloga, svaka s različitim privi
 
 _Direktor:_
 Pravo pregleda statistike aktivnosti za sve korisnike.
-Pregled cijelog povijesti.
+Pregled cijele povijesti skeniranih dokumenata.
 Brisanje računa zaposlenika.
 Potpisivanje skeniranih dokumenata.
 
@@ -25,9 +25,9 @@ _Revizor:_
 Pregledavanje dokumenata koje su zaposlenici skenirali.
 Promjena kategorije dokumenata.
 Proslijeđivanje određenih dokumenata računovođi.
+
+
 _Računovođa:_
-
-
 Slanje dokumenata direktoru na potpisivanje.
 Arhiviranje dokumenata.
 
@@ -41,7 +41,8 @@ Autentikacija i Registracija
 **Aplikacija počinje s Login i Register stranicama:**
 
 Korisnici s postojećim računom mogu se prijaviti putem Login stranice.
-Korisnici bez računa mogu izraditi novi račun putem Registracije.
+Korisnici bez računa mogu stvoriti novi račun putem Registracije.
+
 Lokalno pokretanje aplikacije
 
 **Aplikaciju je moguće lokalno pokrenuti na sljedeći način:**
