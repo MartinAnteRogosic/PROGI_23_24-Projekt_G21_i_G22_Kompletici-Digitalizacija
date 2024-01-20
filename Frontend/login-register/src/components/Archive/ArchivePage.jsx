@@ -53,7 +53,7 @@ const ArchivePage = () => {
           ))}
         </ul>
       ) : (
-        <div>No archived data available, please refresh</div>
+        <div className="text-reason">No archived data available, please refresh</div>
       )}
     </div>
   );

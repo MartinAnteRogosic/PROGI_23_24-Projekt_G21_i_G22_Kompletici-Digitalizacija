@@ -52,7 +52,7 @@ const HistoryPage = () => {
                         <HistoryItem id={item.documentId} name={item.documentName} doc={item.documentUrl}/>
                     </li> 
                 ))}
-                </ul>) : (<div> User hasn't uploaded any documents yet </div>)
+                </ul>) : (<div className="text-nothing"> User hasn't uploaded any documents yet </div>)
         }
     </div>
     );

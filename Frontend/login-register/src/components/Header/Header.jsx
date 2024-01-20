@@ -162,9 +162,18 @@ const Header = () => {
         
         <div className="center-links">
           <Link to={`/home`}>Home</Link>
-          <Link to={`/statistic`}>Statistic</Link>
+          {
+            userinfo.role === "DIRECTOR" && (
+              <Link to={`/statistic`}>Statistic</Link>
+            )
+          }
           <Link to={`/requests`}>Requests</Link>
-          <Link to={`/archive`}>Archive</Link>
+          {
+            (
+              userinfo.role === "DIRECTOR" || userinfo.role.includes("ACCOUNTANT")) && (
+              <Link to={`/archive`}>Archive</Link>
+            )
+          }
           <Link to={`/history`}>History</Link>
         </div>
 

@@ -30,7 +30,7 @@ export const Login = (props) => {
         navigate('/home');
       }
     } catch (err) {
-      alert(err);
+      alert("Wrong email or password!");
     }
   }
 

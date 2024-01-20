@@ -78,7 +78,7 @@ const RequestsPage = () => {
                         )}
                     </li>
                 ))}
-                </ul>) : (<div> No requests to show </div>)
+                </ul>) : (<div className="text"> No requests to show </div>)
             }
             
         </div>

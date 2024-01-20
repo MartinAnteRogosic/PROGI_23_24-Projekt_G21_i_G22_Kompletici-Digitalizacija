@@ -82,7 +82,7 @@ const UploadFiles = () => {
             accept="image/*"
             multiple
             onChange={handleFileChange}
-            />
+            required/>
         <div className='submit-div'>
             <button type="submit">Submit</button>
             {

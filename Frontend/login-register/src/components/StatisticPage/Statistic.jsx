@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Modal from 'react-modal';
 import "./Statistic.css";
 import { API } from '../../api';
+import Header from "../Header/Header";
 
 
 const UserInfo = ({ user, handleLogout, openModal }) => {
@@ -129,28 +130,18 @@ const Statistic = () => {
 
   return (
     <div className="container">
-      <div className="header">
-        <UserInfo user={user} handleLogout={handleLogout} openModal={openModal} />
-
-        <div className="center-links">
-          <Link to={`/home`}>Home</Link>
-          <Link to={`/statistic`}>Statistic</Link>
-          <Link to={`/requests`}>Requests</Link>
-          <Link to={`/archive`}>Archive</Link>
-          <Link to={`/history`}>History</Link>
-        </div>
-      </div>
-
+      <Header />
       <h1 className="statistic-header">Statistic</h1>
 
       <div className="button-bar">
-        {/* <button className="button" onClick={handleEmployeeClick}>
-          {userRole === "Director" ? "Choose Employee" : "Employee"}
-        </button> */}
-        <button className="button" onClick={handleAllEmployeesClick}>All Employees </button>
+        {
+          userinfo.role === "DIRECTOR" && (
+            <button className="button" onClick={handleAllEmployeesClick}>All Employees </button>
+          )
+        }
       </div>
       {authorizationError && (
-        <div>Access denied. You are not authorized to view this statistic.</div>
+        <div className="denied-text">Access denied. You are not authorized to view this statistic.</div>
       )}
       {allEmployees.length > 0 && <EmployeeList allEmployees={allEmployees} />}
     </div>
