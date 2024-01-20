@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import RoleSlider from "./RoleSlider";
 import PasswordCheckList from "react-password-checklist";
-import axios from "axios";
+import { API } from "../api";
 import "./Register.css";
 
 import img1 from '../img/ante.png';
@@ -58,7 +58,7 @@ export const Register = (props) => {
         formJSON.role = role
         //console.log(formJSON);
         try {
-            await axios.post("http://localhost:8080/api/v1/authenticate/register", formJSON, {
+            await API.post("/api/v1/authenticate/register", formJSON, {
                 headers: { "Content-Type": "application/json" },
             });
             alert("Registracija uspješna");
