@@ -11,8 +11,11 @@ RUN ./mvnw clean package -DskipTests
 # Stvaranje containera u kojem ce se vrtiti aplikacija
 FROM openjdk:17-alpine
 
-
+# instaliranje tesseract
 RUN apk --no-cache add tesseract-ocr
+
+RUN mkdir -p /usr/share/tessdata
+ADD https://github.com/tesseract-ocr/tessdata/raw/master/hrv.traineddata /usr/share/tessdata/hrv.traineddata
 ## Ovdje je moguce instalirati alate potrebne za rad aplikacije. Vjerojatno vam nece trebati, no dobro je znati.
 ## Linux distro koji se koristi je Alpine, stoga se kao package manager koristi apk
 #RUN apk install <nesto>
