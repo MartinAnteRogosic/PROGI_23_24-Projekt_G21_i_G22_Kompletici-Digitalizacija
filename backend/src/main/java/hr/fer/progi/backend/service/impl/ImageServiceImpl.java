@@ -86,9 +86,7 @@ public class ImageServiceImpl implements ImageService {
                         File textFile = generateTextFile(documentText, photo.getImageName());
                         String documentURL = cloudStorageService.uploadFile(textFile, textFile.getName());
 
-                        if (true){
-                            throw new PhotoNotFoundException("prvi ex");
-                        }
+
 
 
                         DocumentType documentType = documentService.categorizeDocument(documentText);
@@ -104,10 +102,7 @@ public class ImageServiceImpl implements ImageService {
                                 .build();
 
                         DocumentEntity savedDocument = documentRepository.save(document);
-
-                        if (true){
-                            throw new PhotoNotFoundException("drugi ex");
-                        }
+                        
 
                         return PhotoDocumentDto.builder()
                                 .photoId(photo.getPhotoID())
