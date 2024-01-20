@@ -41,12 +41,13 @@ public class CloudStorageServiceImpl implements CloudStorageService {
                 .build()
                 .getService();
 
-        try {
-            storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        } catch (IOException e) {
-            throw new PhotoNotFoundException("tu so odusto");
+        if (true){
+            throw new PhotoNotFoundException("treci ex");
         }
-
+        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+        if (true){
+            throw new PhotoNotFoundException("cetvri ex");
+        }
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/kompletici.appspot.com/o/%s?alt=media";
 
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));

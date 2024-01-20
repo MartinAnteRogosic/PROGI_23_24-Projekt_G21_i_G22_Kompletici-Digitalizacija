@@ -5,6 +5,7 @@ import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.DocumentType;
 import hr.fer.progi.backend.entity.EmployeeEntity;
 import hr.fer.progi.backend.entity.PhotoEntity;
+import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.ImageService;
@@ -84,6 +85,12 @@ public class ImageServiceImpl implements ImageService {
 
                         File textFile = generateTextFile(documentText, photo.getImageName());
                         String documentURL = cloudStorageService.uploadFile(textFile, textFile.getName());
+
+                        if (true){
+                            throw new PhotoNotFoundException("prvi ex");
+                        }
+
+
                         DocumentType documentType = documentService.categorizeDocument(documentText);
 
                         DocumentEntity document = DocumentEntity.builder()
@@ -98,7 +105,9 @@ public class ImageServiceImpl implements ImageService {
 
                         DocumentEntity savedDocument = documentRepository.save(document);
 
-
+                        if (true){
+                            throw new PhotoNotFoundException("drugi ex");
+                        }
 
                         return PhotoDocumentDto.builder()
                                 .photoId(photo.getPhotoID())
