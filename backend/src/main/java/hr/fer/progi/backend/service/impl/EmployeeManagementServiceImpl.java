@@ -6,10 +6,13 @@ import hr.fer.progi.backend.dto.LoginTime;
 import hr.fer.progi.backend.dto.StatisticDto;
 import hr.fer.progi.backend.entity.DocumentEntity;
 import hr.fer.progi.backend.entity.EmployeeEntity;
+import hr.fer.progi.backend.entity.LoginLogOutRecordEntity;
+import hr.fer.progi.backend.entity.PhotoEntity;
 import hr.fer.progi.backend.exception.EmployeeNotFoundException;
 import hr.fer.progi.backend.repository.DocumentRepository;
 import hr.fer.progi.backend.repository.EmployeeRepository;
 import hr.fer.progi.backend.repository.LoginTimeRecordRepository;
+import hr.fer.progi.backend.repository.PhotoRepository;
 import hr.fer.progi.backend.service.EmployeeManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,6 +37,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
     private final PasswordEncoder passwordEncoder;
     private final DocumentRepository documentRepository;
     private final LoginTimeRecordRepository loginTimeRecordRepository;
+    private final PhotoRepository photoRepository;
 
     @Override
     public String deleteEmployee(DeleteEmployeeAccountDto deleteEmployeeAccountDto, Principal connectedEmployee) {
@@ -56,14 +60,28 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
             return document;
         }).collect(Collectors.toList());
 
+        List<PhotoEntity> listOfScannedPhotos = employeeEntity.getScannedPhotos();
+        listOfScannedPhotos.stream().map(photo -> {
+            photo.setUploadEmployee(null);
+            return photo;
+        }).collect(Collectors.toList());
+
         List<DocumentEntity> listOfValidatedDocuments = employeeEntity.getRevisedDocuments();
         listOfValidatedDocuments.stream().map(document -> {
             document.setVerificationEmployee(null);
             return document;
         }).collect(Collectors.toList());
 
+        List<LoginLogOutRecordEntity> listOfLoginRecords = employeeEntity.getLoginLogOutRecord();
+        listOfLoginRecords.stream().map(record -> {
+            record.setEmployee(null);
+            return record;
+        }).collect(Collectors.toList());
+
         documentRepository.saveAll(listOfScannedDocuments);
         documentRepository.saveAll(listOfValidatedDocuments);
+        photoRepository.saveAll(listOfScannedPhotos);
+        loginTimeRecordRepository.saveAll(listOfLoginRecords);
 
 
         employeeRepository.delete(employeeEntity);
