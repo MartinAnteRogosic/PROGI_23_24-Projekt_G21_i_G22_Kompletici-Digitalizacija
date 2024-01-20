@@ -1,0 +1,29 @@
+/* HomePage.css */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.menu-bar {
+  background-color: #eee;
+  width: 100%;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+}
+
+.menu-bar ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.menu-bar ul li {
+  margin: 0 10px;
+  cursor: pointer;
+}

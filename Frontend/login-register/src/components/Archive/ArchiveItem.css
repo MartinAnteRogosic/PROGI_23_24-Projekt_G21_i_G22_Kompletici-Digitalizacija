@@ -1,0 +1,26 @@
+.archive-item {
+    background-color: orangered;
+    border: 2px solid orangered;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.archive-item :hover {
+    background-color: orange;
+}
+
+.archive-name-button {
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: orangered;
+    border: none;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
