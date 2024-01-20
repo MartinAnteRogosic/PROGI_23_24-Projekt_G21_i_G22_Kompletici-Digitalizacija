@@ -4,13 +4,15 @@ FROM openjdk:17-alpine AS builder
 COPY . .
 RUN chmod +x mvnw
 
-RUN apk add --no-chache tesseract-ocr
+
 # Pokretanje builda
 RUN ./mvnw clean package -DskipTests
 
 # Stvaranje containera u kojem ce se vrtiti aplikacija
 FROM openjdk:17-alpine
 
+
+RUN apk --no-cache add tesseract-ocr
 ## Ovdje je moguce instalirati alate potrebne za rad aplikacije. Vjerojatno vam nece trebati, no dobro je znati.
 ## Linux distro koji se koristi je Alpine, stoga se kao package manager koristi apk
 #RUN apk install <nesto>
