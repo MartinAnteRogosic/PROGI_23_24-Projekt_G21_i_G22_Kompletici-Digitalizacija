@@ -41,9 +41,7 @@ public class CloudStorageServiceImpl implements CloudStorageService {
                 .build()
                 .getService();
 
-        if (true){
-            throw new PhotoNotFoundException("treci ex");
-        }
+        
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         if (true){
             throw new PhotoNotFoundException("cetvri ex");
