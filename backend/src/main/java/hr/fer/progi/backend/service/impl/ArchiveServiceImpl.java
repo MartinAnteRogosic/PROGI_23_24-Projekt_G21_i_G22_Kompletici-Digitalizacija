@@ -39,7 +39,10 @@ public class ArchiveServiceImpl implements ArchiveService {
                 .document(documentEntity)
                 .build();
 
-        archiveRepository.save(archiveEntity);
+        ArchiveEntity savedArchive = archiveRepository.save(archiveEntity);
+
+        documentEntity.setArchive(savedArchive);
+        documentRepository.save(documentEntity);
 
         return "Document successfully archived";
     }
