@@ -6,6 +6,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import hr.fer.progi.backend.exception.PhotoNotFoundException;
 import hr.fer.progi.backend.service.CloudStorageService;
 import hr.fer.progi.backend.service.ImageService;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,11 @@ public class CloudStorageServiceImpl implements CloudStorageService {
                 .build()
                 .getService();
 
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+        try {
+            storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+        } catch (IOException e) {
+            throw new PhotoNotFoundException("tu so odusto");
+        }
 
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/kompletici.appspot.com/o/%s?alt=media";
 
