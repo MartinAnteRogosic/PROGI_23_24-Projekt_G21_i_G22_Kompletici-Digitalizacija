@@ -10,7 +10,7 @@ public class TesseractConfig {
     @Bean
     public Tesseract tesseract(){
         Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath("/usr/share/tessdata");
+        tesseract.setDatapath("/app/src/main/resources/tessdata/");
         tesseract.setLanguage("hrv");
         return tesseract;
     }
