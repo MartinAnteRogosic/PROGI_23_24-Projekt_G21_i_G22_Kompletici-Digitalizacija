@@ -15,7 +15,7 @@ FROM openjdk:17-alpine
 RUN apk --no-cache add tesseract-ocr
 
 RUN mkdir -p /usr/share/tessdata
-ADD https://github.com/tesseract-ocr/tessdata/blob/main/hrv.traineddata /usr/share/tessdata/hrv.traineddata
+ADD https://github.com/tesseract-ocr/tessdata/blob/main/hrv.traineddata /usr/share/tessdata
 
 ENV TESSDATA_PREFIX=/usr/share/
 
